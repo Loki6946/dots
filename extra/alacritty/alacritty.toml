@@ -1,0 +1,26 @@
+import = [
+  "~/.config/alacritty/material-theme.toml"
+]
+
+shell = "/usr/bin/zsh"
+
+[window]
+
+opacity = 1.0
+
+padding.x = 15
+padding.y = 15
+
+decorations = "Full"
+decorations_theme_variant = "Dark" # "Dark"
+
+[font]
+normal = { family = "JetBrainsMono NF", style = "SemiBold" }
+bold = { family = "JetBrainsMono NF", style = "Bold" }
+italic = { family = "JetBrainsMono NF", style = "Italic" }
+bold_italic = { family = "JetBrainsMono NF", style = "Bold Italic" }
+
+size = 10.0
+
+offset.x = 0
+offset.y = 0

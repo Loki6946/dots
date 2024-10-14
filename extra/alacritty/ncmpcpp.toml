@@ -1,0 +1,26 @@
+import = [
+  "~/.config/alacritty/material-theme.toml"
+]
+
+shell = "/usr/bin/zsh"
+
+[window]
+
+opacity = 1.0
+
+padding.x = 15
+padding.y = 15
+
+decorations = "Full"
+decorations_theme_variant = "Dark" # "Dark"
+
+[font]
+normal = { family = "AestheticIosevka", style = "SemiBold" }
+bold = { family = "AestheticIosevka", style = "Bold" }
+italic = { family = "AestheticIosevka", style = "Italic" }
+bold_italic = { family = "AestheticIosevka", style = "Bold Italic" }
+
+size = 12.0
+
+offset.x = 0
+offset.y = 4

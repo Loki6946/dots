@@ -1,0 +1,5 @@
+require("widgets.vertical_bar")
+require("widgets.decorations")
+require("widgets.menu")
+require("widgets.dings")
+require("modules.dock")
