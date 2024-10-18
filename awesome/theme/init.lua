@@ -2,7 +2,7 @@
 -- ~~~~~~~~~~~~
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
-
+local gears = require("gears")
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
@@ -17,6 +17,7 @@ local theme = {}
 -- foreground
 -- ~~~~~~~~~~
 theme.fg_color = "#ccd0d9"
+theme.fg_2 = "#98a0b3"
 
 -- backgrounds
 -- ~~~~~~~~~~~
@@ -60,17 +61,14 @@ theme.fg_urgent = theme.bg_color
 theme.fg_minimize = theme.bg_2
 
 -- font vars
-theme.font_var = "Inter Display "
+theme.font_var = "SF Pro Display "
 theme.icon_var = "Material Icons "
 theme.icon_alt_var = "Material Icons Outlined "
-
--- font
--- ~~~~
-theme.font = theme.font_var .. "12"
 
 -- images
 -- ~~~~~~
 theme.notification_icon = assets.notification_icon
+theme.awm_icon = assets.awm_icon
 theme.health_icon = assets.health_icon
 theme.album_art_fallback = assets.album_art_fallback
 theme.music_art_fallback = assets.music_art_fallback
@@ -82,7 +80,7 @@ theme.wallpaper = assets.wall
 
 -- gaps/border thing
 -- ~~~~~~~~~~~~~~~~~
-theme.useless_gap = dpi(6)
+theme.useless_gap = dpi(2)
 
 -- rounded corner
 -- ~~~~~~~~~~~~~~
@@ -98,19 +96,32 @@ theme.notification_border_width = dpi(0)
 -- ~~~~~~~~
 theme.titlebar_bg_normal = theme.bg_color
 theme.titlebar_bg_focus = theme.bg_color
+theme.titlebar_unfocused = "#252628"
+theme.titlebar_close = "#FF6057"
+theme.titlebar_maximize = "#27C840"
+theme.titlebar_minimize = "#FDBD2E"
 theme.titlebars_enabled = true
 
 -- taglist
 -- ~~~~~~~
-theme.taglist_bg = theme.bg_color
-theme.taglist_bg_focus = theme.bg_3
-theme.taglist_fg_focus = theme.accent
-theme.taglist_bg_urgent = theme.red_color
+-- theme.taglist_bg = theme.bg_color
+-- theme.taglist_bg_focus = theme.bg_3
+-- theme.taglist_fg_focus = theme.accent
+-- theme.taglist_bg_urgent = theme.red_color
+-- theme.taglist_fg_urgent = theme.red_2
+-- theme.taglist_bg_occupied = theme.bg_color
+-- theme.taglist_fg_occupied = theme.fg_color
+-- theme.taglist_bg_empty = theme.bg_color
+-- theme.taglist_fg_empty = theme.fg_color .. "66"
+-- theme.taglist_disable_icon = true
+
+-- another taglist
+-- ~~~~~~~
+theme.taglist_bg_focus = theme.black .. "00"
+theme.taglist_fg_focus = theme.fg_color
 theme.taglist_fg_urgent = theme.red_2
-theme.taglist_bg_occupied = theme.bg_color
-theme.taglist_fg_occupied = theme.fg_color
-theme.taglist_bg_empty = theme.bg_color
-theme.taglist_fg_empty = theme.fg_color .. "66"
+theme.taglist_fg_occupied = theme.fg_color .. "E6"
+theme.taglist_fg_empty = theme.fg_color .. "80"
 theme.taglist_disable_icon = true
 
 -- drop down Menu
@@ -122,8 +133,14 @@ theme.menu_width = dpi(200)
 
 -- Layout icons
 -- ~~~~~~~~~~~~
-theme.layout_floating = themes_path .. "default/layouts/floating.png"
-theme.layout_tile = themes_path .. "default/layouts/tile.png"
+theme.layout_floating = gears.color.recolor_image(themes_path .. "default/layouts/floating.png", theme.fg_color)
+theme.layout_tile = gears.color.recolor_image(assets.tile, theme.fg_color)
+theme.layout_fairh = gears.color.recolor_image(assets.flair, theme.fg_color)
+theme.layout_fairv = gears.color.recolor_image(assets.flair, theme.fg_color)
+theme.layout_spiral = gears.color.recolor_image(themes_path .. "default/layouts/spiralw.png", theme.fg_color)
+theme.layout_machi = gears.color.recolor_image(assets.machi, theme.fg_color)
+
+-- not in use layout
 theme.layout_fullscreen = themes_path .. "default/layouts/fullscreenw.png"
 theme.layout_dwindle = themes_path .. "default/layouts/dwindlew.png"
 theme.layout_cornernw = themes_path .. "default/layouts/cornernww.png"
@@ -152,14 +169,16 @@ theme.awesome_dock_pinned = {
 	{ apps.web_browser, "zen_browser" },
 	{ apps.music, "gnome-music" },
 	{ apps.editor_cmd, "neovim" },
+	{ "code", "vscode" },
 }
 theme.awesome_dock_color_active = theme.accent_3
 theme.awesome_dock_color_inactive = theme.fg_color .. "66"
 theme.awesome_dock_color_minimized = theme.accent .. "33"
 theme.awesome_dock_color_hover = theme.fg_color .. "33"
-theme.awesome_dock_color_bg = theme.bg_color
+theme.awesome_dock_color_bg = theme.bg_color .. "99"
 theme.awesome_dock_disabled = false
-theme.awesome_dock_spacing = 4
+theme.awesome_dock_spacing = dpi(2)
+theme.awesome_dock_offset = theme.useless_gap * 3
 theme.awesome_dock_timeout = 1.2
 
 -- init

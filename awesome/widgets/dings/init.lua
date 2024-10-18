@@ -15,8 +15,7 @@ local gears = require("gears")
 
 -- extra
 require("widgets.dings.extra.music")
-require("widgets.dings.extra.health")
-require("widgets.dings.extra.popup")
+require("widgets.dings.extra.macos_popup")
 
 -- configuration
 -- ~~~~~~~~~~~~~

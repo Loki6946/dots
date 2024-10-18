@@ -84,8 +84,8 @@ ruled.client.connect_signal("request::rules", function()
 		rule_any = { class = { "music" }, instance = { "music" } },
 		properties = {
 			floating = true,
-			width = 800,
-			height = 555,
+			width = 900,
+			height = 540,
 			placement = helpers.centered_client_placement,
 		},
 	})

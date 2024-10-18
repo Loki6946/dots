@@ -24,7 +24,8 @@ lmachi.editor.nested_layouts = {
 }
 
 -- names/numbers of layouts
-local names = { "1", "2", "3", "4" }
+-- local names = { "1", "2", "3", "4" }
+local names = { "Terminal", "Develop", "Browser", "Media", "Other" }
 local l = awful.layout.suit
 
 -- Configurations

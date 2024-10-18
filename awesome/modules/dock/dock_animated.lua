@@ -218,6 +218,8 @@ return function(
 		widget = wibox.container.background,
 		ontop = true,
 		bg = background_color,
+		border_color = "#1e1e21",
+		border_width = dpi(1),
 		visible = true,
 		maximum_width = dpi(1000),
 		maximum_height = dpi(size),
@@ -244,7 +246,7 @@ return function(
 		opacity = 0,
 		visible = true,
 		width = dpi(800),
-		height = dpi(10),
+		height = dpi(2),
 		type = "tooltip",
 	})
 

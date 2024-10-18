@@ -27,7 +27,7 @@ return function(
 	local circle_animate = wibox.widget({
 		widget = wibox.container.background,
 		shape = shape_spe or gears.shape.rounded_bar,
-		bg = press_color or beautiful.accent_3,
+		bg = press_color or beautiful.fg_color .. "99",
 	})
 
 	local mainbox = wibox.widget({

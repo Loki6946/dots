@@ -79,7 +79,7 @@ local function enable_rounding()
 			if c.fullscreen then
 				c.shape = nil
 			elseif c.maximized then
-				c.shape = helpers.prrect(beautiful.rounded, false, false, false, false)
+				c.shape = helpers.prrect(false, false, false, false, beautiful.rounded)
 			else
 				c.shape = helpers.rrect(beautiful.rounded)
 			end
