@@ -17,7 +17,8 @@ local theme = {}
 -- foreground
 -- ~~~~~~~~~~
 theme.fg_color = "#ccd0d9"
-theme.fg_2 = "#98a0b3"
+theme.fg_2 = "#A3A3A3"
+theme.fg_3 = "#ffffff"
 
 -- backgrounds
 -- ~~~~~~~~~~~
@@ -81,6 +82,7 @@ theme.wallpaper = assets.wall
 -- gaps/border thing
 -- ~~~~~~~~~~~~~~~~~
 theme.useless_gap = dpi(2)
+theme.border_color = "#303036"
 
 -- rounded corner
 -- ~~~~~~~~~~~~~~
@@ -97,9 +99,9 @@ theme.notification_border_width = dpi(0)
 theme.titlebar_bg_normal = theme.bg_color
 theme.titlebar_bg_focus = theme.bg_color
 theme.titlebar_unfocused = "#252628"
-theme.titlebar_close = "#FF6057"
-theme.titlebar_maximize = "#27C840"
-theme.titlebar_minimize = "#FDBD2E"
+theme.titlebar_close = "#666666" -- "#FF6057"
+theme.titlebar_minimize = "#595959" -- "#FDBD2E"
+theme.titlebar_maximize = "#4d4d4d" -- "#27C840"
 theme.titlebars_enabled = true
 
 -- taglist
@@ -117,11 +119,10 @@ theme.titlebars_enabled = true
 
 -- another taglist
 -- ~~~~~~~
-theme.taglist_bg_focus = theme.black .. "00"
-theme.taglist_fg_focus = theme.fg_color
+theme.taglist_fg_focus = theme.fg_3
 theme.taglist_fg_urgent = theme.red_2
-theme.taglist_fg_occupied = theme.fg_color .. "E6"
-theme.taglist_fg_empty = theme.fg_color .. "80"
+theme.taglist_fg_occupied = theme.fg_color .. "F2"
+theme.taglist_fg_empty = theme.fg_color .. "BF"
 theme.taglist_disable_icon = true
 
 -- drop down Menu
@@ -166,12 +167,14 @@ theme.awesome_dock_size = 61
 theme.awesome_dock_pinned = {
 	{ "thunar" },
 	{ "alacritty" },
+	{ "galculator" },
 	{ apps.web_browser, "zen_browser" },
 	{ apps.music, "gnome-music" },
-	{ apps.editor_cmd, "neovim" },
+	{ "obsidian" },
 	{ "code", "vscode" },
+	{ apps.editor_cmd, "neovim" },
 }
-theme.awesome_dock_color_active = theme.accent_3
+theme.awesome_dock_color_active = theme.fg_color .. "99"
 theme.awesome_dock_color_inactive = theme.fg_color .. "66"
 theme.awesome_dock_color_minimized = theme.accent .. "33"
 theme.awesome_dock_color_hover = theme.fg_color .. "33"

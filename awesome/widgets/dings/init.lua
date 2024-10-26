@@ -93,7 +93,7 @@ naughty.connect_signal("request::display", function(n)
 			right = dpi(6),
 			widget = wibox.container.margin,
 		},
-		bg = beautiful.bg_2,
+		bg = beautiful.bg_2 .. "99",
 		forced_height = dpi(30),
 		shape = helpers.rrect(dpi(5)),
 		widget = wibox.container.background,
@@ -211,7 +211,7 @@ naughty.connect_signal("request::display", function(n)
 	naughty.layout.box({
 		notification = n,
 		type = "notification",
-		bg = beautiful.bg_color,
+		bg = beautiful.bg_color .. "99",
 		shape = helpers.rrect(beautiful.rounded),
 		widget_template = {
 			{
@@ -226,7 +226,7 @@ naughty.connect_signal("request::display", function(n)
 									layout = wibox.layout.fixed.vertical,
 									spacing = dpi(3),
 								},
-								margins = { left = dpi(6) },
+								margins = { left = dpi(0) },
 								widget = wibox.container.margin,
 							},
 							layout = wibox.layout.fixed.vertical,
@@ -251,7 +251,7 @@ naughty.connect_signal("request::display", function(n)
 			widget = wibox.container.background,
 			forced_width = dpi(340),
 			shape = helpers.rrect(beautiful.rounded),
-			bg = beautiful.bg_color,
+			bg = beautiful.bg_color .. "99",
 		},
 	})
 end)

@@ -63,7 +63,7 @@ local toggle_button = wibox.widget({
 -- next button
 local next_button = wibox.widget({
 	widget = wibox.widget.textbox,
-	markup = helpers.colorize_text("", beautiful.fg_color),
+	markup = helpers.colorize_text("", beautiful.fg_color),
 	font = beautiful.icon_var .. "14",
 	align = "right",
 	valign = "center",
@@ -72,7 +72,7 @@ local next_button = wibox.widget({
 -- prev button
 local prev_button = wibox.widget({
 	widget = wibox.widget.textbox,
-	markup = helpers.colorize_text("", beautiful.fg_color),
+	markup = helpers.colorize_text("", beautiful.fg_color),
 	font = beautiful.icon_var .. "14",
 	align = "right",
 	valign = "center",
@@ -162,9 +162,9 @@ return wibox.widget({
 					expand = "none",
 				},
 				{
-					button_creator(prev_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(24)),
-					button_creator(toggle_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(24)),
-					button_creator(next_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(24)),
+					button_creator(prev_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(22)),
+					button_creator(toggle_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(22)),
+					button_creator(next_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(22)),
 					layout = wibox.layout.fixed.horizontal,
 					spacing = dpi(0),
 				},
@@ -178,7 +178,7 @@ return wibox.widget({
 		widget = wibox.container.margin,
 	},
 	widget = wibox.container.background,
-	bg = beautiful.bg_3 .. "99",
+	bg = beautiful.bg_3,
 	border_color = beautiful.fg_color .. "33",
 	shape = helpers.rrect(beautiful.rounded),
 })

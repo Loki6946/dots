@@ -8,6 +8,11 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local wibox = require("wibox")
 local gears = require("gears")
+local helpers = require("helpers")
+
+-- extra
+-- ~~~~~
+require("widgets.decorations.music.minimal")
 
 -- function to create those buttons
 local function create_title_button(c, color_focus, color_unfocus, shp)
@@ -153,6 +158,57 @@ client.connect_signal("request::titlebars", function(c)
 				buttons = buttons,
 			},
 		})
-end)
 
-require("widgets.decorations.music.ncmpcpp_2")
+	-- left
+	awful
+		.titlebar(c, {
+			position = "left",
+			size = dpi(6),
+			bg = beautiful.bg_2,
+		})
+		:setup({
+			{
+				{
+					bg = beautiful.bg_2,
+					widget = wibox.container.background,
+				},
+				left = dpi(1),
+				widget = wibox.container.margin,
+			},
+			bg = beautiful.bg_2,
+			widget = wibox.container.background,
+		})
+
+	-- right
+	awful
+		.titlebar(c, {
+			position = "right",
+			size = dpi(6),
+			bg = beautiful.bg_2,
+		})
+		:setup({
+			{
+				{
+					bg = beautiful.bg_2,
+					widget = wibox.container.background,
+				},
+				right = dpi(1),
+				widget = wibox.container.margin,
+			},
+			bg = beautiful.bg_2,
+			widget = wibox.container.background,
+		})
+
+	-- bottom
+	awful
+		.titlebar(c, {
+			position = "bottom",
+			size = dpi(6),
+			bg = beautiful.bg_2,
+		})
+		:setup({
+			bg = beautiful.bg_2,
+			shape = helpers.prrect(false, false, true, true, beautiful.rounded),
+			widget = wibox.container.background,
+		})
+end)

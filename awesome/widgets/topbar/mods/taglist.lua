@@ -43,33 +43,39 @@ local get_taglist = function(s)
 	local the_taglist = awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
-		layout = { layout = wibox.layout.fixed.horizontal },
+		layout = { spacing = dpi(3), layout = wibox.layout.fixed.horizontal },
 		widget_template = {
 			{
 				{
-					id = "hover",
-					widget = wibox.container.background,
-					shape = helpers.rrect(0),
-					bg = beautiful.fg_color .. "66",
-					opacity = 0,
-				},
-				{
 					{
-						id = "text_role",
-						widget = wibox.widget.textbox,
-						font = beautiful.font_var .. "10",
-						align = "center",
-						markup = "DD",
-						valign = "center",
+						id = "hover",
+						widget = wibox.container.background,
+						shape = helpers.rrect(3),
+						bg = beautiful.fg_color .. "66",
+						opacity = 0,
 					},
-					left = dpi(13),
-					right = dpi(13),
-					widget = wibox.container.margin,
+					{
+						{
+							id = "text_role",
+							widget = wibox.widget.textbox,
+							font = beautiful.font_var .. "10",
+							align = "center",
+							markup = "DD",
+							valign = "center",
+						},
+						left = dpi(10),
+						right = dpi(10),
+						widget = wibox.container.margin,
+					},
+					layout = wibox.layout.stack,
 				},
-				layout = wibox.layout.stack,
+				id = "bg_role",
+				shape = helpers.rrect(3),
+				widget = wibox.container.background,
 			},
-			id = "background_role",
-			widget = wibox.container.background,
+			top = dpi(3),
+			bottom = dpi(3),
+			widget = wibox.container.margin,
 
 			create_callback = function(self, c3, _)
 				local animation_button_opacity = rubato.timed({
@@ -104,12 +110,12 @@ local get_taglist = function(s)
 
 				self.update = function()
 					if c3.selected then
-						helpers.gc(self, "background_role").bg = beautiful.black .. "00"
-						helpers.gc(self, "text_role").font = beautiful.font_var .. "Bold 10"
+						helpers.gc(self, "bg_role").bg = beautiful.fg_2 .. "33"
+						helpers.gc(self, "text_role").font = beautiful.font_var .. "ExtraBold 10"
 					elseif #c3:clients() == 0 then
-						helpers.gc(self, "background_role").bg = beautiful.fg_color .. "33"
+						helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
 					else
-						helpers.gc(self, "background_role").bg = beautiful.fg_color .. "99"
+						helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
 					end
 				end
 

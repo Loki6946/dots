@@ -148,10 +148,12 @@ function menu.menu(widgets, width)
 		type = "menu",
 		visible = false,
 		ontop = true,
-		minimum_width = width or dpi(200),
-		maximum_width = width or dpi(200),
+		minimum_width = width or dpi(160),
+		maximum_width = width or dpi(160),
 		shape = helpers.rrect(beautiful.rounded - 2),
-		bg = beautiful.bg_color,
+		bg = beautiful.bg_color .. "99",
+		border_width = dpi(1),
+		border_color = beautiful.border_color,
 		widget = wibox.layout.fixed.vertical,
 	})
 	gtable.crush(widget, menu, true)
@@ -222,35 +224,40 @@ function menu.sub_menu_button(args)
 				{
 					id = "animate",
 					widget = wibox.container.background,
-					shape = helpers.rrect(8),
-					bg = beautiful.accent_3,
+					shape = helpers.rrect(5),
+					bg = beautiful.fg_color,
 				},
 				{
 					{
 						layout = wibox.layout.align.horizontal,
 						spacing = dpi(0),
-						icon,
+						-- icon,
+						nil,
 						{
+							id = "text",
 							font = beautiful.font_var .. args.text_size,
-							markup = args.text,
+							markup = helpers.colorize_text(args.text, beautiful.fg_color),
 							widget = wibox.widget.textbox,
 							halign = "start",
 						},
 						{
-							font = beautiful.icon_var .. "11",
-							markup = "",
+							id = "icon",
+							font = beautiful.icon_var .. "10",
+							markup = helpers.colorize_text("", beautiful.fg_color),
 							widget = wibox.widget.textbox,
 							halign = "start",
 						},
 					},
 					widget = wibox.container.margin,
-					margins = 10,
+					top = 5,
+					right = 10,
+					bottom = 5,
+					left = 10,
 				},
 				layout = wibox.layout.stack,
 			},
 			widget = wibox.container.margin,
-			margins = 8,
-			top = 0,
+			margins = 6,
 		},
 		widget = wibox.container.background,
 	})
@@ -271,11 +278,15 @@ function menu.sub_menu_button(args)
 		coords.x = coords.x + self.menu.x + self.menu.width
 		coords.y = coords.y + self.menu.y
 		args.sub_menu:show({ coords = coords, offset = { x = -5 } })
-		animation_button_opacity:set(0.4)
+		animation_button_opacity:set(1)
+		helpers.gc(widget, "text").markup = helpers.colorize_text(args.text, beautiful.bg_color)
+		helpers.gc(widget, "icon").markup = helpers.colorize_text("", beautiful.bg_color)
 	end)
 
 	widget:connect_signal("mouse::leave", function()
 		animation_button_opacity:set(0.0)
+		helpers.gc(widget, "text").markup = helpers.colorize_text(args.text, beautiful.fg_color)
+		helpers.gc(widget, "icon").markup = helpers.colorize_text("", beautiful.fg_color)
 	end)
 
 	-- add buttons and commands
@@ -284,7 +295,7 @@ function menu.sub_menu_button(args)
 	end)
 
 	widget:connect_signal("button::release", function()
-		animation_button_opacity:set(0.4)
+		animation_button_opacity:set(1)
 	end)
 
 	helpers.hover_cursor(widget)
@@ -322,7 +333,7 @@ function menu.button(args)
 
 	local text_widget = wibox.widget({
 		font = beautiful.font_var .. args.text_size,
-		markup = args.text,
+		markup = helpers.colorize_text(args.text, beautiful.fg_color),
 		widget = wibox.widget.textbox,
 		halign = "start",
 	})
@@ -333,23 +344,26 @@ function menu.button(args)
 				{
 					id = "animate",
 					widget = wibox.container.background,
-					shape = helpers.rrect(8),
-					bg = beautiful.accent_3,
+					shape = helpers.rrect(5),
+					bg = beautiful.fg_color,
 				},
 				{
 					{
 						layout = wibox.layout.fixed.horizontal,
-						spacing = dpi(15),
-						icon,
+						-- spacing = dpi(15),
+						-- icon,
 						text_widget,
 					},
 					widget = wibox.container.margin,
-					margins = 10,
+					top = 5,
+					right = 10,
+					bottom = 5,
+					left = 10,
 				},
 				layout = wibox.layout.stack,
 			},
 			widget = wibox.container.margin,
-			margins = 8,
+			margins = 6,
 		},
 		buttons = {
 			awful.button({}, 1, function()
@@ -375,11 +389,13 @@ function menu.button(args)
 		if self.menu.widget then
 			self.menu:hide_children_menus()
 		end
-		animation_button_opacity:set(0.4)
+		animation_button_opacity:set(1)
+		text_widget.markup = helpers.colorize_text(args.text, beautiful.bg_color)
 	end)
 
 	widget:connect_signal("mouse::leave", function()
 		animation_button_opacity:set(0.0)
+		text_widget.markup = helpers.colorize_text(args.text, beautiful.fg_color)
 	end)
 
 	-- add buttons and commands
@@ -388,7 +404,7 @@ function menu.button(args)
 	end)
 
 	widget:connect_signal("button::release", function()
-		animation_button_opacity:set(0.4)
+		animation_button_opacity:set(1)
 	end)
 
 	helpers.hover_cursor(widget)
@@ -398,16 +414,16 @@ end
 function menu.separator()
 	return wibox.widget({
 		widget = wibox.container.margin,
-		top = 10,
-		bottom = 10,
-		left = 40,
-		right = 40,
+		top = 3,
+		bottom = 3,
+		left = 15,
+		right = 15,
 		{
 			widget = wibox.widget.separator,
 			forced_height = dpi(2),
 			orientation = "horizontal",
 			thickness = dpi(1),
-			color = beautiful.fg_color .. "29",
+			color = beautiful.border_color,
 		},
 	})
 end

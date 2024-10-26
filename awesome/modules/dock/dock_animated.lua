@@ -76,20 +76,24 @@ return function(
 		widget_template = {
 			{
 				{
-					id = "circle_animate",
-					widget = wibox.container.background,
-					shape = helpers.rrect(12),
-					bg = active_color,
-					opacity = 0.4,
+					{
+						id = "circle_animate",
+						widget = wibox.container.background,
+						shape = helpers.rrect(12),
+						bg = active_color,
+						opacity = 0.4,
+					},
+					{
+						awful.widget.clienticon,
+						id = "app_icon_role",
+						margins = 6,
+						opacity = 1,
+						widget = wibox.container.margin,
+					},
+					layout = wibox.layout.stack,
 				},
-				{
-					awful.widget.clienticon,
-					id = "app_icon_role",
-					margins = 6,
-					opacity = 1,
-					widget = wibox.container.margin,
-				},
-				layout = wibox.layout.stack,
+				margins = dpi(2),
+				widget = wibox.container.margin,
 			},
 			layout = wibox.layout.fixed.vertical,
 			create_callback = function(self, c, index, objects)
@@ -218,7 +222,7 @@ return function(
 		widget = wibox.container.background,
 		ontop = true,
 		bg = background_color,
-		border_color = "#1e1e21",
+		border_color = "#303036",
 		border_width = dpi(1),
 		visible = true,
 		maximum_width = dpi(1000),
@@ -275,7 +279,7 @@ return function(
 						{
 							widget = wibox.widget.separator,
 							orientation = "vertical",
-							color = "#1e1e21",
+							color = "#303036",
 							thickness = 2,
 						},
 						widget = wibox.container.margin,

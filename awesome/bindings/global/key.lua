@@ -251,6 +251,9 @@ awful.keyboard.append_global_keybindings({
 			awful.client.swap.byidx(1)
 		end,
 	}),
+	awful.key({ mod.super }, "c", function()
+		awful.placement.centered(c, { honor_workarea = true, honor_padding = true })
+	end),
 	awful.key({
 		modifiers = { mod.super, mod.shift },
 		key = "k",

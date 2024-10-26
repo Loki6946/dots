@@ -16,7 +16,7 @@ local helpers = require("helpers")
 -- ~~~~~~~~~
 
 -- button size
-local button_size = dpi(130)
+local button_size = dpi(115)
 
 -- icons
 local icons = {
@@ -172,7 +172,7 @@ local exit_screen_f = function(s)
 				},
 				widget = wibox.container.background,
 				bg = beautiful.ext_light_bg or beautiful.bg_color,
-				shape = helpers.rrect(beautiful.rounded),
+				shape = helpers.rrect(beautiful.rounded + 5),
 			},
 			layout = wibox.layout.align.vertical,
 			expand = "none",

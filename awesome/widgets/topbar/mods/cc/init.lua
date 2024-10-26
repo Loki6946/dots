@@ -26,11 +26,13 @@ awful.screen.connect_for_each_screen(function(s)
 	--~~~~~~~~~~~~~~~~~
 	control_c = wibox({
 		type = "dock",
-		shape = helpers.rrect(beautiful.rounded),
+		shape = helpers.rrect(beautiful.rounded + 5),
 		screen = s,
 		width = dpi(390),
 		height = dpi(400),
 		bg = beautiful.bg_color,
+		border_width = dpi(1),
+		border_color = beautiful.border_color,
 		margins = 15,
 		ontop = true,
 		visible = false,

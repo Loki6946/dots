@@ -33,7 +33,9 @@ local artist_now = wibox.widget({
 	widget = wibox.widget.textbox,
 })
 
-local toggle_button = wibox.widget({
+-- player control
+
+local toggle_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.bg_color),
 	font = beautiful.icon_var .. "18",
@@ -41,8 +43,24 @@ local toggle_button = wibox.widget({
 	valign = "center",
 })
 
+local toggle_button = wibox.widget({
+	button_creator(
+		toggle_button_icon,
+		beautiful.fg_color,
+		beautiful.accent,
+		dpi(8),
+		nil,
+		nil,
+		dpi(3),
+		nil,
+		nil,
+		helpers.rrect(9999)
+	),
+	widget = wibox.container.background,
+})
+
 -- next button
-local next_button = wibox.widget({
+local next_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.fg_color),
 	font = beautiful.icon_var .. "16",
@@ -50,8 +68,24 @@ local next_button = wibox.widget({
 	valign = "center",
 })
 
+local next_button = wibox.widget({
+	button_creator(
+		next_button_icon,
+		beautiful.black .. "00",
+		nil,
+		dpi(6),
+		nil,
+		nil,
+		dpi(6),
+		nil,
+		nil,
+		helpers.rrect(9999)
+	),
+	widget = wibox.container.background,
+})
+
 -- prev button
-local prev_button = wibox.widget({
+local prev_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.fg_color),
 	font = beautiful.icon_var .. "16",
@@ -59,7 +93,23 @@ local prev_button = wibox.widget({
 	valign = "center",
 })
 
-local loop_button = wibox.widget({
+local prev_button = wibox.widget({
+	button_creator(
+		prev_button_icon,
+		beautiful.black .. "00",
+		nil,
+		dpi(6),
+		nil,
+		nil,
+		dpi(6),
+		nil,
+		nil,
+		helpers.rrect(9999)
+	),
+	widget = wibox.container.background,
+})
+
+local loop_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.fg_color .. "99"),
 	font = beautiful.icon_var .. "12",
@@ -67,7 +117,23 @@ local loop_button = wibox.widget({
 	valign = "center",
 })
 
-local shuffle_button = wibox.widget({
+local loop_button = wibox.widget({
+	button_creator(
+		loop_button_icon,
+		beautiful.black .. "00",
+		nil,
+		dpi(12),
+		nil,
+		nil,
+		dpi(31),
+		nil,
+		nil,
+		helpers.rrect(9999)
+	),
+	widget = wibox.container.background,
+})
+
+local shuffle_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.fg_color .. "99"),
 	font = beautiful.icon_var .. "12",
@@ -75,138 +141,221 @@ local shuffle_button = wibox.widget({
 	valign = "center",
 })
 
+local shuffle_button = wibox.widget({
+	button_creator(
+		shuffle_button_icon,
+		beautiful.black .. "00",
+		nil,
+		dpi(12),
+		nil,
+		nil,
+		dpi(31),
+		nil,
+		nil,
+		helpers.rrect(9999)
+	),
+	widget = wibox.container.background,
+})
+
+-- navigation button
+
+local playlist_icon = wibox.widget({
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("", beautiful.fg_color),
+		font = beautiful.icon_var .. "14",
+		align = "center",
+		valign = "center",
+	},
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("Home", beautiful.fg_color),
+		font = beautiful.font_var .. "Medium 10",
+		align = "center",
+		valign = "center",
+	},
+	spacing = dpi(5),
+	layout = wibox.layout.fixed.vertical,
+})
+
 local playlist = function(c)
 	return wibox.widget({
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("", beautiful.fg_color),
-			font = beautiful.icon_var .. "14",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "1")
-			end))),
-		},
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("Home", beautiful.fg_color),
-			font = beautiful.font_var .. "Medium 10",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "1")
-			end))),
-		},
-		spacing = dpi(5),
-		layout = wibox.layout.fixed.vertical,
+		button_creator(
+			playlist_icon,
+			beautiful.black .. "00",
+			nil,
+			dpi(12),
+			dpi(12),
+			dpi(8),
+			nil,
+			nil,
+			nil,
+			helpers.rrect(15)
+		),
+		buttons = (gears.table.join(awful.button({}, 1, function()
+			helpers.send_key(c, "1")
+		end))),
+		widget = wibox.container.background,
 	})
 end
 
-local local_files = function(c)
-	return wibox.widget({
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("", beautiful.fg_color),
-			font = beautiful.icon_var .. "14",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "2")
-			end))),
-		},
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("Library", beautiful.fg_color),
-			font = beautiful.font_var .. "Medium 10",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "2")
-			end))),
-		},
-		spacing = dpi(5),
-		layout = wibox.layout.fixed.vertical,
-	})
-end
-
-local search = function(c)
-	return wibox.widget({
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("", beautiful.fg_color),
-			font = beautiful.icon_var .. "14",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "3")
-			end))),
-		},
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("Search", beautiful.fg_color),
-			font = beautiful.font_var .. "Medium 10",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "3")
-			end))),
-		},
-		spacing = dpi(5),
-		layout = wibox.layout.fixed.vertical,
-	})
-end
+local library_icon = wibox.widget({
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("", beautiful.fg_color),
+		font = beautiful.icon_var .. "14",
+		align = "center",
+		valign = "center",
+	},
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("Library", beautiful.fg_color),
+		font = beautiful.font_var .. "Medium 10",
+		align = "center",
+		valign = "center",
+	},
+	spacing = dpi(5),
+	layout = wibox.layout.fixed.vertical,
+})
 
 local library = function(c)
 	return wibox.widget({
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("", beautiful.fg_color),
-			font = beautiful.icon_var .. "14",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "4")
-			end))),
-		},
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("Artist", beautiful.fg_color),
-			font = beautiful.font_var .. "Medium 10",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "4")
-			end))),
-		},
-		spacing = dpi(5),
-		layout = wibox.layout.fixed.vertical,
+		button_creator(
+			library_icon,
+			beautiful.black .. "00",
+			nil,
+			dpi(12),
+			dpi(12),
+			dpi(8),
+			nil,
+			nil,
+			nil,
+			helpers.rrect(15)
+		),
+		buttons = (gears.table.join(awful.button({}, 1, function()
+			helpers.send_key(c, "2")
+		end))),
+		widget = wibox.container.background,
 	})
 end
 
+local search_icon = wibox.widget({
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("", beautiful.fg_color),
+		font = beautiful.icon_var .. "14",
+		align = "center",
+		valign = "center",
+	},
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("Search", beautiful.fg_color),
+		font = beautiful.font_var .. "Medium 10",
+		align = "center",
+		valign = "center",
+	},
+	spacing = dpi(5),
+	layout = wibox.layout.fixed.vertical,
+})
+
+local search = function(c)
+	return wibox.widget({
+		button_creator(
+			search_icon,
+			beautiful.black .. "00",
+			nil,
+			dpi(12),
+			dpi(12),
+			dpi(8),
+			nil,
+			nil,
+			nil,
+			helpers.rrect(15)
+		),
+		buttons = (gears.table.join(awful.button({}, 1, function()
+			helpers.send_key(c, "3")
+		end))),
+		widget = wibox.container.background,
+	})
+end
+
+local artist_icon = wibox.widget({
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("", beautiful.fg_color),
+		font = beautiful.icon_var .. "14",
+		align = "center",
+		valign = "center",
+	},
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("Artist", beautiful.fg_color),
+		font = beautiful.font_var .. "Medium 10",
+		align = "center",
+		valign = "center",
+	},
+	spacing = dpi(5),
+	layout = wibox.layout.fixed.vertical,
+})
+
+local artist = function(c)
+	return wibox.widget({
+		button_creator(
+			artist_icon,
+			beautiful.black .. "00",
+			nil,
+			dpi(12),
+			dpi(12),
+			dpi(8),
+			nil,
+			nil,
+			nil,
+			helpers.rrect(15)
+		),
+		buttons = (gears.table.join(awful.button({}, 1, function()
+			helpers.send_key(c, "4")
+		end))),
+		widget = wibox.container.background,
+	})
+end
+
+local visualizer_icon = wibox.widget({
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("", beautiful.fg_color),
+		font = beautiful.icon_var .. "14",
+		align = "center",
+		valign = "center",
+	},
+	{
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text("Visualizer", beautiful.fg_color),
+		font = beautiful.font_var .. "Medium 10",
+		align = "center",
+		valign = "center",
+	},
+	spacing = dpi(5),
+	layout = wibox.layout.fixed.vertical,
+})
+
 local visualizer = function(c)
 	return wibox.widget({
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("", beautiful.fg_color),
-			font = beautiful.icon_var .. "14",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "8")
-			end))),
-		},
-		{
-			widget = wibox.widget.textbox,
-			markup = helpers.colorize_text("Visualizer", beautiful.fg_color),
-			font = beautiful.font_var .. "Medium 10",
-			align = "center",
-			valign = "center",
-			buttons = (gears.table.join(awful.button({}, 1, function()
-				helpers.send_key(c, "8")
-			end))),
-		},
-		spacing = dpi(5),
-		layout = wibox.layout.fixed.vertical,
+		button_creator(
+			visualizer_icon,
+			beautiful.black .. "00",
+			nil,
+			dpi(12),
+			dpi(12),
+			dpi(8),
+			nil,
+			nil,
+			nil,
+			helpers.rrect(15)
+		),
+		buttons = (gears.table.join(awful.button({}, 1, function()
+			helpers.send_key(c, "8")
+		end))),
+		widget = wibox.container.background,
 	})
 end
 
@@ -227,7 +376,7 @@ local music_length = wibox.widget({
 local pbar = wibox.widget({
 	widget = wibox.widget.progressbar,
 	forced_height = dpi(4),
-	forced_width = dpi(380),
+	forced_width = dpi(320),
 	color = beautiful.fg_color,
 	background_color = beautiful.fg_color .. "11",
 	value = 50,
@@ -237,16 +386,25 @@ local pbar = wibox.widget({
 })
 
 local music_progress = wibox.widget({
-	music_now,
 	{
 		pbar,
-		top = dpi(8),
-		bottom = dpi(8),
-		left = dpi(10),
-		right = dpi(10),
+		top = dpi(21),
+		bottom = dpi(21),
+		left = dpi(0),
+		right = dpi(15),
 		widget = wibox.container.margin,
 	},
-	music_length,
+	{
+		music_now,
+		{
+			markup = helpers.colorize_text("/", beautiful.fg_color),
+			font = beautiful.font_var .. "12",
+			widget = wibox.widget.textbox,
+		},
+		music_length,
+		spacing = dpi(5),
+		layout = wibox.layout.fixed.horizontal,
+	},
 	layout = wibox.layout.align.horizontal,
 })
 
@@ -361,19 +519,19 @@ local shuffle_command = function()
 	playerctl:cycle_shuffle()
 end
 
-toggle_button:buttons(gears.table.join(awful.button({}, 1, function()
+toggle_button_icon:buttons(gears.table.join(awful.button({}, 1, function()
 	toggle_command()
 end)))
 
-next_button:buttons(gears.table.join(awful.button({}, 1, function()
+next_button_icon:buttons(gears.table.join(awful.button({}, 1, function()
 	next_command()
 end)))
 
-prev_button:buttons(gears.table.join(awful.button({}, 1, function()
+prev_button_icon:buttons(gears.table.join(awful.button({}, 1, function()
 	prev_command()
 end)))
 
-loop_button:buttons(gears.table.join(awful.button({}, 1, function()
+loop_button_icon:buttons(gears.table.join(awful.button({}, 1, function()
 	loop_command()
 end)))
 
@@ -407,25 +565,25 @@ end)
 
 playerctl:connect_signal("playback_status", function(_, playing, _)
 	if playing then
-		toggle_button.markup = helpers.colorize_text("", beautiful.bg_color)
+		toggle_button_icon.markup = helpers.colorize_text("", beautiful.bg_color)
 	else
-		toggle_button.markup = helpers.colorize_text("", beautiful.bg_color)
+		toggle_button_icon.markup = helpers.colorize_text("", beautiful.bg_color)
 	end
 end)
 
 playerctl:connect_signal("loop_status", function(self, loop_status, player)
 	if loop_status == "none" then
-		loop_button.markup = helpers.colorize_text("", beautiful.fg_color .. "99")
+		loop_button_icon.markup = helpers.colorize_text("", beautiful.fg_color .. "99")
 	else
-		loop_button.markup = helpers.colorize_text("", beautiful.fg_color .. "99")
+		loop_button_icon.markup = helpers.colorize_text("", beautiful.fg_color .. "99")
 	end
 end)
 
 playerctl:connect_signal("shuffle", function(self, shuffle, player)
 	if shuffle == true then
-		shuffle_button.markup = helpers.colorize_text("", beautiful.fg_color .. "99")
+		shuffle_button_icon.markup = helpers.colorize_text("", beautiful.fg_color .. "99")
 	else
-		shuffle_button.markup = helpers.colorize_text("", beautiful.fg_color .. "99")
+		shuffle_button_icon.markup = helpers.colorize_text("", beautiful.fg_color .. "99")
 	end
 end)
 
@@ -448,66 +606,11 @@ local music_create_decoration = function(c)
 	awful.titlebar(c, { position = "left", size = dpi(110) }):setup({
 		{
 			{
-				button_creator(
-					playlist(c),
-					beautiful.black .. "00",
-					nil,
-					dpi(12),
-					dpi(12),
-					dpi(8),
-					nil,
-					nil,
-					nil,
-					helpers.rrect(15)
-				),
-				button_creator(
-					local_files(c),
-					beautiful.black .. "00",
-					nil,
-					dpi(12),
-					dpi(12),
-					dpi(8),
-					nil,
-					nil,
-					nil,
-					helpers.rrect(15)
-				),
-				button_creator(
-					search(c),
-					beautiful.black .. "00",
-					nil,
-					dpi(12),
-					dpi(12),
-					dpi(8),
-					nil,
-					nil,
-					nil,
-					helpers.rrect(15)
-				),
-				button_creator(
-					library(c),
-					beautiful.black .. "00",
-					nil,
-					dpi(12),
-					dpi(12),
-					dpi(8),
-					nil,
-					nil,
-					nil,
-					helpers.rrect(15)
-				),
-				button_creator(
-					visualizer(c),
-					beautiful.black .. "00",
-					nil,
-					dpi(12),
-					dpi(12),
-					dpi(8),
-					nil,
-					nil,
-					nil,
-					helpers.rrect(15)
-				),
+				playlist(c),
+				library(c),
+				search(c),
+				artist(c),
+				visualizer(c),
 				spacing = dpi(5),
 				layout = wibox.layout.fixed.vertical,
 			},
@@ -538,7 +641,7 @@ local music_create_decoration = function(c)
 								fps = 60,
 								speed = 75,
 								title_now,
-								forced_width = dpi(170),
+								forced_width = dpi(150),
 								widget = wibox.container.scroll.horizontal,
 							},
 							{
@@ -546,7 +649,7 @@ local music_create_decoration = function(c)
 								fps = 60,
 								speed = 75,
 								artist_now,
-								forced_width = dpi(170),
+								forced_width = dpi(150),
 								widget = wibox.container.scroll.horizontal,
 							},
 							spacing = dpi(4),
@@ -561,86 +664,25 @@ local music_create_decoration = function(c)
 				},
 				{
 					{
-						layout = wibox.layout.fixed.vertical,
-						spacing = dpi(10),
-						{
-							{
-								button_creator(
-									shuffle_button,
-									beautiful.black .. "00",
-									nil,
-									dpi(8),
-									nil,
-									nil,
-									dpi(6),
-									nil,
-									nil,
-									helpers.rrect(9999)
-								),
-								button_creator(
-									prev_button,
-									beautiful.black .. "00",
-									nil,
-									dpi(6),
-									nil,
-									nil,
-									dpi(6),
-									nil,
-									nil,
-									helpers.rrect(9999)
-								),
-								button_creator(
-									toggle_button,
-									beautiful.fg_color,
-									beautiful.accent,
-									dpi(8),
-									nil,
-									nil,
-									dpi(3),
-									nil,
-									nil,
-									helpers.rrect(beautiful.rounded - 2)
-								),
-								button_creator(
-									next_button,
-									beautiful.black .. "00",
-									nil,
-									dpi(6),
-									nil,
-									nil,
-									dpi(6),
-									nil,
-									nil,
-									helpers.rrect(9999)
-								),
-								button_creator(
-									loop_button,
-									beautiful.black .. "00",
-									nil,
-									dpi(8),
-									nil,
-									nil,
-									dpi(6),
-									nil,
-									nil,
-									helpers.rrect(9999)
-								),
-								spacing = dpi(15),
-								forced_height = dpi(45),
-								layout = wibox.layout.fixed.horizontal,
-							},
-							widget = wibox.container.place,
-							halign = "center",
-						},
+						prev_button,
+						toggle_button,
+						next_button,
 						music_progress,
+						spacing = dpi(10),
+						forced_height = dpi(45),
+						layout = wibox.layout.fixed.horizontal,
 					},
-					top = dpi(15),
+					top = dpi(27),
+					bottom = dpi(27),
+					left = dpi(30),
 					widget = wibox.container.margin,
 				},
 				{
 					--- Music Position
 					layout = wibox.layout.fixed.horizontal,
-					volume_control(),
+					spacing = dpi(20),
+					shuffle_button,
+					loop_button,
 				},
 			},
 			left = dpi(12),

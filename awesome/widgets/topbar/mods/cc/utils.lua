@@ -64,10 +64,14 @@ return wibox.widget({
 						beautiful.fg_color .. "33"
 					),
 					spacing_widget = wibox.widget({
-						widget = wibox.widget.separator,
-						orientation = "vertical",
-						color = "#1e1e21",
-						thickness = 2,
+						{
+							widget = wibox.widget.separator,
+							orientation = "vertical",
+							color = beautiful.border_color,
+							thickness = 2,
+						},
+						widget = wibox.container.margin,
+						margins = { top = dpi(5), bottom = dpi(5) },
 					}),
 					button_creator(
 						power_button,
@@ -94,7 +98,7 @@ return wibox.widget({
 		right = dpi(6),
 		widget = wibox.container.margin,
 	},
-	bg = beautiful.bg_3 .. "99",
+	bg = beautiful.bg_3,
 	forced_height = dpi(40),
 	forced_width = dpi(100),
 	shape = helpers.rrect(beautiful.rounded),

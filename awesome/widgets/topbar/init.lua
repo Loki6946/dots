@@ -23,21 +23,38 @@ awful.screen.connect_for_each_screen(function(s)
 
 	-- widgets
 	-- ~~~~~~~
+	s.calendar = require("widgets.topbar.mods.widget.calendar")(s)
+	s.clock = require("widgets.topbar.mods.widget.clock")(s)
 
-	-- taglist
 	local taglist = require("widgets.topbar.mods.taglist")(s)
 
 	-- launcher {{
-	local launcher = wibox.widget({
+	local launcher_icon = wibox.widget({
 		{
 			widget = wibox.widget.imagebox,
 			image = gears.color.recolor_image(beautiful.awm_icon, beautiful.fg_color),
-			forced_height = 20,
-			forced_width = 20,
+			forced_height = 18,
+			forced_width = 18,
 			resize = true,
 		},
 		align = "center",
 		widget = wibox.container.place,
+	})
+
+	local launcher = wibox.widget({
+		create_button(
+			launcher_icon,
+			beautiful.black .. "00",
+			beautiful.fg_color .. "99",
+			dpi(8),
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			helpers.rrect(3)
+		),
+		widget = wibox.container.background,
 	})
 
 	launcher:buttons(gears.table.join({
@@ -50,6 +67,7 @@ awful.screen.connect_for_each_screen(function(s)
 	-- wifi
 	local wifi = wibox.widget({
 		{
+			id = "wifi_icon",
 			markup = "",
 			font = beautiful.icon_var .. "12",
 			valign = "center",
@@ -61,7 +79,7 @@ awful.screen.connect_for_each_screen(function(s)
 	})
 
 	-- cc
-	local cc_ic = wibox.widget({
+	local cc_ic_icon = wibox.widget({
 		{
 			markup = "",
 			font = beautiful.icon_var .. "12",
@@ -71,6 +89,22 @@ awful.screen.connect_for_each_screen(function(s)
 		},
 		bottom = dpi(1),
 		widget = wibox.container.margin,
+	})
+
+	local cc_ic = wibox.widget({
+		create_button(
+			cc_ic_icon,
+			beautiful.black .. "00",
+			beautiful.fg_color .. "99",
+			dpi(8),
+			dpi(4),
+			nil,
+			dpi(3),
+			nil,
+			nil,
+			helpers.rrect(3)
+		),
+		widget = wibox.container.background,
 	})
 
 	-- layout
@@ -102,19 +136,19 @@ awful.screen.connect_for_each_screen(function(s)
 					max_value = 100,
 					value = 69,
 					id = "prog",
-					forced_width = 23,
+					forced_width = 18,
 					paddings = 1,
 					border_color = beautiful.fg_color .. "99",
 					background_color = beautiful.bg_color .. "00",
 					color = beautiful.fg_color,
 					bar_shape = helpers.rrect(2),
 					border_width = 1,
-					shape = helpers.rrect(3),
+					shape = helpers.rrect(2),
 					widget = wibox.widget.progressbar,
 				},
 				widget = wibox.container.margin,
-				top = 1,
-				bottom = 1,
+				top = 0,
+				bottom = 0,
 			},
 			{
 				{
@@ -141,6 +175,7 @@ awful.screen.connect_for_each_screen(function(s)
 			widget = wibox.container.margin,
 			top = 0,
 			bottom = 0,
+			right = 4,
 		},
 		layout = wibox.layout.stack,
 	})
@@ -163,7 +198,7 @@ awful.screen.connect_for_each_screen(function(s)
 		{
 			{
 				widget = wibox.widget.textclock,
-				format = "%a  %b  %d",
+				format = "%A, %d %B %Y",
 				font = beautiful.font_var .. "Medium 10",
 				valign = "center",
 				align = "center",
@@ -205,9 +240,15 @@ awful.screen.connect_for_each_screen(function(s)
 
 	awesome.connect_signal("signal::wifi", function(value)
 		if value then
-			wifi.markup = helpers.colorize_text("", beautiful.fg_color .. "CC")
+			helpers.gc(wifi, "wifi_icon").markup = helpers.colorize_text("", beautiful.fg_color .. "CC")
+			wifi:buttons(gears.table.join(awful.button({}, 1, function()
+				awful.spawn("nmcli radio wifi off", false)
+			end)))
 		else
-			wifi.markup = helpers.colorize_text("", beautiful.fg_color .. "99")
+			helpers.gc(wifi, "wifi_icon").markup = helpers.colorize_text("", beautiful.fg_color .. "99")
+			wifi:buttons(gears.table.join(awful.button({}, 1, function()
+				awful.spawn("nmcli radio wifi on", false)
+			end)))
 		end
 	end)
 
@@ -218,8 +259,8 @@ awful.screen.connect_for_each_screen(function(s)
 		ontop = false,
 		type = "dock",
 		width = screen_width,
-		height = dpi(30),
-		bg = beautiful.bg_color .. "BF",
+		height = dpi(26),
+		bg = beautiful.bg_color .. "99",
 	})
 
 	-- wibar placement
@@ -229,19 +270,9 @@ awful.screen.connect_for_each_screen(function(s)
 	s.wibar_wid:setup({
 		{
 			{
-				create_button(
-					launcher,
-					beautiful.black .. "00",
-					beautiful.fg_color .. "99",
-					dpi(8),
-					nil,
-					nil,
-					nil,
-					nil,
-					nil,
-					helpers.rrect(0)
-				),
+				launcher,
 				taglist,
+				spacing = dpi(3),
 				layout = wibox.layout.fixed.horizontal,
 			},
 			left = 10,
@@ -255,60 +286,49 @@ awful.screen.connect_for_each_screen(function(s)
 					beautiful.black .. "00",
 					beautiful.fg_color .. "99",
 					dpi(8),
-					dpi(8),
+					dpi(5),
+					nil,
+					dpi(3),
 					nil,
 					nil,
-					nil,
-					nil,
-					helpers.rrect(dpi(0))
+					helpers.rrect(3)
 				),
 				create_button(
 					wifi,
 					beautiful.black .. "00",
 					beautiful.fg_color .. "99",
 					dpi(8),
-					dpi(8),
+					dpi(3),
+					nil,
+					dpi(3),
 					nil,
 					nil,
-					nil,
-					nil,
-					helpers.rrect(dpi(0))
+					helpers.rrect(3)
 				),
-				create_button(
-					cc_ic,
-					beautiful.black .. "00",
-					beautiful.fg_color .. "99",
-					dpi(8),
-					dpi(8),
-					nil,
-					nil,
-					nil,
-					nil,
-					helpers.rrect(dpi(0))
-				),
+				cc_ic,
 				create_button(
 					layout,
 					beautiful.black .. "00",
 					beautiful.fg_color .. "99",
 					dpi(8),
-					dpi(8),
+					dpi(4),
+					nil,
+					dpi(3),
 					nil,
 					nil,
-					nil,
-					nil,
-					helpers.rrect(dpi(0))
+					helpers.rrect(3)
 				),
 				create_button(
 					clock,
 					beautiful.black .. "00",
 					beautiful.fg_color .. "99",
 					dpi(8),
-					dpi(8),
+					dpi(3),
+					nil,
+					dpi(3),
 					nil,
 					nil,
-					nil,
-					nil,
-					helpers.rrect(dpi(0))
+					helpers.rrect(3)
 				),
 				layout = wibox.layout.fixed.horizontal,
 			},

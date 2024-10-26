@@ -23,5 +23,5 @@ return {
 	machi = directory .. "layouts/layout-machi.png",
 
 	-- wallpaper
-	wall = directory .. "walls/Black_MW_Mac.png",
+	wall = directory .. "walls/iOS-17_dark.jpg",
 }

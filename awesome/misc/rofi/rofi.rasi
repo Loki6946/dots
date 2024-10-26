@@ -1,5 +1,5 @@
 configuration {
-    font:           				"Matter Medium 10";
+    font:           				"SF Pro Display Medium 10";
     show-icons:                     true;
 	  icon-theme: 					"WhiteSur-dark";
     display-drun: 					"";

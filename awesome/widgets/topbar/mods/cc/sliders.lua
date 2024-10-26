@@ -5,6 +5,7 @@ local beautiful = require("beautiful")
 local gears = require("gears")
 local dpi = beautiful.xresources.apply_dpi
 local helpers = require("helpers")
+local button_creator = require("helpers.widget.create_button")
 local wibox = require("wibox")
 
 -- widgets
@@ -13,18 +14,17 @@ local wibox = require("wibox")
 -- progressbar
 local brightness = wibox.widget({
 	widget = wibox.widget.slider,
-	value = 50,
-	maximum = 100,
-	forced_width = dpi(280),
+	maximum = 20,
+	forced_width = dpi(270),
 	shape = gears.shape.rounded_bar,
 	bar_shape = gears.shape.rounded_bar,
-	bar_color = beautiful.fg_color .. "33",
+	bar_color = beautiful.fg_color .. "11",
 	bar_margins = { bottom = dpi(10), top = dpi(10) },
 	bar_active_color = beautiful.fg_color,
-	handle_width = dpi(20),
+	handle_width = dpi(21),
 	handle_shape = gears.shape.circle,
 	handle_color = beautiful.fg_2,
-	handle_border_width = 2,
+	handle_border_width = 1,
 	handle_border_color = beautiful.fg_color,
 })
 
@@ -36,12 +36,17 @@ local brightness_icon = wibox.widget({
 	valign = "center",
 })
 
+local brightness_button = wibox.widget({
+	button_creator(brightness_icon, beautiful.black .. "00", beautiful.black .. "00", dpi(5), nil, nil, dpi(4)),
+	widget = wibox.container.background,
+})
+
 local brightness_text = awful.tooltip({
 	objects = { brightness },
 })
 
 local bright_init = wibox.widget({
-	brightness_icon,
+	brightness_button,
 	brightness,
 	layout = wibox.layout.fixed.horizontal,
 	forced_height = dpi(42),
@@ -52,32 +57,31 @@ awful.spawn.easy_async_with_shell(
 	"brightnessctl | grep -i  'current' | awk '{ print $4}' | tr -d \"(%)\"",
 	function(stdout)
 		local value = string.gsub(stdout, "^%s*(.-)%s*$", "%1")
-		brightness.value = tonumber(value)
+		brightness.value = tonumber(value / 5)
 		brightness_text.markup = helpers.colorize_text(value .. "%", beautiful.fg_color)
 	end
 )
 
 brightness:connect_signal("property::value", function(_, new_value)
-	brightness_text.markup = helpers.colorize_text(new_value .. "%", beautiful.fg_color)
+	brightness_text.markup = helpers.colorize_text((new_value * 5) .. "%", beautiful.fg_color)
 	brightness.value = new_value
-	awful.spawn("brightnessctl set " .. new_value .. "%", false)
+	awful.spawn("brightnessctl set " .. (new_value * 5) .. "%", false)
 end)
 
 -- volume
 local volume = wibox.widget({
 	widget = wibox.widget.slider,
-	value = 50,
-	maximum = 100,
-	forced_width = dpi(280),
+	maximum = 20,
+	forced_width = dpi(270),
 	shape = gears.shape.rounded_bar,
 	bar_shape = gears.shape.rounded_bar,
-	bar_color = beautiful.fg_color .. "33",
+	bar_color = beautiful.fg_color .. "11",
 	bar_margins = { bottom = dpi(10), top = dpi(10) },
 	bar_active_color = beautiful.fg_color,
-	handle_width = dpi(20),
+	handle_width = dpi(21),
 	handle_shape = gears.shape.circle,
 	handle_color = beautiful.fg_2,
-	handle_border_width = 2,
+	handle_border_width = 1,
 	handle_border_color = beautiful.fg_color,
 })
 
@@ -89,12 +93,17 @@ local volume_icon = wibox.widget({
 	valign = "center",
 })
 
+local volume_button = wibox.widget({
+	button_creator(volume_icon, nil, nil, dpi(5), nil, nil, dpi(4)),
+	widget = wibox.container.background,
+})
+
 local volume_text = awful.tooltip({
 	objects = { volume },
 })
 
 local volume_init = wibox.widget({
-	volume_icon,
+	volume_button,
 	volume,
 	layout = wibox.layout.fixed.horizontal,
 	forced_height = dpi(42),
@@ -105,15 +114,33 @@ awful.spawn.easy_async_with_shell(
 	"amixer -D pulse get Master | tail -n 1 | awk '{print $5}' | tr -d '[%]'",
 	function(stdout)
 		local value = string.gsub(stdout, "^%s*(.-)%s*$", "%1")
-		volume.value = tonumber(value)
+		volume.value = tonumber(value / 5)
 		volume_text.markup = helpers.colorize_text(value .. "%", beautiful.fg_color)
 	end
 )
 
+volume_button:buttons({
+	gears.table.join(awful.button({}, 1, function()
+		awful.spawn("amixer -D pulse set Master 1+ toggle", false)
+	end)),
+})
+
+awesome.connect_signal("signal::volume", function(value, muted)
+	if muted or value == 0 then
+		volume.bar_active_color = beautiful.fg_color .. "99"
+		volume.handle_border_color = beautiful.fg_color .. "99"
+		volume_icon.markup = "<span foreground='" .. beautiful.fg_color .. "99" .. "'></span>"
+	else
+		volume.bar_active_color = beautiful.fg_color
+		volume.handle_border_color = beautiful.fg_color
+		volume_icon.markup = "<span foreground='" .. beautiful.fg_color .. "'></span>"
+	end
+end)
+
 volume:connect_signal("property::value", function(_, new_value)
-	volume_text.markup = helpers.colorize_text(new_value .. "%", beautiful.fg_color)
+	volume_text.markup = helpers.colorize_text((new_value * 5) .. "%", beautiful.fg_color)
 	volume.value = new_value
-	awful.spawn("amixer -D pulse set Master " .. new_value .. "%", false)
+	awful.spawn("amixer -D pulse set Master " .. (new_value * 5) .. "%", false)
 end)
 
 return wibox.widget({
@@ -133,7 +160,7 @@ return wibox.widget({
 			widget = wibox.container.margin,
 		},
 		widget = wibox.container.background,
-		bg = beautiful.bg_3 .. "99",
+		bg = beautiful.bg_3,
 		border_color = beautiful.fg_color .. "33",
 		shape = helpers.rrect(beautiful.rounded),
 	},
@@ -153,7 +180,7 @@ return wibox.widget({
 			widget = wibox.container.margin,
 		},
 		widget = wibox.container.background,
-		bg = beautiful.bg_3 .. "99",
+		bg = beautiful.bg_3,
 		border_color = beautiful.fg_color .. "33",
 		shape = helpers.rrect(beautiful.rounded),
 	},
