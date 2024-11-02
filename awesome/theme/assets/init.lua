@@ -13,8 +13,11 @@ return {
 	health_icon = directory .. "images/heart.png",
 	awm_icon = directory .. "images/awm.png",
 	album_art_fallback = directory .. "images/album-art.png",
-	music_art_fallback = directory .. "images/vinyl.png",
+	music_art_fallback = directory .. "images/music.png",
 	pp = directory .. "images/pp.jpeg",
+
+	--icons
+	control_center_icon = directory .. "icons/controlcenter.svg",
 
 	-- layouts
 	floating = directory .. "layouts/floating.png",
@@ -23,5 +26,5 @@ return {
 	machi = directory .. "layouts/layout-machi.png",
 
 	-- wallpaper
-	wall = directory .. "walls/iOS-17_dark.jpg",
+	wall = directory .. "walls/a_tree_in_a_body_of_water_with_mountains_in_the_background.jpg",
 }

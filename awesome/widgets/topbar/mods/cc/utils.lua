@@ -14,13 +14,10 @@ local button_creator = require("helpers.widget.create_button")
 -- widgets
 -- ~~~~~~~
 
--- wifi button
-local wifi = require("widgets.topbar.mods.cc.services.wifi")
-
-local some_button = wibox.widget({
+local widget_button = wibox.widget({
 	widget = wibox.widget.textbox,
-	markup = helpers.colorize_text("", beautiful.fg_color),
-	font = beautiful.icon_var .. "14",
+	markup = helpers.colorize_text("", beautiful.fg_color),
+	font = beautiful.icon_outlined .. "14",
 	align = "center",
 	valign = "center",
 })
@@ -36,6 +33,10 @@ local power_button = wibox.widget({
 
 -- add function to power_button
 -- ~~~~~~~~~~~~~~~~~~~~
+widget_button:buttons(gears.table.join(awful.button({}, 1, function()
+	awesome.emit_signal("widget::hide")
+end)))
+
 power_button:buttons(gears.table.join(awful.button({}, 1, function()
 	if control_c.visible then
 		cc_toggle()
@@ -48,53 +49,45 @@ end)))
 --~~~~~~~~~~~~~~~~~~~
 return wibox.widget({
 	{
-		nil,
 		{
-			{
+			button_creator(
+				widget_button,
+				beautiful.black .. "00",
+				beautiful.fg_color .. "33",
+				dpi(7),
+				dpi(8),
+				nil,
+				nil,
+				0,
+				beautiful.fg_color .. "33"
+			),
+			spacing_widget = wibox.widget({
 				{
-					button_creator(
-						some_button,
-						beautiful.black .. "00",
-						beautiful.fg_color .. "33",
-						dpi(8),
-						dpi(8),
-						nil,
-						nil,
-						0,
-						beautiful.fg_color .. "33"
-					),
-					spacing_widget = wibox.widget({
-						{
-							widget = wibox.widget.separator,
-							orientation = "vertical",
-							color = beautiful.border_color,
-							thickness = 2,
-						},
-						widget = wibox.container.margin,
-						margins = { top = dpi(5), bottom = dpi(5) },
-					}),
-					button_creator(
-						power_button,
-						beautiful.black .. "00",
-						beautiful.fg_color .. "33",
-						dpi(8),
-						dpi(8),
-						nil,
-						nil,
-						0,
-						beautiful.fg_color .. "33"
-					),
-					layout = wibox.layout.fixed.horizontal,
-					spacing = dpi(18),
+					widget = wibox.widget.separator,
+					orientation = "vertical",
+					color = beautiful.border_color,
+					thickness = 2,
 				},
-				layout = wibox.layout.fixed.vertical,
-			},
-			layout = wibox.layout.align.vertical,
-			expand = "none",
+				widget = wibox.container.margin,
+				margins = { top = dpi(5), bottom = dpi(5) },
+			}),
+			button_creator(
+				power_button,
+				beautiful.black .. "00",
+				beautiful.fg_color .. "33",
+				dpi(7),
+				dpi(8),
+				nil,
+				nil,
+				0,
+				beautiful.fg_color .. "33"
+			),
+			layout = wibox.layout.fixed.horizontal,
+			spacing = dpi(18),
 		},
 		top = dpi(4),
 		bottom = dpi(4),
-		left = dpi(6),
+		left = dpi(8),
 		right = dpi(6),
 		widget = wibox.container.margin,
 	},

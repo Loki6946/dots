@@ -27,6 +27,7 @@ local background_color = beautiful.awesome_dock_color_bg or beautiful.bg_normal 
 local modules_spacing = beautiful.awesome_dock_spacing or 12
 local hover_color = beautiful.awesome_dock_color_hover or "#f9f9f9"
 local timeout = beautiful.awesome_dock_timeout or 1
+local icon_theme = beautiful.awesome_dock_icon
 
 if beautiful.awesome_dock_disabled == true then
 	return
@@ -46,6 +47,7 @@ else
 				background_color,
 				hover_color,
 				icon_handler,
+				icon_theme,
 				timeout
 			)
 		end

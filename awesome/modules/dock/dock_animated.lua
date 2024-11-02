@@ -38,7 +38,8 @@ return function(
 	minimized_color,
 	background_color,
 	hover_color,
-	icon_handler
+	icon_handler,
+	icon_theme
 )
 	-- buttons for the dock
 	------------------------
@@ -163,7 +164,7 @@ return function(
 	-- helper function to create an pinned app
 	------------------------------------------
 	local pin_app_creator = function(app_command, app_name)
-		local app_icon = icon_handler("WhiteSur-dark", nil, app_name or string.lower(app_command))
+		local app_icon = icon_handler(icon_theme, nil, app_name or string.lower(app_command))
 
 		local w = wibox.widget({
 			{

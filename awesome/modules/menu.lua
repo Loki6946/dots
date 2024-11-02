@@ -226,6 +226,7 @@ function menu.sub_menu_button(args)
 					widget = wibox.container.background,
 					shape = helpers.rrect(5),
 					bg = beautiful.fg_color,
+					opacity = 0.0,
 				},
 				{
 					{
@@ -262,40 +263,29 @@ function menu.sub_menu_button(args)
 		widget = wibox.container.background,
 	})
 
-	local animation_button_opacity = rubato.timed({
-		pos = 0,
-		rate = 60,
-		intro = 0.04,
-		duration = 0.2,
-		awestore_compat = true,
-		subscribed = function(pos)
-			helpers.gc(widget, "animate").opacity = pos
-		end,
-	})
-
 	widget:connect_signal("mouse::enter", function(self)
 		local coords = helpers.get_widget_geometry(self.menu, self)
 		coords.x = coords.x + self.menu.x + self.menu.width
 		coords.y = coords.y + self.menu.y
 		args.sub_menu:show({ coords = coords, offset = { x = -5 } })
-		animation_button_opacity:set(1)
+		helpers.gc(widget, "animate").opacity = 1
 		helpers.gc(widget, "text").markup = helpers.colorize_text(args.text, beautiful.bg_color)
 		helpers.gc(widget, "icon").markup = helpers.colorize_text("", beautiful.bg_color)
 	end)
 
 	widget:connect_signal("mouse::leave", function()
-		animation_button_opacity:set(0.0)
+		helpers.gc(widget, "animate").opacity = 0.0
 		helpers.gc(widget, "text").markup = helpers.colorize_text(args.text, beautiful.fg_color)
 		helpers.gc(widget, "icon").markup = helpers.colorize_text("", beautiful.fg_color)
 	end)
 
 	-- add buttons and commands
 	widget:connect_signal("button::press", function()
-		animation_button_opacity:set(1)
+		helpers.gc(widget, "animate").opacity = 1
 	end)
 
 	widget:connect_signal("button::release", function()
-		animation_button_opacity:set(1)
+		helpers.gc(widget, "animate").opacity = 1
 	end)
 
 	helpers.hover_cursor(widget)
@@ -346,6 +336,7 @@ function menu.button(args)
 					widget = wibox.container.background,
 					shape = helpers.rrect(5),
 					bg = beautiful.fg_color,
+					opacity = 0.0,
 				},
 				{
 					{
@@ -374,37 +365,26 @@ function menu.button(args)
 		widget = wibox.container.background,
 	})
 
-	local animation_button_opacity = rubato.timed({
-		pos = 0,
-		rate = 60,
-		intro = 0.04,
-		duration = 0.2,
-		awestore_compat = true,
-		subscribed = function(pos)
-			helpers.gc(widget, "animate").opacity = pos
-		end,
-	})
-
 	widget:connect_signal("mouse::enter", function(self)
 		if self.menu.widget then
 			self.menu:hide_children_menus()
 		end
-		animation_button_opacity:set(1)
+		helpers.gc(widget, "animate").opacity = 1
 		text_widget.markup = helpers.colorize_text(args.text, beautiful.bg_color)
 	end)
 
 	widget:connect_signal("mouse::leave", function()
-		animation_button_opacity:set(0.0)
+		helpers.gc(widget, "animate").opacity = 0.0
 		text_widget.markup = helpers.colorize_text(args.text, beautiful.fg_color)
 	end)
 
 	-- add buttons and commands
 	widget:connect_signal("button::press", function()
-		animation_button_opacity:set(1)
+		helpers.gc(widget, "animate").opacity = 1
 	end)
 
 	widget:connect_signal("button::release", function()
-		animation_button_opacity:set(1)
+		helpers.gc(widget, "animate").opacity = 1
 	end)
 
 	helpers.hover_cursor(widget)

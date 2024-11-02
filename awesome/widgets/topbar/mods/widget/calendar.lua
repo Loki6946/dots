@@ -179,5 +179,9 @@ return function(s)
 	helpers.place_widget(caca, "top_left", beautiful.useless_gap + 23, 0, beautiful.useless_gap * 2, 0)
 	helpers.popup_opacity(caca, 0.3)
 
+	awesome.connect_signal("widget::hide", function()
+		caca.visible = not caca.visible
+	end)
+
 	return caca
 end

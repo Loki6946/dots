@@ -25,5 +25,9 @@ return function(s)
 	helpers.place_widget(clock, "top_left", 175, 0, beautiful.useless_gap * 2, 0)
 	helpers.popup_opacity(clock, 0.3)
 
+	awesome.connect_signal("widget::hide", function()
+		clock.visible = not clock.visible
+	end)
+
 	return clock
 end

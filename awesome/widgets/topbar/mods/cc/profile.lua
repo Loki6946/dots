@@ -21,7 +21,8 @@ local profile_image = wibox.widget({
 	},
 	widget = wibox.container.background,
 	shape = gears.shape.circle,
-	border_color = beautiful.fg_color,
+	border_width = dpi(1),
+	border_color = beautiful.border_color,
 })
 
 -- username

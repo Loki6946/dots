@@ -33,8 +33,8 @@ awful.screen.connect_for_each_screen(function(s)
 		{
 			widget = wibox.widget.imagebox,
 			image = gears.color.recolor_image(beautiful.awm_icon, beautiful.fg_color),
-			forced_height = 18,
-			forced_width = 18,
+			forced_height = 16,
+			forced_width = 16,
 			resize = true,
 		},
 		align = "center",
@@ -80,16 +80,23 @@ awful.screen.connect_for_each_screen(function(s)
 
 	-- cc
 	local cc_ic_icon = wibox.widget({
-		{
-			markup = "",
-			font = beautiful.icon_var .. "12",
-			valign = "center",
-			align = "center",
-			widget = wibox.widget.textbox,
-		},
-		bottom = dpi(1),
-		widget = wibox.container.margin,
+		image = gears.color.recolor_image(beautiful.control_center_icon, beautiful.fg_color),
+		resize = true,
+		valign = "center",
+		widget = wibox.widget.imagebox,
 	})
+
+	-- local cc_ic_icon = wibox.widget({
+	-- 	{
+	-- 		markup = "",
+	-- 		font = beautiful.icon_outlined .. "12",
+	-- 		valign = "center",
+	-- 		align = "center",
+	-- 		widget = wibox.widget.textbox,
+	-- 	},
+	-- 	bottom = dpi(1),
+	-- 	widget = wibox.container.margin,
+	-- })
 
 	local cc_ic = wibox.widget({
 		create_button(

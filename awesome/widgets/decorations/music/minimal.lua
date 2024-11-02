@@ -183,6 +183,12 @@ local pbar = wibox.widget({
 	handle_color = beautiful.fg_2,
 })
 
+pbar:connect_signal("button::press", function(_, lx, __, button, ___, w)
+	if button == 1 then
+		awful.spawn.with_shell("mpc seek " .. math.ceil(lx * 100 / w.width) .. "%")
+	end
+end)
+
 -- update widgets
 -- ~~~~~~~~~~~~~~
 local playerctl = require("modules.bling").signal.playerctl.lib()

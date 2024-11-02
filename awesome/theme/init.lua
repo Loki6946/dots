@@ -64,12 +64,15 @@ theme.fg_minimize = theme.bg_2
 -- font vars
 theme.font_var = "SF Pro Display "
 theme.icon_var = "Material Icons "
-theme.icon_alt_var = "Material Icons Outlined "
+theme.icon_sharp = "Material Icons Sharp "
+theme.icon_outlined = "Material Icons Outlined "
+theme.icon_tone = "Material Icons TwoTone "
 
 -- images
 -- ~~~~~~
 theme.notification_icon = assets.notification_icon
 theme.awm_icon = assets.awm_icon
+theme.control_center_icon = assets.control_center_icon
 theme.health_icon = assets.health_icon
 theme.album_art_fallback = assets.album_art_fallback
 theme.music_art_fallback = assets.music_art_fallback
@@ -82,6 +85,7 @@ theme.wallpaper = assets.wall
 -- gaps/border thing
 -- ~~~~~~~~~~~~~~~~~
 theme.useless_gap = dpi(2)
+theme.border_width = dpi(1)
 theme.border_color = "#303036"
 
 -- rounded corner
@@ -99,9 +103,9 @@ theme.notification_border_width = dpi(0)
 theme.titlebar_bg_normal = theme.bg_color
 theme.titlebar_bg_focus = theme.bg_color
 theme.titlebar_unfocused = "#252628"
-theme.titlebar_close = "#666666" -- "#FF6057"
-theme.titlebar_minimize = "#595959" -- "#FDBD2E"
-theme.titlebar_maximize = "#4d4d4d" -- "#27C840"
+theme.titlebar_close = "#FF6057"
+theme.titlebar_minimize = "#FDBD2E"
+theme.titlebar_maximize = "#27C840"
 theme.titlebars_enabled = true
 
 -- taglist
@@ -181,8 +185,9 @@ theme.awesome_dock_color_hover = theme.fg_color .. "33"
 theme.awesome_dock_color_bg = theme.bg_color .. "99"
 theme.awesome_dock_disabled = false
 theme.awesome_dock_spacing = dpi(2)
-theme.awesome_dock_offset = theme.useless_gap * 3
+theme.awesome_dock_offset = theme.useless_gap + 5
 theme.awesome_dock_timeout = 1.2
+theme.awesome_dock_icon = "WhiteSur-dark"
 
 -- init
 -- ~~~~
