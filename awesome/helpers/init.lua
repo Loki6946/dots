@@ -2,14 +2,16 @@ local awful = require("awful")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
-local dpi = beautiful.xresources.apply_dpi
 local cairo = require("lgi").cairo
 local gmatrix = require("gears.matrix")
 local animation = require("modules.animation")
 
 local helpers = {}
 
--- Send key
+helpers.capitalize = function(str)
+	return (str:gsub("^%l", string.upper))
+end
+
 helpers.send_key = function(c, key)
 	awful.spawn.with_shell("xdotool key --window " .. tostring(c.window) .. " " .. key)
 end

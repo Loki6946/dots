@@ -2,9 +2,9 @@
 /* Author: Newman Sanchez (https://github.com/newmanls) */
 
 configuration {
-    show-icons:                     false;
+    show-icons:                     true;
 	  icon-theme: 					"WhiteSur-dark";
-    hover-select: true;
+    hover-select: false;
     me-select-entry: "MousePrimary";
     me-accept-entry: "!MousePrimary";
 }
@@ -12,9 +12,9 @@ configuration {
 * {
     font:   "SF Pro Display 12";
 
-    bg0:    #24242499;
+    bg0:    #242424CC;
     bg1:    #7E7E7E80;
-    bg2:    #0860f2E6;
+    bg2:    #0d0d0dE6;
 
     fg0:    #DEDEDE;
     fg1:    #FFFFFF;
@@ -33,21 +33,29 @@ window {
 
     location:       center;
     width:          640;
-    border-radius:  8;
+    border-radius:  10;
 }
 
 inputbar {
-    font:       "SF Pro Display 18";
-    padding:    12px;
-    spacing:    12px;
-    children:   [ icon-search, entry ];
+    font:       "SF Pro Display 16";
+    padding:    8px;
+    spacing:    8px;
+    children:   [ textbox-prompt-colon, entry ];
 }
 
-icon-search {
-    expand:     false;
-    filename:   "search";
-    size: 28px;
+textbox-prompt-colon {
+	expand: 						false;
+	str: 							"";
+  text-color:                     @fg2;
+  padding:                        8px 0px 0px 16px;
+	font:							"Material Icons Round 20";
 }
+
+// icon-search {
+//     expand:     false;
+//     filename:   "search";
+//     size: 28px;
+// }
 
 icon-search, entry, element-icon, element-text {
     vertical-align: 0.5;
@@ -55,7 +63,6 @@ icon-search, entry, element-icon, element-text {
 
 entry {
     font:   inherit;
-
     placeholder         : "Search";
     placeholder-color   : @fg2;
 }
@@ -71,18 +78,22 @@ textbox {
 }
 
 listview {
-    lines:      10;
+    lines:      6;
     columns:    1;
+    spacing:    0px;
 
+    margin:     0 0 8px 0;
     fixed-height:   false;
     border:         1px 0 0;
     border-color:   @bg1;
 }
 
 element {
-    padding:            8px 16px;
-    spacing:            16px;
+    margin:             8px 16px 0 16px;
+    padding:            10px;
+    spacing:            10px;
     background-color:   transparent;
+    border-radius:      6px;
 }
 
 element normal active {
@@ -99,7 +110,7 @@ element selected normal, element selected active {
 }
 
 element-icon {
-    size:   1em;
+    size:   1.2em;
 }
 
 element-text {

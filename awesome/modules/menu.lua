@@ -4,7 +4,7 @@ local gtimer = require("gears.timer")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
-local rubato = require("modules.rubato")
+--local rubato = require("modules.rubato")
 local dpi = beautiful.xresources.apply_dpi
 local setmetatable = setmetatable
 local ipairs = ipairs
@@ -148,10 +148,10 @@ function menu.menu(widgets, width)
 		type = "menu",
 		visible = false,
 		ontop = true,
-		minimum_width = width or dpi(160),
-		maximum_width = width or dpi(160),
-		shape = helpers.rrect(beautiful.rounded - 2),
-		bg = beautiful.bg_color .. "99",
+		minimum_width = width or dpi(180),
+		maximum_width = width or dpi(180),
+		shape = helpers.rrect(beautiful.rounded - 4),
+		bg = beautiful.bg_color .. "CC",
 		border_width = dpi(1),
 		border_color = beautiful.border_color,
 		widget = wibox.layout.fixed.vertical,
@@ -225,7 +225,7 @@ function menu.sub_menu_button(args)
 					id = "animate",
 					widget = wibox.container.background,
 					shape = helpers.rrect(5),
-					bg = beautiful.fg_color,
+					bg = beautiful.accent .. "CC",
 					opacity = 0.0,
 				},
 				{
@@ -250,9 +250,9 @@ function menu.sub_menu_button(args)
 						},
 					},
 					widget = wibox.container.margin,
-					top = 5,
+					top = 7,
 					right = 10,
-					bottom = 5,
+					bottom = 7,
 					left = 10,
 				},
 				layout = wibox.layout.stack,
@@ -269,14 +269,10 @@ function menu.sub_menu_button(args)
 		coords.y = coords.y + self.menu.y
 		args.sub_menu:show({ coords = coords, offset = { x = -5 } })
 		helpers.gc(widget, "animate").opacity = 1
-		helpers.gc(widget, "text").markup = helpers.colorize_text(args.text, beautiful.bg_color)
-		helpers.gc(widget, "icon").markup = helpers.colorize_text("", beautiful.bg_color)
 	end)
 
 	widget:connect_signal("mouse::leave", function()
 		helpers.gc(widget, "animate").opacity = 0.0
-		helpers.gc(widget, "text").markup = helpers.colorize_text(args.text, beautiful.fg_color)
-		helpers.gc(widget, "icon").markup = helpers.colorize_text("", beautiful.fg_color)
 	end)
 
 	-- add buttons and commands
@@ -335,7 +331,7 @@ function menu.button(args)
 					id = "animate",
 					widget = wibox.container.background,
 					shape = helpers.rrect(5),
-					bg = beautiful.fg_color,
+					bg = beautiful.accent .. "CC",
 					opacity = 0.0,
 				},
 				{
@@ -346,9 +342,9 @@ function menu.button(args)
 						text_widget,
 					},
 					widget = wibox.container.margin,
-					top = 5,
+					top = 7,
 					right = 10,
-					bottom = 5,
+					bottom = 7,
 					left = 10,
 				},
 				layout = wibox.layout.stack,
@@ -370,12 +366,10 @@ function menu.button(args)
 			self.menu:hide_children_menus()
 		end
 		helpers.gc(widget, "animate").opacity = 1
-		text_widget.markup = helpers.colorize_text(args.text, beautiful.bg_color)
 	end)
 
 	widget:connect_signal("mouse::leave", function()
 		helpers.gc(widget, "animate").opacity = 0.0
-		text_widget.markup = helpers.colorize_text(args.text, beautiful.fg_color)
 	end)
 
 	-- add buttons and commands

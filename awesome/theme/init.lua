@@ -16,27 +16,27 @@ local theme = {}
 
 -- foreground
 -- ~~~~~~~~~~
-theme.fg_color = "#ccd0d9"
-theme.fg_2 = "#A3A3A3"
-theme.fg_3 = "#ffffff"
+theme.fg_color = "#E0E0E0"
+theme.fg_2 = "#A8A8A8"
+theme.fg_3 = "#707070"
 
 -- backgrounds
 -- ~~~~~~~~~~~
-theme.bg_color = "#101012"
+theme.bg_color = "#121212"
 theme.bg_2 = "#161719"
-theme.bg_3 = "#1e1e21"
+theme.bg_3 = "#212124"
 
 -- base green
 -- ~~~~~~~~~~
-theme.green = "#6acc85"
+theme.green = "#32D74B"
 theme.green_2 = theme.green .. "99"
-theme.green_3 = "#1e2720"
+theme.green_3 = "#1E7C37"
 
 -- base red
 -- ~~~~~~~~
-theme.red = "#F2B8B5"
-theme.red_2 = "#F85E4D"
-theme.red_3 = "#F9DEDC"
+theme.red = "#FF453A"
+theme.red_2 = "#D94F41"
+theme.red_3 = "#A83A2F"
 
 -- base black
 -- ~~~~~~~~~~
@@ -44,9 +44,9 @@ theme.black = "#000000"
 
 -- accents
 -- ~~~~~~~
-theme.accent = "#8ab4f8"
+theme.accent = "#0A84FF"
 theme.accent_2 = theme.accent .. "66"
-theme.accent_3 = "#4a5861"
+theme.accent_3 = "#4A6A80"
 
 -- initial colors
 -- ~~~~~~~~~~~~~~
@@ -86,11 +86,18 @@ theme.wallpaper = assets.wall
 -- ~~~~~~~~~~~~~~~~~
 theme.useless_gap = dpi(2)
 theme.border_width = dpi(1)
-theme.border_color = "#303036"
+theme.border_color = "#48484A"
+
+-- tooltip
+-- ~~~~~~~
+theme.tooltip_border_width = theme.border_width
+theme.tooltip_border_color = theme.border_color
+theme.tooltip_font = theme.font_var .. "9"
+theme.tooltip_fg = theme.fg_color
 
 -- rounded corner
 -- ~~~~~~~~~~~~~~
-theme.rounded = dpi(12)
+theme.rounded = dpi(13)
 
 -- notifs
 -- ~~~~~~
@@ -123,11 +130,10 @@ theme.titlebars_enabled = true
 
 -- another taglist
 -- ~~~~~~~
-theme.taglist_fg_focus = theme.fg_3
+theme.taglist_fg_focus = theme.fg_color
 theme.taglist_fg_urgent = theme.red_2
-theme.taglist_fg_occupied = theme.fg_color .. "F2"
-theme.taglist_fg_empty = theme.fg_color .. "BF"
-theme.taglist_disable_icon = true
+theme.taglist_fg_occupied = theme.fg_color .. "E6"
+theme.taglist_fg_empty = theme.fg_color .. "E6"
 
 -- drop down Menu
 -- ~~~~~~~~~~~~~~
@@ -182,9 +188,9 @@ theme.awesome_dock_color_active = theme.fg_color .. "99"
 theme.awesome_dock_color_inactive = theme.fg_color .. "66"
 theme.awesome_dock_color_minimized = theme.accent .. "33"
 theme.awesome_dock_color_hover = theme.fg_color .. "33"
-theme.awesome_dock_color_bg = theme.bg_color .. "99"
+theme.awesome_dock_color_bg = theme.bg_2 .. "CC"
 theme.awesome_dock_disabled = false
-theme.awesome_dock_spacing = dpi(2)
+theme.awesome_dock_spacing = dpi(4)
 theme.awesome_dock_offset = theme.useless_gap + 5
 theme.awesome_dock_timeout = 1.2
 theme.awesome_dock_icon = "WhiteSur-dark"

@@ -29,7 +29,7 @@ awful.screen.connect_for_each_screen(function(s)
 		shape = helpers.rrect(beautiful.rounded + 5),
 		screen = s,
 		width = dpi(390),
-		height = dpi(400),
+		height = dpi(408),
 		bg = beautiful.bg_color,
 		border_width = dpi(1),
 		border_color = beautiful.border_color,

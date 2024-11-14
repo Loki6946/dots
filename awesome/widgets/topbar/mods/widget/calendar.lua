@@ -28,7 +28,7 @@ end
 local daywidget = function(day, weekend, notIn)
 	weekend = weekend or false
 	return wibox.widget({
-		markup = weekend and helpers.colorize_text(day, beautiful.red) or day,
+		markup = weekend and helpers.colorize_text(day, beautiful.red_2) or day,
 		align = "center",
 		font = beautiful.font_var .. "Bold 11",
 		widget = wibox.widget.textbox,
@@ -69,7 +69,7 @@ local title = wibox.widget({
 
 M.updateCalendar = function(date)
 	helpers.gc(title, "text").markup =
-		helpers.colorize_text(string.upper(os.date("%B %Y", os.time(date))), beautiful.red)
+		helpers.colorize_text(string.upper(os.date("%B %Y", os.time(date))), beautiful.red_2)
 	theGrid:reset()
 	for _, w in ipairs({ "S", "M", "T", "W", "T", "F", "S" }) do
 		if w == "S" then
@@ -130,7 +130,7 @@ return function(s)
 		screen = s,
 		width = 290,
 		height = 290,
-		bg = beautiful.bg_color .. "99",
+		bg = beautiful.bg_color .. "CC",
 		border_width = 1,
 		border_color = beautiful.border_color,
 		shape = helpers.rrect(beautiful.rounded + 5),

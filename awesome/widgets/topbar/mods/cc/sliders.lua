@@ -18,14 +18,30 @@ local brightness = wibox.widget({
 	forced_width = dpi(270),
 	shape = gears.shape.rounded_bar,
 	bar_shape = gears.shape.rounded_bar,
-	bar_color = beautiful.fg_color .. "11",
-	bar_margins = { bottom = dpi(10), top = dpi(10) },
+	bar_color = beautiful.fg_color .. "00",
+	bar_margins = { bottom = dpi(7), top = dpi(7) },
 	bar_active_color = beautiful.fg_color,
-	handle_width = dpi(21),
+	handle_width = dpi(27),
 	handle_shape = gears.shape.circle,
 	handle_color = beautiful.fg_2,
 	handle_border_width = 1,
 	handle_border_color = beautiful.fg_color,
+})
+
+local brightness_bg = wibox.widget({
+	nil,
+	{
+		{
+			forced_width = dpi(270),
+			bg = beautiful.fg_color .. "26",
+			shape = gears.shape.rounded_bar,
+			widget = wibox.container.background,
+		},
+		margins = dpi(19),
+		widget = wibox.container.margin,
+	},
+	layout = wibox.layout.align.horizontal,
+	expand = "none",
 })
 
 local brightness_icon = wibox.widget({
@@ -37,7 +53,7 @@ local brightness_icon = wibox.widget({
 })
 
 local brightness_button = wibox.widget({
-	button_creator(brightness_icon, beautiful.black .. "00", beautiful.black .. "00", dpi(5), nil, nil, dpi(4)),
+	button_creator(brightness_icon, beautiful.black .. "00", beautiful.black .. "00", dpi(6), nil, nil, dpi(4)),
 	widget = wibox.container.background,
 })
 
@@ -47,7 +63,14 @@ local brightness_text = awful.tooltip({
 
 local bright_init = wibox.widget({
 	brightness_button,
-	brightness,
+	{
+		brightness_bg,
+		{
+			brightness,
+			widget = wibox.container.margin,
+		},
+		layout = wibox.layout.stack,
+	},
 	layout = wibox.layout.fixed.horizontal,
 	forced_height = dpi(42),
 	spacing = dpi(17),
@@ -75,14 +98,30 @@ local volume = wibox.widget({
 	forced_width = dpi(270),
 	shape = gears.shape.rounded_bar,
 	bar_shape = gears.shape.rounded_bar,
-	bar_color = beautiful.fg_color .. "11",
-	bar_margins = { bottom = dpi(10), top = dpi(10) },
+	bar_color = beautiful.fg_color .. "00",
+	bar_margins = { bottom = dpi(7), top = dpi(7) },
 	bar_active_color = beautiful.fg_color,
-	handle_width = dpi(21),
+	handle_width = dpi(27),
 	handle_shape = gears.shape.circle,
 	handle_color = beautiful.fg_2,
 	handle_border_width = 1,
 	handle_border_color = beautiful.fg_color,
+})
+
+local volume_bg = wibox.widget({
+	nil,
+	{
+		{
+			forced_width = dpi(270),
+			bg = beautiful.fg_color .. "26",
+			shape = gears.shape.rounded_bar,
+			widget = wibox.container.background,
+		},
+		margins = dpi(19),
+		widget = wibox.container.margin,
+	},
+	layout = wibox.layout.align.horizontal,
+	expand = "none",
 })
 
 local volume_icon = wibox.widget({
@@ -94,7 +133,7 @@ local volume_icon = wibox.widget({
 })
 
 local volume_button = wibox.widget({
-	button_creator(volume_icon, nil, nil, dpi(5), nil, nil, dpi(4)),
+	button_creator(volume_icon, nil, nil, dpi(6), nil, nil, dpi(4)),
 	widget = wibox.container.background,
 })
 
@@ -104,7 +143,14 @@ local volume_text = awful.tooltip({
 
 local volume_init = wibox.widget({
 	volume_button,
-	volume,
+	{
+		volume_bg,
+		{
+			volume,
+			widget = wibox.container.margin,
+		},
+		layout = wibox.layout.stack,
+	},
 	layout = wibox.layout.fixed.horizontal,
 	forced_height = dpi(42),
 	spacing = dpi(17),
@@ -153,7 +199,7 @@ return wibox.widget({
 					widget = wibox.widget.textbox,
 				},
 				bright_init,
-				spacing = dpi(8),
+				spacing = dpi(10),
 				layout = wibox.layout.fixed.vertical,
 			},
 			margins = { top = dpi(12), bottom = dpi(12), left = dpi(18), right = dpi(12) },
@@ -173,7 +219,7 @@ return wibox.widget({
 					widget = wibox.widget.textbox,
 				},
 				volume_init,
-				spacing = dpi(8),
+				spacing = dpi(10),
 				layout = wibox.layout.fixed.vertical,
 			},
 			margins = { top = dpi(12), bottom = dpi(12), left = dpi(18), right = dpi(12) },

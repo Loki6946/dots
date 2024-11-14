@@ -18,7 +18,7 @@ local button_creator = require("helpers.widget.create_button")
 -- album art
 local album_art = wibox.widget({
 	widget = wibox.widget.imagebox,
-	clip_shape = helpers.rrect(beautiful.rounded),
+	clip_shape = helpers.rrect(beautiful.rounded * 2),
 	forced_height = dpi(240),
 	forced_width = dpi(240),
 	halign = "center",
@@ -171,23 +171,16 @@ local shuffle_button = wibox.widget({
 -- progressbar
 local pbar = wibox.widget({
 	widget = wibox.widget.slider,
-	maximum = 100,
 	forced_height = dpi(10),
 	shape = gears.shape.rounded_bar,
 	bar_shape = gears.shape.rounded_bar,
 	bar_color = beautiful.fg_color .. "11",
 	bar_margins = { bottom = dpi(3), top = dpi(3) },
 	bar_active_color = beautiful.fg_color,
-	handle_width = dpi(20),
+	handle_width = dpi(12),
 	handle_shape = gears.shape.circle,
 	handle_color = beautiful.fg_2,
 })
-
-pbar:connect_signal("button::press", function(_, lx, __, button, ___, w)
-	if button == 1 then
-		awful.spawn.with_shell("mpc seek " .. math.ceil(lx * 100 / w.width) .. "%")
-	end
-end)
 
 -- update widgets
 -- ~~~~~~~~~~~~~~

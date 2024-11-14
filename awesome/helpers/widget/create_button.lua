@@ -60,8 +60,8 @@ return function(
 	local animation_button_opacity = rubato.timed({
 		pos = 0,
 		rate = 60,
-		intro = 0.04,
-		duration = 0.2,
+		intro = 0.02,
+		duration = 0.1,
 		awestore_compat = true,
 		subscribed = function(pos)
 			circle_animate.opacity = pos
@@ -78,11 +78,18 @@ return function(
 
 	-- add buttons and commands
 	mainbox:connect_signal("button::press", function()
-		animation_button_opacity:set(1)
+		animation_button_opacity:set(0.8)
 	end)
 
 	mainbox:connect_signal("button::release", function()
-		animation_button_opacity:set(0.4)
+		gears.timer({
+			timeout = 0.01,
+			autostart = true,
+			single_shot = true,
+			callback = function()
+				animation_button_opacity:set(0.4)
+			end,
+		})
 	end)
 
 	helpers.hover_cursor(mainbox)

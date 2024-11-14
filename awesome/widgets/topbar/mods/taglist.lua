@@ -51,14 +51,13 @@ local get_taglist = function(s)
 						id = "hover",
 						widget = wibox.container.background,
 						shape = helpers.rrect(3),
-						bg = beautiful.fg_color .. "66",
+						bg = beautiful.fg_color .. "99",
 						opacity = 0,
 					},
 					{
 						{
 							id = "text_role",
 							widget = wibox.widget.textbox,
-							font = beautiful.font_var .. "10",
 							align = "center",
 							markup = "DD",
 							valign = "center",
@@ -81,8 +80,8 @@ local get_taglist = function(s)
 				local animation_button_opacity = rubato.timed({
 					pos = 0,
 					rate = 60,
-					intro = 0.04,
-					duration = 0.2,
+					intro = 0.02,
+					duration = 0.1,
 					awestore_compat = true,
 					subscribed = function(pos)
 						helpers.gc(self, "hover").opacity = pos
@@ -98,20 +97,19 @@ local get_taglist = function(s)
 				end)
 
 				-- add buttons and commands
-				helpers.gc(self, "hover"):connect_signal("button::press", function()
-					animation_button_opacity:set(1)
-				end)
-
-				helpers.gc(self, "hover"):connect_signal("button::release", function()
-					animation_button_opacity:set(0.4)
-				end)
+				-- helpers.gc(self, "hover"):connect_signal("button::press", function()
+				-- 	animation_button_opacity:set(0.8)
+				-- end)
+				--
+				-- helpers.gc(self, "hover"):connect_signal("button::release", function()
+				-- 	animation_button_opacity:set(0.4)
+				-- end)
 
 				helpers.hover_cursor(helpers.gc(self, "hover"))
 
 				self.update = function()
 					if c3.selected then
 						helpers.gc(self, "bg_role").bg = beautiful.fg_2 .. "33"
-						helpers.gc(self, "text_role").font = beautiful.font_var .. "ExtraBold 10"
 					elseif #c3:clients() == 0 then
 						helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
 					else

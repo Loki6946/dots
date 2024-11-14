@@ -82,7 +82,7 @@ return function(
 						widget = wibox.container.background,
 						shape = helpers.rrect(12),
 						bg = active_color,
-						opacity = 0.4,
+						opacity = 0.5,
 					},
 					{
 						awful.widget.clienticon,
@@ -93,33 +93,22 @@ return function(
 					},
 					layout = wibox.layout.stack,
 				},
-				margins = dpi(2),
+				margins = dpi(3),
 				widget = wibox.container.margin,
 			},
 			layout = wibox.layout.fixed.vertical,
 			create_callback = function(self, c, index, objects)
 				collectgarbage("collect")
 
-				local animation_button_opacity = rubato.timed({
-					pos = 0,
-					rate = 60,
-					intro = 0.04,
-					duration = 0.2,
-					awestore_compat = true,
-					subscribed = function(pos)
-						helpers.gc(self, "circle_animate").opacity = pos
-					end,
-				})
-
 				if c.active then
 					self:get_children_by_id("app_icon_role")[1].opacity = 1
-					animation_button_opacity:set(0.4)
+					helpers.gc(self, "circle_animate").opacity = 0.5
 				elseif c.minimized then
 					self:get_children_by_id("app_icon_role")[1].opacity = 0.5
-					animation_button_opacity:set(0)
+					helpers.gc(self, "circle_animate").opacity = 0
 				else
 					self:get_children_by_id("app_icon_role")[1].opacity = 1
-					animation_button_opacity:set(0)
+					helpers.gc(self, "circle_animate").opacity = 0
 				end
 
 				helpers.hover_cursor(self, "app_icon_role")
@@ -133,8 +122,8 @@ return function(
 				local animation_button_opacity = rubato.timed({
 					pos = 0,
 					rate = 60,
-					intro = 0.04,
-					duration = 0.2,
+					intro = 0.02,
+					duration = 0.1,
 					awestore_compat = true,
 					subscribed = function(pos)
 						helpers.gc(self, "circle_animate").opacity = pos
@@ -180,20 +169,40 @@ return function(
 			margins = dpi(0),
 		})
 
+		local w_t = awful.tooltip({
+			markup = helpers.capitalize(app_name),
+			objects = { w },
+			mode = "outside",
+			align = "top",
+			margins = dpi(6),
+			shape = helpers.rrect(3),
+		})
+
+		local animation_button_opacity = rubato.timed({
+			pos = 1,
+			rate = 60,
+			intro = 0.02,
+			duration = 0.1,
+			awestore_compat = true,
+			subscribed = function(pos)
+				w.opacity = pos
+			end,
+		})
+
 		w:connect_signal("mouse::enter", function()
-			w.opacity = 0.7
+			animation_button_opacity:set(0.6)
 		end)
 
 		w:connect_signal("mouse::leave", function()
-			w.opacity = 1
+			animation_button_opacity:set(1)
 		end)
 
 		w:connect_signal("button::press", function()
 			awful.spawn.with_shell(app_command, false)
-			w.opacity = 0.6
+			animation_button_opacity:set(0.5)
 		end)
 		w:connect_signal("button::release", function()
-			w.opacity = 1
+			animation_button_opacity:set(1)
 		end)
 
 		helpers.hover_cursor(w)
@@ -251,7 +260,7 @@ return function(
 		opacity = 0,
 		visible = true,
 		width = dpi(800),
-		height = dpi(2),
+		height = dpi(1),
 		type = "tooltip",
 	})
 
@@ -306,9 +315,9 @@ return function(
 
 	-- animation when the dock is closed/opened
 	local animation = rubato.timed({
-		intro = 0.1,
-		outro = 0.1,
-		duration = 0.2,
+		intro = 0.05,
+		outro = 0.05,
+		duration = 0.1,
 		pos = hidden_y,
 		rate = 60,
 		easing = rubato.linear,

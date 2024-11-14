@@ -7,7 +7,7 @@ return function(s)
 		screen = s,
 		width = 290,
 		height = 140,
-		bg = beautiful.bg_color .. "99",
+		bg = beautiful.bg_color .. "CC",
 		border_width = 1,
 		border_color = beautiful.border_color,
 		shape = helpers.rrect(beautiful.rounded + 5),

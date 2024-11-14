@@ -6,6 +6,7 @@
 local awful = require("awful")
 local lmachi = require("modules.layout-machi")
 local bling = require("modules.bling")
+local beautiful = require("beautiful")
 
 -- misc/vars
 -- ~~~~~~~~~
@@ -48,3 +49,11 @@ screen.connect_signal("request::desktop_decoration", function(s)
 	screen[s].padding = { left = 0, right = 0, top = 0, bottom = 0 }
 	awful.tag(names, s, awful.layout.layouts[1])
 end)
+
+local tag = require("awful.widget.taglist")
+local original_create = tag.taglist_label
+tag.taglist_label = function(t, args)
+	beautiful.taglist_font = t.selected and beautiful.font_var .. "Bold 10" or beautiful.font_var .. "Medium 10"
+	local result = original_create(t, args)
+	return result
+end

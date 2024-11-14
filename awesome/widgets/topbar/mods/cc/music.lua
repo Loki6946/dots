@@ -20,7 +20,7 @@ local button_creator = require("helpers.widget.create_button")
 -- album art
 local album_art = wibox.widget({
 	widget = wibox.widget.imagebox,
-	clip_shape = helpers.rrect(beautiful.rounded),
+	clip_shape = helpers.rrect(beautiful.rounded - 3),
 	forced_height = dpi(75),
 	forced_width = dpi(75),
 	image = beautiful.album_art_fallback,
@@ -162,11 +162,15 @@ return wibox.widget({
 					expand = "none",
 				},
 				{
-					button_creator(prev_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(22)),
-					button_creator(toggle_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(22)),
-					button_creator(next_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(22)),
-					layout = wibox.layout.fixed.horizontal,
-					spacing = dpi(0),
+					{
+						button_creator(prev_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(0)),
+						button_creator(toggle_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(0)),
+						button_creator(next_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(0)),
+						layout = wibox.layout.fixed.horizontal,
+						spacing = dpi(0),
+					},
+					margins = { top = dpi(23), bottom = dpi(23) },
+					widget = wibox.container.margin,
 				},
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(10),

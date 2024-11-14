@@ -26,5 +26,5 @@ return {
 	machi = directory .. "layouts/layout-machi.png",
 
 	-- wallpaper
-	wall = directory .. "walls/a_tree_in_a_body_of_water_with_mountains_in_the_background.jpg",
+	wall = directory .. "walls/white_minimalist.jpg",
 }

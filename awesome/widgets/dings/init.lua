@@ -89,12 +89,10 @@ naughty.connect_signal("request::display", function(n)
 				font = beautiful.font_var .. "10",
 				widget = wibox.widget.textbox,
 			},
-			left = dpi(6),
-			right = dpi(6),
+			margins = dpi(6),
 			widget = wibox.container.margin,
 		},
-		bg = beautiful.bg_2 .. "99",
-		forced_height = dpi(30),
+		bg = beautiful.bg_3,
 		shape = helpers.rrect(dpi(5)),
 		widget = wibox.container.background,
 	}
@@ -103,7 +101,7 @@ naughty.connect_signal("request::display", function(n)
 	local actions = wibox.widget({
 		notification = n,
 		base_layout = wibox.widget({
-			spacing = dpi(8),
+			spacing = dpi(12),
 			layout = wibox.layout.flex.horizontal,
 		}),
 		widget_template = action_widget,
@@ -124,8 +122,8 @@ naughty.connect_signal("request::display", function(n)
 			widget = wibox.widget.imagebox,
 		},
 		strategy = "exact",
-		height = dpi(72),
-		width = dpi(72),
+		height = dpi(68),
+		width = dpi(68),
 		widget = wibox.container.constraint,
 	})
 
@@ -211,8 +209,9 @@ naughty.connect_signal("request::display", function(n)
 	naughty.layout.box({
 		notification = n,
 		type = "notification",
-		bg = beautiful.bg_color .. "99",
+		bg = beautiful.bg_color .. "CC",
 		shape = helpers.rrect(beautiful.rounded),
+		minimum_width = dpi(340),
 		widget_template = {
 			{
 				{
@@ -230,7 +229,7 @@ naughty.connect_signal("request::display", function(n)
 								widget = wibox.container.margin,
 							},
 							layout = wibox.layout.fixed.vertical,
-							spacing = dpi(16),
+							spacing = dpi(14),
 						},
 						nil,
 						image_n,
@@ -249,9 +248,8 @@ naughty.connect_signal("request::display", function(n)
 				widget = wibox.container.margin,
 			},
 			widget = wibox.container.background,
-			forced_width = dpi(340),
 			shape = helpers.rrect(beautiful.rounded),
-			bg = beautiful.bg_color .. "99",
+			bg = beautiful.bg_color .. "CC",
 		},
 	})
 end)

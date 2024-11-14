@@ -76,24 +76,6 @@ client.connect_signal("request::titlebars", function(c)
 		end
 	end
 
-	local co = function(width, height)
-		return function(cr)
-			gears.shape.cross(cr, width, height)
-		end
-	end
-
-	local bo = function(width, height, radius)
-		return function(cr)
-			gears.shape.rounded_rect(cr, width, height, radius)
-		end
-	end
-
-	local pl = function(width, height)
-		return function(cr)
-			gears.shape.powerline(cr, width, height)
-		end
-	end
-
 	-- Buttons
 
 	local close = create_title_button(c, beautiful.titlebar_close, beautiful.titlebar_unfocused, ci(dpi(12), dpi(12)))
@@ -111,6 +93,17 @@ client.connect_signal("request::titlebars", function(c)
 	local max = create_title_button(c, beautiful.titlebar_maximize, beautiful.titlebar_unfocused, ci(dpi(12), dpi(12)))
 	max:connect_signal("button::press", function()
 		c.maximized = not c.maximized
+	end)
+
+	local title = wibox.widget({
+		markup = c.name,
+		font = beautiful.font_var .. "11",
+		align = "center",
+		valign = "center",
+		widget = wibox.widget.textbox,
+	})
+	c:connect_signal("property::name", function()
+		title.markup = c.name
 	end)
 
 	--
@@ -131,84 +124,93 @@ client.connect_signal("request::titlebars", function(c)
 			bg = beautiful.bg_2,
 		})
 		:setup({
-
-			layout = wibox.layout.align.horizontal,
 			{
 				{
+					nil,
 					{
-						nil,
-						{
-							wrap_widget(close),
-							wrap_widget(min),
-							wrap_widget(max),
-							layout = wibox.layout.fixed.horizontal,
-						},
-						layout = wibox.layout.align.vertical,
-						expand = "none",
+						wrap_widget(close),
+						wrap_widget(min),
+						wrap_widget(max),
+						layout = wibox.layout.fixed.horizontal,
 					},
-					margins = { left = dpi(16) },
+					layout = wibox.layout.align.vertical,
+					expand = "none",
+				},
+				margins = { left = dpi(16) },
+				widget = wibox.container.margin,
+			},
+			{
+				{
+					nil,
+					top = 5,
+					bottom = 5,
+					left = 0,
+					right = 50,
 					widget = wibox.container.margin,
 				},
-				widget = wibox.container.background,
-				buttons = nil,
-			},
-			{
-				wibox.widget.textbox,
-				layout = wibox.layout.flex.horizontal,
+				align = "center",
+				valign = "center",
+				widget = wibox.container.place,
 				buttons = buttons,
 			},
-		})
-
-	-- left
-	awful
-		.titlebar(c, {
-			position = "left",
-			size = dpi(6),
-			bg = beautiful.bg_2,
-		})
-		:setup({
 			{
-				{
-					bg = beautiful.bg_2,
-					widget = wibox.container.background,
-				},
-				left = dpi(1),
+				nil,
 				widget = wibox.container.margin,
+				right = 20,
 			},
-			bg = beautiful.bg_2,
-			widget = wibox.container.background,
+			layout = wibox.layout.align.horizontal,
 		})
 
-	-- right
-	awful
-		.titlebar(c, {
-			position = "right",
-			size = dpi(6),
-			bg = beautiful.bg_2,
-		})
-		:setup({
-			{
-				{
-					bg = beautiful.bg_2,
-					widget = wibox.container.background,
-				},
-				right = dpi(1),
-				widget = wibox.container.margin,
-			},
-			bg = beautiful.bg_2,
-			widget = wibox.container.background,
-		})
-
-	-- bottom
-	awful
-		.titlebar(c, {
-			position = "bottom",
-			size = dpi(6),
-			bg = beautiful.bg_2,
-		})
-		:setup({
-			bg = beautiful.bg_2,
-			shape = helpers.prrect(false, false, true, true, beautiful.rounded),
-			widget = wibox.container.background,
-		})
+	-- -- left
+	-- awful
+	-- 	.titlebar(c, {
+	-- 		position = "left",
+	-- 		size = dpi(6),
+	-- 		bg = beautiful.bg_2,
+	-- 	})
+	-- 	:setup({
+	-- 		{
+	-- 			{
+	-- 				bg = beautiful.bg_2,
+	-- 				widget = wibox.container.background,
+	-- 			},
+	-- 			left = dpi(1),
+	-- 			widget = wibox.container.margin,
+	-- 		},
+	-- 		bg = beautiful.bg_2,
+	-- 		widget = wibox.container.background,
+	-- 	})
+	--
+	-- -- right
+	-- awful
+	-- 	.titlebar(c, {
+	-- 		position = "right",
+	-- 		size = dpi(6),
+	-- 		bg = beautiful.bg_2,
+	-- 	})
+	-- 	:setup({
+	-- 		{
+	-- 			{
+	-- 				bg = beautiful.bg_2,
+	-- 				widget = wibox.container.background,
+	-- 			},
+	-- 			right = dpi(1),
+	-- 			widget = wibox.container.margin,
+	-- 		},
+	-- 		bg = beautiful.bg_2,
+	-- 		widget = wibox.container.background,
+	-- 	})
+	--
+	-- -- bottom
+	-- awful
+	-- 	.titlebar(c, {
+	-- 		position = "bottom",
+	-- 		size = dpi(6),
+	-- 		bg = beautiful.bg_2,
+	-- 	})
+	-- 	:setup({
+	-- 		bg = beautiful.bg_2,
+	-- 		shape = helpers.prrect(false, false, true, true, beautiful.rounded),
+	-- 		widget = wibox.container.background,
+	-- 	})
 end)
