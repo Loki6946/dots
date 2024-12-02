@@ -209,9 +209,11 @@ naughty.connect_signal("request::display", function(n)
 	naughty.layout.box({
 		notification = n,
 		type = "notification",
-		bg = beautiful.bg_color .. "CC",
+		bg = beautiful.bg_2 .. "CC",
 		shape = helpers.rrect(beautiful.rounded),
 		minimum_width = dpi(340),
+		border_width = dpi(1),
+		border_color = beautiful.border_accent,
 		widget_template = {
 			{
 				{

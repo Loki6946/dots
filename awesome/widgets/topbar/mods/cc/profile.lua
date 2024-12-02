@@ -50,7 +50,12 @@ return wibox.widget({
 			profile_image,
 			{
 				nil,
-				username,
+				{
+					username,
+					desc,
+					layout = wibox.layout.fixed.vertical,
+					spacing = dpi(2),
+				},
 				layout = wibox.layout.align.vertical,
 				expand = "none",
 			},
@@ -60,9 +65,11 @@ return wibox.widget({
 		margins = dpi(6),
 		widget = wibox.container.margin,
 	},
-	forced_height = dpi(40),
-	forced_width = dpi(250),
+	forced_height = dpi(80),
+	forced_width = dpi(245),
 	shape = helpers.rrect(beautiful.rounded),
-	bg = beautiful.bg_3,
+	bg = beautiful.black .. "00",
+	border_width = dpi(0),
+	border_color = beautiful.border_color .. "CC",
 	widget = wibox.container.background,
 })

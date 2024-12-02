@@ -46,13 +46,14 @@ awful.screen.connect_for_each_screen(function(s)
 			launcher_icon,
 			beautiful.black .. "00",
 			beautiful.fg_color .. "99",
-			dpi(6),
+			dpi(10),
 			nil,
 			nil,
 			nil,
 			nil,
 			nil,
-			helpers.rrect(3)
+			helpers.rrect(3),
+			false
 		),
 		widget = wibox.container.background,
 	})
@@ -68,7 +69,7 @@ awful.screen.connect_for_each_screen(function(s)
 	local wifi = wibox.widget({
 		{
 			id = "wifi_icon",
-			markup = "",
+			markup = helpers.colorize_text("", beautiful.fg_color),
 			font = beautiful.icon_var .. "11",
 			valign = "center",
 			align = "center",
@@ -86,27 +87,15 @@ awful.screen.connect_for_each_screen(function(s)
 		widget = wibox.widget.imagebox,
 	})
 
-	-- local cc_ic_icon = wibox.widget({
-	-- 	{
-	-- 		markup = "",
-	-- 		font = beautiful.icon_outlined .. "12",
-	-- 		valign = "center",
-	-- 		align = "center",
-	-- 		widget = wibox.widget.textbox,
-	-- 	},
-	-- 	bottom = dpi(1),
-	-- 	widget = wibox.container.margin,
-	-- })
-
 	local cc_ic = wibox.widget({
 		create_button(
 			cc_ic_icon,
 			beautiful.black .. "00",
 			beautiful.fg_color .. "99",
-			dpi(6),
-			dpi(4),
+			dpi(8),
+			dpi(7),
 			nil,
-			dpi(3),
+			nil,
 			nil,
 			nil,
 			helpers.rrect(3)
@@ -148,7 +137,7 @@ awful.screen.connect_for_each_screen(function(s)
 					border_color = beautiful.fg_color .. "99",
 					background_color = beautiful.bg_color .. "00",
 					color = beautiful.fg_color,
-					bar_shape = helpers.rrect(2),
+					bar_shape = helpers.rrect(1),
 					border_width = 1,
 					shape = helpers.rrect(2),
 					widget = wibox.widget.progressbar,
@@ -209,19 +198,19 @@ awful.screen.connect_for_each_screen(function(s)
 		{
 			{
 				widget = wibox.widget.textclock,
-				format = "%a, %b %d",
+				format = helpers.colorize_text("%a %b %d", beautiful.fg_color),
 				font = beautiful.font_var .. "Medium 10",
 				valign = "center",
 				align = "center",
 			},
 			{
 				widget = wibox.widget.textclock,
-				format = "%H : %M",
+				format = helpers.colorize_text("%H : %M", beautiful.fg_color),
 				font = beautiful.font_var .. "Medium 10",
 				valign = "center",
 				align = "center",
 			},
-			spacing = dpi(20),
+			spacing = dpi(10),
 			layout = wibox.layout.fixed.horizontal,
 		},
 		bottom = dpi(1),
@@ -251,7 +240,7 @@ awful.screen.connect_for_each_screen(function(s)
 
 	awesome.connect_signal("signal::wifi", function(value)
 		if value then
-			helpers.gc(wifi, "wifi_icon").markup = helpers.colorize_text("", beautiful.fg_color .. "CC")
+			helpers.gc(wifi, "wifi_icon").markup = helpers.colorize_text("", beautiful.fg_color)
 			wifi:buttons(gears.table.join(awful.button({}, 1, function()
 				awful.spawn("nmcli radio wifi off", false)
 			end)))
@@ -271,7 +260,7 @@ awful.screen.connect_for_each_screen(function(s)
 		type = "dock",
 		width = screen_width,
 		height = dpi(28),
-		bg = beautiful.bg_2 .. "CC",
+		bg = beautiful.topbar_background,
 	})
 
 	-- wibar placement
@@ -292,55 +281,49 @@ awful.screen.connect_for_each_screen(function(s)
 		nil,
 		{
 			{
-				create_button(
+				{
 					battery,
-					beautiful.black .. "00",
-					beautiful.fg_color .. "99",
-					dpi(6),
-					dpi(6),
-					nil,
-					dpi(3),
-					nil,
-					nil,
-					helpers.rrect(3)
-				),
+					left = dpi(8),
+					right = dpi(8),
+					top = dpi(9),
+					bottom = dpi(9),
+					widget = wibox.container.margin,
+				},
 				create_button(
 					wifi,
 					beautiful.black .. "00",
 					beautiful.fg_color .. "99",
+					dpi(8),
 					dpi(6),
-					dpi(3),
-					nil,
-					dpi(3),
 					nil,
 					nil,
-					helpers.rrect(3)
+					nil,
+					nil,
+					helpers.rrect(3),
+					false
 				),
 				cc_ic,
 				create_button(
 					layout,
 					beautiful.black .. "00",
 					beautiful.fg_color .. "99",
-					dpi(6),
-					dpi(5),
-					nil,
-					dpi(3),
+					dpi(8),
+					dpi(8),
 					nil,
 					nil,
-					helpers.rrect(3)
+					nil,
+					nil,
+					helpers.rrect(3),
+					false
 				),
-				create_button(
+				{
 					clock,
-					beautiful.black .. "00",
-					beautiful.fg_color .. "99",
-					dpi(6),
-					dpi(3),
-					nil,
-					dpi(3),
-					nil,
-					nil,
-					helpers.rrect(3)
-				),
+					left = dpi(8),
+					right = dpi(8),
+					top = dpi(6),
+					bottom = dpi(6),
+					widget = wibox.container.margin,
+				},
 				spacing = dpi(2),
 				layout = wibox.layout.fixed.horizontal,
 			},

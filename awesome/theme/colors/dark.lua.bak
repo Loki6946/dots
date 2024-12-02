@@ -1,0 +1,42 @@
+return {
+	-- foreground
+	fg_color = "#E5E5EA",
+	fg_2 = "#B8B8BD",
+	fg_3 = "#8C8C91",
+
+	-- backgrounds
+	bg_color = "#1D1D1F",
+	bg_2 = "#2F2F33",
+	bg_3 = "#3A3A3C",
+
+	-- base green
+	green = "#32D74B",
+	green_2 = "#32D74B99",
+	green_3 = "#1E7C37",
+
+	-- base red
+	red = "#FF453A",
+	red_2 = "#D94F41",
+	red_3 = "#A83A2F",
+
+	-- accents
+	accent = "#0A84FF",
+	accent_2 = "#0A84FF66",
+	accent_3 = "#4A6A80",
+
+	-- base
+	black = "#000000",
+	white = "#FFFFFF",
+
+	-- Title Bar Buttons
+	close_button = "#FF6057",
+	close_button_hover = "#FF7B73",
+
+	minimize_button = "#FDBD2E",
+	minimize_button_hover = "#FFCC58",
+
+	maximize_button = "#27C840",
+	maximize_button_hover = "#45D860",
+
+	inactive_button = "#3A3A3C",
+}

@@ -77,6 +77,7 @@ ruled.client.connect_signal("request::rules", function()
 				"Eog",
 				"bottles",
 				"Lutris",
+				"Totem",
 			},
 		},
 		properties = { titlebars_enabled = false },

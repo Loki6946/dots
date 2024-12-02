@@ -28,12 +28,12 @@ awful.screen.connect_for_each_screen(function(s)
 		type = "dock",
 		shape = helpers.rrect(beautiful.rounded + 5),
 		screen = s,
-		width = dpi(390),
-		height = dpi(408),
-		bg = beautiful.bg_color,
+		width = dpi(380),
+		height = dpi(438),
+		bg = beautiful.bg_color .. "E6",
 		border_width = dpi(1),
-		border_color = beautiful.border_color,
-		margins = 15,
+		border_color = "#5A5A5E",
+		margins = 10,
 		ontop = true,
 		visible = false,
 	})
@@ -89,7 +89,7 @@ awful.screen.connect_for_each_screen(function(s)
 				slide_right.target = s.geometry.width
 			end
 		elseif not control_c.visible then
-			slide_right.target = s.geometry.width - (control_c.width + beautiful.useless_gap * 2)
+			slide_right.target = s.geometry.width - (control_c.width + beautiful.useless_gap * 5)
 			control_c.visible = true
 		end
 
@@ -106,17 +106,24 @@ awful.screen.connect_for_each_screen(function(s)
 				{
 					profile,
 					nil,
-					utils,
-					spacing = dpi(10),
+					{
+						{
+							utils,
+							top = dpi(20),
+							widget = wibox.container.margin,
+						},
+						layout = wibox.layout.fixed.vertical,
+					},
+					spacing = dpi(12),
 					layout = wibox.layout.fixed.horizontal,
 				},
 				sliders,
 				song,
 				layout = wibox.layout.fixed.vertical,
-				spacing = dpi(15),
+				spacing = dpi(12),
 			},
 			widget = wibox.container.margin,
-			margins = dpi(15),
+			margins = dpi(12),
 		},
 		layout = wibox.layout.fixed.vertical,
 	})

@@ -10,43 +10,45 @@ local themes_path = gfs.get_themes_dir()
 -- ~~~~~~~~~
 local assets = require("theme.assets")
 local apps = require("config.apps")
+local colors = require("theme.colors.dark")
 
 -- initial empty array
 local theme = {}
 
 -- foreground
 -- ~~~~~~~~~~
-theme.fg_color = "#E0E0E0"
-theme.fg_2 = "#A8A8A8"
-theme.fg_3 = "#707070"
+theme.fg_color = colors.fg_color
+theme.fg_2 = colors.fg_2
+theme.fg_3 = colors.fg_3
 
 -- backgrounds
 -- ~~~~~~~~~~~
-theme.bg_color = "#121212"
-theme.bg_2 = "#161719"
-theme.bg_3 = "#212124"
+theme.bg_color = colors.bg_color
+theme.bg_2 = colors.bg_2
+theme.bg_3 = colors.bg_3
 
 -- base green
 -- ~~~~~~~~~~
-theme.green = "#32D74B"
-theme.green_2 = theme.green .. "99"
-theme.green_3 = "#1E7C37"
+theme.green = colors.green
+theme.green_2 = colors.green_2
+theme.green_3 = colors.green_3
 
 -- base red
 -- ~~~~~~~~
-theme.red = "#FF453A"
-theme.red_2 = "#D94F41"
-theme.red_3 = "#A83A2F"
-
--- base black
--- ~~~~~~~~~~
-theme.black = "#000000"
+theme.red = colors.red
+theme.red_2 = colors.red_2
+theme.red_3 = colors.red_3
 
 -- accents
 -- ~~~~~~~
-theme.accent = "#0A84FF"
-theme.accent_2 = theme.accent .. "66"
-theme.accent_3 = "#4A6A80"
+theme.accent = colors.accent
+theme.accent_2 = colors.accent_2
+theme.accent_3 = colors.accent_3
+
+-- base
+-- ~~~~~~~~~~
+theme.black = colors.black
+theme.white = colors.white
 
 -- initial colors
 -- ~~~~~~~~~~~~~~
@@ -86,33 +88,40 @@ theme.wallpaper = assets.wall
 -- ~~~~~~~~~~~~~~~~~
 theme.useless_gap = dpi(2)
 theme.border_width = dpi(1)
-theme.border_color = "#48484A"
+theme.border_color = colors.border_color
+theme.border_normal = colors.border_color
+theme.border_focus = colors.border_color_active
+theme.border_accent = colors.border_accent
 
 -- tooltip
 -- ~~~~~~~
-theme.tooltip_border_width = theme.border_width
-theme.tooltip_border_color = theme.border_color
-theme.tooltip_font = theme.font_var .. "9"
+theme.tooltip_border_width = dpi(1)
+theme.tooltip_border_color = theme.border_accent
+theme.tooltip_font = theme.font_var .. "10"
 theme.tooltip_fg = theme.fg_color
+theme.tooltip_bg = "#1E1E1Ecc"
 
 -- rounded corner
 -- ~~~~~~~~~~~~~~
-theme.rounded = dpi(13)
+theme.rounded = dpi(12)
 
 -- notifs
 -- ~~~~~~
-theme.notification_font = theme.font_var .. "12"
+theme.notification_font = theme.font_var .. "11"
 theme.notification_spacing = dpi(theme.useless_gap * 2.2)
 theme.notification_border_width = dpi(0)
 
 -- titlebar
 -- ~~~~~~~~
-theme.titlebar_bg_normal = theme.bg_color
-theme.titlebar_bg_focus = theme.bg_color
-theme.titlebar_unfocused = "#252628"
-theme.titlebar_close = "#FF6057"
-theme.titlebar_minimize = "#FDBD2E"
-theme.titlebar_maximize = "#27C840"
+theme.titlebar_bg_normal = theme.bg_2
+theme.titlebar_bg_focus = theme.bg_3
+theme.titlebar_unfocused = colors.inactive_button
+theme.titlebar_close = colors.close_button
+theme.titlebar_close_hover = colors.close_button_hover
+theme.titlebar_minimize = colors.minimize_button
+theme.titlebar_minimize_hover = colors.minimize_button_hover
+theme.titlebar_maximize = colors.maximize_button
+theme.titlebar_maximize_hover = colors.maximize_button_hover
 theme.titlebars_enabled = true
 
 -- taglist
@@ -131,9 +140,9 @@ theme.titlebars_enabled = true
 -- another taglist
 -- ~~~~~~~
 theme.taglist_fg_focus = theme.fg_color
-theme.taglist_fg_urgent = theme.red_2
-theme.taglist_fg_occupied = theme.fg_color .. "E6"
-theme.taglist_fg_empty = theme.fg_color .. "E6"
+theme.taglist_fg_urgent = theme.accent
+theme.taglist_fg_occupied = theme.fg_color
+theme.taglist_fg_empty = theme.fg_color
 
 -- drop down Menu
 -- ~~~~~~~~~~~~~~
@@ -171,15 +180,28 @@ theme.playerctl_player = { "mpd", "%any" }
 theme.playerctl_update_on_activity = true
 theme.playerctl_position_update_interval = 1
 
+-- Bling task preview
+-- ~~~~~~~~~~~~~~~~~~
+-- theme.task_preview_widget_border_radius = 0
+-- theme.task_preview_widget_bg = theme.bg_color
+-- theme.task_preview_widget_border_color = theme.border_color
+-- theme.task_preview_widget_border_width = theme.border_width
+-- theme.task_preview_widget_margin = 8
+
+-- topbar
+-- ~~~~~~
+theme.topbar_background = "#00000080"
+
 -- Awesome dock
 -- ~~~~~~~~~~~~
-theme.awesome_dock_size = 61
+theme.awesome_dock_size = 65
 theme.awesome_dock_pinned = {
 	{ "thunar" },
 	{ "alacritty" },
 	{ "galculator" },
 	{ apps.web_browser, "zen_browser" },
 	{ apps.music, "gnome-music" },
+	{ "spotify", "spotify" },
 	{ "obsidian" },
 	{ "code", "vscode" },
 	{ apps.editor_cmd, "neovim" },
@@ -188,11 +210,10 @@ theme.awesome_dock_color_active = theme.fg_color .. "99"
 theme.awesome_dock_color_inactive = theme.fg_color .. "66"
 theme.awesome_dock_color_minimized = theme.accent .. "33"
 theme.awesome_dock_color_hover = theme.fg_color .. "33"
-theme.awesome_dock_color_bg = theme.bg_2 .. "CC"
+theme.awesome_dock_color_bg = theme.bg_3 .. "80"
 theme.awesome_dock_disabled = false
-theme.awesome_dock_spacing = dpi(4)
-theme.awesome_dock_offset = theme.useless_gap + 5
-theme.awesome_dock_timeout = 1.2
+theme.awesome_dock_spacing = dpi(0)
+theme.awesome_dock_offset = theme.useless_gap + 8
 theme.awesome_dock_icon = "WhiteSur-dark"
 
 -- init

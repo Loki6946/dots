@@ -43,7 +43,7 @@ local get_taglist = function(s)
 	local the_taglist = awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
-		layout = { spacing = dpi(3), layout = wibox.layout.fixed.horizontal },
+		layout = { spacing = dpi(0), layout = wibox.layout.fixed.horizontal },
 		widget_template = {
 			{
 				{
@@ -72,8 +72,8 @@ local get_taglist = function(s)
 				shape = helpers.rrect(3),
 				widget = wibox.container.background,
 			},
-			top = dpi(3),
-			bottom = dpi(3),
+			top = dpi(0),
+			bottom = dpi(0),
 			widget = wibox.container.margin,
 
 			create_callback = function(self, c3, _)
@@ -88,33 +88,40 @@ local get_taglist = function(s)
 					end,
 				})
 
-				helpers.gc(self, "hover"):connect_signal("mouse::enter", function()
-					animation_button_opacity:set(0.4)
-				end)
-
-				helpers.gc(self, "hover"):connect_signal("mouse::leave", function()
-					animation_button_opacity:set(0.0)
-				end)
-
-				-- add buttons and commands
-				-- helpers.gc(self, "hover"):connect_signal("button::press", function()
-				-- 	animation_button_opacity:set(0.8)
-				-- end)
-				--
-				-- helpers.gc(self, "hover"):connect_signal("button::release", function()
+				-- helpers.gc(self, "hover"):connect_signal("mouse::enter", function()
 				-- 	animation_button_opacity:set(0.4)
 				-- end)
 
-				helpers.hover_cursor(helpers.gc(self, "hover"))
+				-- helpers.gc(self, "hover"):connect_signal("mouse::leave", function()
+				-- 	animation_button_opacity:set(0.0)
+				-- end)
+
+				-- add buttons and commands
+				helpers.gc(self, "hover"):connect_signal("button::press", function()
+					animation_button_opacity:set(0.4)
+				end)
+
+				helpers.gc(self, "hover"):connect_signal("button::release", function()
+					gears.timer({
+						timeout = 1,
+						autostart = true,
+						single_shot = true,
+						callback = function()
+							animation_button_opacity:set(0)
+						end,
+					})
+				end)
+
+				-- helpers.hover_cursor(helpers.gc(self, "hover"))
 
 				self.update = function()
-					if c3.selected then
-						helpers.gc(self, "bg_role").bg = beautiful.fg_2 .. "33"
-					elseif #c3:clients() == 0 then
-						helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
-					else
-						helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
-					end
+					-- if c3.selected then
+					-- 	helpers.gc(self, "bg_role").bg = beautiful.fg_2 .. "33"
+					-- elseif #c3:clients() == 0 then
+					-- 	helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
+					-- else
+					-- 	helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
+					-- end
 				end
 
 				self.update()

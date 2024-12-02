@@ -4,6 +4,7 @@ local wibox = require("wibox")
 local naughty = require("naughty")
 local gears = require("gears")
 local helpers = require("helpers")
+local bling = require("modules.bling")
 
 require("config.tags")
 
@@ -96,7 +97,48 @@ end
 
 enable_rounding()
 
+-- task preview
+-- ~~~~~~~~~~~~
+-- bling.widget.task_preview.enable({
+-- 	x = 850, -- The x-coord of the popup
+-- 	y = 524, -- The y-coord of the popup
+-- 	widget_structure = {
+-- 		{
+-- 			{
+-- 				{
+-- 					id = "name_role", -- The client name / title
+-- 					widget = wibox.widget.textbox,
+-- 				},
+-- 				layout = wibox.layout.flex.horizontal,
+-- 			},
+-- 			widget = wibox.container.margin,
+-- 			margins = 5,
+-- 		},
+-- 		layout = wibox.layout.fixed.vertical,
+-- 	},
+-- })
+
 -- Garbage Collection
 -- ~~~~~~~~~~~~~~~~~~
-collectgarbage("setpause", 110)
-collectgarbage("setstepmul", 1000)
+---@diagnostic disable: param-type-mismatch
+collectgarbage("setpause", 150)
+collectgarbage("setstepmul", 500)
+
+local memory_last_check_count = collectgarbage("count")
+local memory_last_run_time = os.time()
+local memory_growth_factor = 1.1
+local memory_long_collection_time = 600
+
+require("gears.timer").start_new(15, function()
+	local cur_memory = collectgarbage("count")
+	local elapsed = os.time() - memory_last_run_time
+	local waited_long = elapsed >= memory_long_collection_time
+	local grew_enough = cur_memory > memory_last_check_count * memory_growth_factor
+	if grew_enough or waited_long then
+		collectgarbage("collect")
+		collectgarbage("collect")
+		memory_last_run_time = os.time()
+	end
+	memory_last_check_count = math.max(memory_last_check_count, collectgarbage("count"))
+	return true
+end)

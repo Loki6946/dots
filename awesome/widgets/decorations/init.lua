@@ -8,14 +8,13 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 local wibox = require("wibox")
 local gears = require("gears")
-local helpers = require("helpers")
 
 -- extra
 -- ~~~~~
 require("widgets.decorations.music.minimal")
 
 -- function to create those buttons
-local function create_title_button(c, color_focus, color_unfocus, shp)
+local function create_title_button(c, color_focus, color_hover, color_unfocus, shp)
 	local tb = wibox.widget({
 		forced_width = dpi(20),
 		forced_height = dpi(20),
@@ -37,7 +36,7 @@ local function create_title_button(c, color_focus, color_unfocus, shp)
 	c:connect_signal("unfocus", update)
 
 	tb:connect_signal("mouse::enter", function()
-		tb.bg = color_focus .. 55
+		tb.bg = color_hover
 	end)
 	tb:connect_signal("mouse::leave", function()
 		tb.bg = color_focus
@@ -78,21 +77,43 @@ client.connect_signal("request::titlebars", function(c)
 
 	-- Buttons
 
-	local close = create_title_button(c, beautiful.titlebar_close, beautiful.titlebar_unfocused, ci(dpi(12), dpi(12)))
+	local close = create_title_button(
+		c,
+		beautiful.titlebar_close,
+		beautiful.titlebar_close_hover,
+		beautiful.titlebar_unfocused,
+		ci(dpi(12), dpi(12))
+	)
 	close:connect_signal("button::press", function()
-		c:kill()
+		gears.timer.delayed_call(function()
+			c:kill()
+		end)
 	end)
 
-	local min = create_title_button(c, beautiful.titlebar_minimize, beautiful.titlebar_unfocused, ci(dpi(12), dpi(12)))
+	local min = create_title_button(
+		c,
+		beautiful.titlebar_minimize,
+		beautiful.titlebar_minimize_hover,
+		beautiful.titlebar_unfocused,
+		ci(dpi(12), dpi(12))
+	)
 	min:connect_signal("button::press", function()
 		gears.timer.delayed_call(function()
 			c.minimized = not c.minimized
 		end)
 	end)
 
-	local max = create_title_button(c, beautiful.titlebar_maximize, beautiful.titlebar_unfocused, ci(dpi(12), dpi(12)))
+	local max = create_title_button(
+		c,
+		beautiful.titlebar_maximize,
+		beautiful.titlebar_maximize_hover,
+		beautiful.titlebar_unfocused,
+		ci(dpi(12), dpi(12))
+	)
 	max:connect_signal("button::press", function()
-		c.maximized = not c.maximized
+		gears.timer.delayed_call(function()
+			c.maximized = not c.maximized
+		end)
 	end)
 
 	local title = wibox.widget({
@@ -120,7 +141,7 @@ client.connect_signal("request::titlebars", function(c)
 	awful
 		.titlebar(c, {
 			position = "top",
-			size = dpi(40),
+			size = dpi(36),
 			bg = beautiful.bg_2,
 		})
 		:setup({
@@ -160,57 +181,4 @@ client.connect_signal("request::titlebars", function(c)
 			},
 			layout = wibox.layout.align.horizontal,
 		})
-
-	-- -- left
-	-- awful
-	-- 	.titlebar(c, {
-	-- 		position = "left",
-	-- 		size = dpi(6),
-	-- 		bg = beautiful.bg_2,
-	-- 	})
-	-- 	:setup({
-	-- 		{
-	-- 			{
-	-- 				bg = beautiful.bg_2,
-	-- 				widget = wibox.container.background,
-	-- 			},
-	-- 			left = dpi(1),
-	-- 			widget = wibox.container.margin,
-	-- 		},
-	-- 		bg = beautiful.bg_2,
-	-- 		widget = wibox.container.background,
-	-- 	})
-	--
-	-- -- right
-	-- awful
-	-- 	.titlebar(c, {
-	-- 		position = "right",
-	-- 		size = dpi(6),
-	-- 		bg = beautiful.bg_2,
-	-- 	})
-	-- 	:setup({
-	-- 		{
-	-- 			{
-	-- 				bg = beautiful.bg_2,
-	-- 				widget = wibox.container.background,
-	-- 			},
-	-- 			right = dpi(1),
-	-- 			widget = wibox.container.margin,
-	-- 		},
-	-- 		bg = beautiful.bg_2,
-	-- 		widget = wibox.container.background,
-	-- 	})
-	--
-	-- -- bottom
-	-- awful
-	-- 	.titlebar(c, {
-	-- 		position = "bottom",
-	-- 		size = dpi(6),
-	-- 		bg = beautiful.bg_2,
-	-- 	})
-	-- 	:setup({
-	-- 		bg = beautiful.bg_2,
-	-- 		shape = helpers.prrect(false, false, true, true, beautiful.rounded),
-	-- 		widget = wibox.container.background,
-	-- 	})
 end)

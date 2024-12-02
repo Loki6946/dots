@@ -80,9 +80,8 @@ return function(
 					{
 						id = "circle_animate",
 						widget = wibox.container.background,
-						shape = helpers.rrect(12),
+						shape = helpers.rrect(14),
 						bg = active_color,
-						opacity = 0.5,
 					},
 					{
 						awful.widget.clienticon,
@@ -93,12 +92,16 @@ return function(
 					},
 					layout = wibox.layout.stack,
 				},
-				margins = dpi(3),
+				margins = dpi(0),
 				widget = wibox.container.margin,
 			},
 			layout = wibox.layout.fixed.vertical,
 			create_callback = function(self, c, index, objects)
 				collectgarbage("collect")
+
+				self:connect_signal("mouse::enter", function()
+					T_t.markup = helpers.capitalize(c.name)
+				end)
 
 				if c.active then
 					self:get_children_by_id("app_icon_role")[1].opacity = 1
@@ -111,7 +114,7 @@ return function(
 					helpers.gc(self, "circle_animate").opacity = 0
 				end
 
-				helpers.hover_cursor(self, "app_icon_role")
+				-- helpers.hover_cursor(self, "app_icon_role")
 
 				when_no_apps_open(screen)
 			end,
@@ -130,9 +133,13 @@ return function(
 					end,
 				})
 
+				self:connect_signal("mouse::enter", function()
+					T_t.markup = helpers.capitalize(c.name)
+				end)
+
 				if c.active then
 					self:get_children_by_id("app_icon_role")[1].opacity = 1
-					animation_button_opacity:set(0.4)
+					animation_button_opacity:set(0.5)
 				elseif c.minimized then
 					self:get_children_by_id("app_icon_role")[1].opacity = 0.5
 					animation_button_opacity:set(0)
@@ -141,11 +148,20 @@ return function(
 					animation_button_opacity:set(0)
 				end
 
-				helpers.hover_cursor(self, "app_icon_role")
+				-- helpers.hover_cursor(self, "app_icon_role")
 
 				when_no_apps_open(screen)
 			end,
 		},
+	})
+
+	T_t = awful.tooltip({
+		objects = { screen.mytasklist },
+		mode = "outside",
+		align = "top",
+		margins = { top = dpi(5), bottom = dpi(5), left = dpi(12), right = dpi(12) },
+		gaps = { bottom = dpi(8) },
+		shape = helpers.rrect(3),
 	})
 	-- Eof taglist
 	-------------------------------------------------------------------------------
@@ -157,16 +173,25 @@ return function(
 
 		local w = wibox.widget({
 			{
-				{
-					widget = wibox.widget.imagebox,
-					image = app_icon,
-					valign = "center",
-					halign = "center",
-				},
-				layout = wibox.container.place,
+				id = "animate",
+				widget = wibox.container.background,
+				shape = helpers.rrect(14),
+				bg = active_color,
 			},
-			widget = wibox.container.margin,
-			margins = dpi(0),
+			{
+				{
+					{
+						widget = wibox.widget.imagebox,
+						image = app_icon,
+						valign = "center",
+						halign = "center",
+					},
+					layout = wibox.container.place,
+				},
+				widget = wibox.container.margin,
+				margins = dpi(3),
+			},
+			layout = wibox.layout.stack,
 		})
 
 		local w_t = awful.tooltip({
@@ -174,38 +199,39 @@ return function(
 			objects = { w },
 			mode = "outside",
 			align = "top",
-			margins = dpi(6),
+			margins = { top = dpi(5), bottom = dpi(5), left = dpi(12), right = dpi(12) },
+			gaps = { bottom = dpi(8) },
 			shape = helpers.rrect(3),
 		})
 
 		local animation_button_opacity = rubato.timed({
-			pos = 1,
+			pos = 0,
 			rate = 60,
 			intro = 0.02,
 			duration = 0.1,
 			awestore_compat = true,
 			subscribed = function(pos)
-				w.opacity = pos
+				helpers.gc(w, "animate").opacity = pos
 			end,
 		})
 
 		w:connect_signal("mouse::enter", function()
-			animation_button_opacity:set(0.6)
+			animation_button_opacity:set(0.5)
 		end)
 
 		w:connect_signal("mouse::leave", function()
-			animation_button_opacity:set(1)
+			animation_button_opacity:set(0)
 		end)
 
 		w:connect_signal("button::press", function()
 			awful.spawn.with_shell(app_command, false)
-			animation_button_opacity:set(0.5)
+			animation_button_opacity:set(0.2)
 		end)
 		w:connect_signal("button::release", function()
-			animation_button_opacity:set(1)
+			animation_button_opacity:set(0.5)
 		end)
 
-		helpers.hover_cursor(w)
+		-- helpers.hover_cursor(w)
 
 		return w
 	end
@@ -232,14 +258,14 @@ return function(
 		widget = wibox.container.background,
 		ontop = true,
 		bg = background_color,
-		border_color = "#303036",
+		border_color = "#3A3A3C",
 		border_width = dpi(1),
 		visible = true,
 		maximum_width = dpi(1000),
 		maximum_height = dpi(size),
 		x = screen.geometry.x + screen.geometry.width / 2,
 		y = awful.screen.focused().geometry.height,
-		shape = helpers.rrect(15),
+		shape = helpers.rrect(17),
 	})
 
 	dock:setup({
@@ -276,7 +302,7 @@ return function(
 			dock:setup({
 				pinned_apps,
 				widget = wibox.container.margin,
-				margins = dpi(6),
+				margins = dpi(3),
 			})
 		else
 			dock:setup({
@@ -289,15 +315,15 @@ return function(
 						{
 							widget = wibox.widget.separator,
 							orientation = "vertical",
-							color = "#303036",
+							color = "#4A4A4EB0",
 							thickness = 2,
 						},
 						widget = wibox.container.margin,
-						margins = { top = dpi(10), bottom = dpi(10) },
+						margins = { top = dpi(8), bottom = dpi(8) },
 					}),
 				},
 				widget = wibox.container.margin,
-				margins = dpi(6),
+				margins = dpi(3),
 			})
 		end
 	end

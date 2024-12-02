@@ -132,10 +132,10 @@ return function(s)
 		height = 290,
 		bg = beautiful.bg_color .. "CC",
 		border_width = 1,
-		border_color = beautiful.border_color,
+		border_color = beautiful.border_accent,
 		shape = helpers.rrect(beautiful.rounded + 5),
 		ontop = false,
-		visible = true,
+		visible = false,
 	})
 
 	caca:setup({

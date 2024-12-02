@@ -144,14 +144,14 @@ return wibox.widget({
 						{
 							step_function = wibox.container.scroll.step_functions.waiting_nonlinear_back_and_forth,
 							widget = wibox.container.scroll.horizontal,
-							forced_width = dpi(150),
+							forced_width = dpi(140),
 							speed = 30,
 							song_name,
 						},
 						{
 							step_function = wibox.container.scroll.step_functions.waiting_nonlinear_back_and_forth,
 							widget = wibox.container.scroll.horizontal,
-							forced_width = dpi(150),
+							forced_width = dpi(140),
 							speed = 30,
 							song_artist,
 						},
@@ -163,9 +163,9 @@ return wibox.widget({
 				},
 				{
 					{
-						button_creator(prev_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(0)),
+						button_creator(prev_button, beautiful.black .. "00", nil, dpi(5), nil, nil, dpi(0)),
 						button_creator(toggle_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(0)),
-						button_creator(next_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(0)),
+						button_creator(next_button, beautiful.black .. "00", nil, dpi(5), nil, nil, dpi(0)),
 						layout = wibox.layout.fixed.horizontal,
 						spacing = dpi(0),
 					},
@@ -182,8 +182,9 @@ return wibox.widget({
 		widget = wibox.container.margin,
 	},
 	widget = wibox.container.background,
-	bg = beautiful.bg_3,
-	border_color = beautiful.fg_color .. "33",
+	bg = beautiful.bg_2 .. "CC",
+	border_width = dpi(1),
+	border_color = beautiful.border_color .. "CC",
 	shape = helpers.rrect(beautiful.rounded),
 })
 -- ~~~~~~~~~~~~~~~~~~

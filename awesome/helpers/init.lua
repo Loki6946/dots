@@ -219,7 +219,7 @@ helpers.place_widget = function(widget, where, t, b, l, r)
 end
 
 helpers.colorize_text = function(txt, fg)
-	fg = fg or beautiful.foreground
+	fg = fg or beautiful.fg_color
 	if fg == "" then
 		fg = "#ffffff"
 	end

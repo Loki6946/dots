@@ -15,10 +15,10 @@ local wibox = require("wibox")
 local brightness = wibox.widget({
 	widget = wibox.widget.slider,
 	maximum = 20,
-	forced_width = dpi(270),
+	forced_width = dpi(260),
 	shape = gears.shape.rounded_bar,
 	bar_shape = gears.shape.rounded_bar,
-	bar_color = beautiful.fg_color .. "00",
+	bar_color = beautiful.fg_2 .. "26",
 	bar_margins = { bottom = dpi(7), top = dpi(7) },
 	bar_active_color = beautiful.fg_color,
 	handle_width = dpi(27),
@@ -59,12 +59,15 @@ local brightness_button = wibox.widget({
 
 local brightness_text = awful.tooltip({
 	objects = { brightness },
+	align = "top",
+	margins = dpi(6),
+	gaps = { bottom = dpi(12) },
+	shape = helpers.rrect(3),
 })
 
 local bright_init = wibox.widget({
 	brightness_button,
 	{
-		brightness_bg,
 		{
 			brightness,
 			widget = wibox.container.margin,
@@ -95,10 +98,10 @@ end)
 local volume = wibox.widget({
 	widget = wibox.widget.slider,
 	maximum = 20,
-	forced_width = dpi(270),
+	forced_width = dpi(260),
 	shape = gears.shape.rounded_bar,
 	bar_shape = gears.shape.rounded_bar,
-	bar_color = beautiful.fg_color .. "00",
+	bar_color = beautiful.fg_2 .. "26",
 	bar_margins = { bottom = dpi(7), top = dpi(7) },
 	bar_active_color = beautiful.fg_color,
 	handle_width = dpi(27),
@@ -108,21 +111,21 @@ local volume = wibox.widget({
 	handle_border_color = beautiful.fg_color,
 })
 
-local volume_bg = wibox.widget({
-	nil,
-	{
-		{
-			forced_width = dpi(270),
-			bg = beautiful.fg_color .. "26",
-			shape = gears.shape.rounded_bar,
-			widget = wibox.container.background,
-		},
-		margins = dpi(19),
-		widget = wibox.container.margin,
-	},
-	layout = wibox.layout.align.horizontal,
-	expand = "none",
-})
+-- local volume_bg = wibox.widget({
+-- 	nil,
+-- 	{
+-- 		{
+-- 			forced_width = dpi(270),
+-- 			bg = beautiful.fg_color .. "26",
+-- 			shape = gears.shape.rounded_bar,
+-- 			widget = wibox.container.background,
+-- 		},
+-- 		margins = dpi(19),
+-- 		widget = wibox.container.margin,
+-- 	},
+-- 	layout = wibox.layout.align.horizontal,
+-- 	expand = "none",
+-- })
 
 local volume_icon = wibox.widget({
 	widget = wibox.widget.textbox,
@@ -133,18 +136,21 @@ local volume_icon = wibox.widget({
 })
 
 local volume_button = wibox.widget({
-	button_creator(volume_icon, nil, nil, dpi(6), nil, nil, dpi(4)),
+	button_creator(volume_icon, beautiful.bg_2 .. "00", nil, dpi(6), nil, nil, dpi(4)),
 	widget = wibox.container.background,
 })
 
 local volume_text = awful.tooltip({
 	objects = { volume },
+	align = "top",
+	margins = dpi(6),
+	gaps = { bottom = dpi(12) },
+	shape = helpers.rrect(3),
 })
 
 local volume_init = wibox.widget({
 	volume_button,
 	{
-		volume_bg,
 		{
 			volume,
 			widget = wibox.container.margin,
@@ -173,9 +179,9 @@ volume_button:buttons({
 
 awesome.connect_signal("signal::volume", function(value, muted)
 	if muted or value == 0 then
-		volume.bar_active_color = beautiful.fg_color .. "99"
-		volume.handle_border_color = beautiful.fg_color .. "99"
-		volume_icon.markup = "<span foreground='" .. beautiful.fg_color .. "99" .. "'></span>"
+		volume.bar_active_color = beautiful.fg_3
+		volume.handle_border_color = beautiful.fg_3
+		volume_icon.markup = "<span foreground='" .. beautiful.fg_3 .. "'></span>"
 	else
 		volume.bar_active_color = beautiful.fg_color
 		volume.handle_border_color = beautiful.fg_color
@@ -206,8 +212,9 @@ return wibox.widget({
 			widget = wibox.container.margin,
 		},
 		widget = wibox.container.background,
-		bg = beautiful.bg_3,
-		border_color = beautiful.fg_color .. "33",
+		bg = beautiful.bg_2 .. "CC",
+		border_width = dpi(1),
+		border_color = beautiful.border_color .. "CC",
 		shape = helpers.rrect(beautiful.rounded),
 	},
 	{
@@ -226,8 +233,9 @@ return wibox.widget({
 			widget = wibox.container.margin,
 		},
 		widget = wibox.container.background,
-		bg = beautiful.bg_3,
-		border_color = beautiful.fg_color .. "33",
+		bg = beautiful.bg_2 .. "CC",
+		border_width = dpi(1),
+		border_color = beautiful.border_color .. "CC",
 		shape = helpers.rrect(beautiful.rounded),
 	},
 	spacing = dpi(15),

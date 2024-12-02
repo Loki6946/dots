@@ -13,7 +13,7 @@ return {
 	health_icon = directory .. "images/heart.png",
 	awm_icon = directory .. "images/awm.png",
 	album_art_fallback = directory .. "images/album-art.png",
-	music_art_fallback = directory .. "images/music.png",
+	music_art_fallback = directory .. "images/disk.png",
 	pp = directory .. "images/pp.jpeg",
 
 	--icons
@@ -26,5 +26,5 @@ return {
 	machi = directory .. "layouts/layout-machi.png",
 
 	-- wallpaper
-	wall = directory .. "walls/white_minimalist.jpg",
+	wall = directory .. "walls/stack.jpg",
 }

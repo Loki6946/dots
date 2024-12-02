@@ -148,12 +148,12 @@ function menu.menu(widgets, width)
 		type = "menu",
 		visible = false,
 		ontop = true,
-		minimum_width = width or dpi(180),
-		maximum_width = width or dpi(180),
+		minimum_width = width or dpi(170),
+		maximum_width = width or dpi(170),
 		shape = helpers.rrect(beautiful.rounded - 4),
-		bg = beautiful.bg_color .. "CC",
+		bg = beautiful.bg_2 .. "CC",
 		border_width = dpi(1),
-		border_color = beautiful.border_color,
+		border_color = beautiful.border_accent,
 		widget = wibox.layout.fixed.vertical,
 	})
 	gtable.crush(widget, menu, true)
@@ -211,7 +211,7 @@ function menu.sub_menu_button(args)
 	local icon = args.icon ~= nil
 			and wibox.widget({
 				font = args.icon.font .. " " .. args.icon_size,
-				markup = helpers.colorize_text(args.icon.icon, beautiful.fg_color),
+				markup = helpers.colorize_text(args.icon.icon, beautiful.white),
 				widget = wibox.widget.textbox,
 				halign = "start",
 				forced_width = 40,
@@ -225,7 +225,7 @@ function menu.sub_menu_button(args)
 					id = "animate",
 					widget = wibox.container.background,
 					shape = helpers.rrect(5),
-					bg = beautiful.accent .. "CC",
+					bg = beautiful.accent,
 					opacity = 0.0,
 				},
 				{
@@ -237,28 +237,28 @@ function menu.sub_menu_button(args)
 						{
 							id = "text",
 							font = beautiful.font_var .. args.text_size,
-							markup = helpers.colorize_text(args.text, beautiful.fg_color),
+							markup = helpers.colorize_text(args.text, beautiful.white),
 							widget = wibox.widget.textbox,
 							halign = "start",
 						},
 						{
 							id = "icon",
 							font = beautiful.icon_var .. "10",
-							markup = helpers.colorize_text("", beautiful.fg_color),
+							markup = helpers.colorize_text("", beautiful.white),
 							widget = wibox.widget.textbox,
 							halign = "start",
 						},
 					},
 					widget = wibox.container.margin,
-					top = 7,
+					top = 6,
 					right = 10,
-					bottom = 7,
+					bottom = 6,
 					left = 10,
 				},
 				layout = wibox.layout.stack,
 			},
 			widget = wibox.container.margin,
-			margins = 6,
+			margins = dpi(4),
 		},
 		widget = wibox.container.background,
 	})
@@ -319,7 +319,7 @@ function menu.button(args)
 
 	local text_widget = wibox.widget({
 		font = beautiful.font_var .. args.text_size,
-		markup = helpers.colorize_text(args.text, beautiful.fg_color),
+		markup = helpers.colorize_text(args.text, beautiful.white),
 		widget = wibox.widget.textbox,
 		halign = "start",
 	})
@@ -331,7 +331,7 @@ function menu.button(args)
 					id = "animate",
 					widget = wibox.container.background,
 					shape = helpers.rrect(5),
-					bg = beautiful.accent .. "CC",
+					bg = beautiful.accent,
 					opacity = 0.0,
 				},
 				{
@@ -342,15 +342,15 @@ function menu.button(args)
 						text_widget,
 					},
 					widget = wibox.container.margin,
-					top = 7,
+					top = 6,
 					right = 10,
-					bottom = 7,
+					bottom = 6,
 					left = 10,
 				},
 				layout = wibox.layout.stack,
 			},
 			widget = wibox.container.margin,
-			margins = 6,
+			margins = dpi(4),
 		},
 		buttons = {
 			awful.button({}, 1, function()
@@ -396,8 +396,8 @@ function menu.separator()
 			widget = wibox.widget.separator,
 			forced_height = dpi(2),
 			orientation = "horizontal",
-			thickness = dpi(1),
-			color = beautiful.border_color,
+			thickness = dpi(2),
+			color = "#4A4A4E",
 		},
 	})
 end

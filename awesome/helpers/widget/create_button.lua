@@ -78,12 +78,12 @@ return function(
 
 	-- add buttons and commands
 	mainbox:connect_signal("button::press", function()
-		animation_button_opacity:set(0.8)
+		animation_button_opacity:set(0.2)
 	end)
 
 	mainbox:connect_signal("button::release", function()
 		gears.timer({
-			timeout = 0.01,
+			timeout = 0.008,
 			autostart = true,
 			single_shot = true,
 			callback = function()

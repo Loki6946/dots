@@ -42,6 +42,15 @@ awful.keyboard.append_global_keybindings({
 		on_press = awesome.quit,
 	}),
 	awful.key({
+		modifiers = { mod.super, mod.shift },
+		key = "l",
+		description = "lock awesome",
+		group = "awesome",
+		on_press = function()
+			awesome.emit_signal("toggle::lock")
+		end,
+	}),
+	awful.key({
 		modifiers = { mod.super },
 		key = "x",
 		description = "lua execute prompt",

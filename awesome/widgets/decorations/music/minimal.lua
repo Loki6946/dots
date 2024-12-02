@@ -268,7 +268,7 @@ end)
 
 local music_init = function(c)
 	-- bottom
-	awful.titlebar(c, { position = "left", size = dpi(300), bg = beautiful.ext_light_bg_2 or beautiful.bg_2 }):setup({
+	awful.titlebar(c, { position = "left", size = dpi(300), bg = beautiful.bg_color }):setup({
 		{
 			helpers.vertical_pad(dpi(20)),
 			{
