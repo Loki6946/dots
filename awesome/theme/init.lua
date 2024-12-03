@@ -99,7 +99,7 @@ theme.tooltip_border_width = dpi(1)
 theme.tooltip_border_color = theme.border_accent
 theme.tooltip_font = theme.font_var .. "10"
 theme.tooltip_fg = theme.fg_color
-theme.tooltip_bg = "#1E1E1Ecc"
+theme.tooltip_bg = theme.bg_3
 
 -- rounded corner
 -- ~~~~~~~~~~~~~~
@@ -125,19 +125,6 @@ theme.titlebar_maximize_hover = colors.maximize_button_hover
 theme.titlebars_enabled = true
 
 -- taglist
--- ~~~~~~~
--- theme.taglist_bg = theme.bg_color
--- theme.taglist_bg_focus = theme.bg_3
--- theme.taglist_fg_focus = theme.accent
--- theme.taglist_bg_urgent = theme.red_color
--- theme.taglist_fg_urgent = theme.red_2
--- theme.taglist_bg_occupied = theme.bg_color
--- theme.taglist_fg_occupied = theme.fg_color
--- theme.taglist_bg_empty = theme.bg_color
--- theme.taglist_fg_empty = theme.fg_color .. "66"
--- theme.taglist_disable_icon = true
-
--- another taglist
 -- ~~~~~~~
 theme.taglist_fg_focus = theme.fg_color
 theme.taglist_fg_urgent = theme.accent
@@ -180,17 +167,9 @@ theme.playerctl_player = { "mpd", "%any" }
 theme.playerctl_update_on_activity = true
 theme.playerctl_position_update_interval = 1
 
--- Bling task preview
--- ~~~~~~~~~~~~~~~~~~
--- theme.task_preview_widget_border_radius = 0
--- theme.task_preview_widget_bg = theme.bg_color
--- theme.task_preview_widget_border_color = theme.border_color
--- theme.task_preview_widget_border_width = theme.border_width
--- theme.task_preview_widget_margin = 8
-
 -- topbar
 -- ~~~~~~
-theme.topbar_background = "#00000080"
+theme.topbar_background = theme.bg_2 .. "99"
 
 -- Awesome dock
 -- ~~~~~~~~~~~~
@@ -202,17 +181,13 @@ theme.awesome_dock_pinned = {
 	{ apps.web_browser, "zen_browser" },
 	{ apps.music, "gnome-music" },
 	{ "spotify", "spotify" },
-	{ "obsidian" },
 	{ "code", "vscode" },
 	{ apps.editor_cmd, "neovim" },
 }
-theme.awesome_dock_color_active = theme.fg_color .. "99"
-theme.awesome_dock_color_inactive = theme.fg_color .. "66"
-theme.awesome_dock_color_minimized = theme.accent .. "33"
-theme.awesome_dock_color_hover = theme.fg_color .. "33"
-theme.awesome_dock_color_bg = theme.bg_3 .. "80"
+theme.awesome_dock_color_active = theme.fg_color .. "80"
+theme.awesome_dock_color_bg = theme.bg_3 .. "99"
 theme.awesome_dock_disabled = false
-theme.awesome_dock_spacing = dpi(0)
+theme.awesome_dock_spacing = dpi(2)
 theme.awesome_dock_offset = theme.useless_gap + 8
 theme.awesome_dock_icon = "WhiteSur-dark"
 

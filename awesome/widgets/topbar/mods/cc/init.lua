@@ -11,16 +11,6 @@ local wibox = require("wibox")
 local gears = require("gears")
 local rubato = require("modules.rubato")
 
---[[ few stuffs to note
-
--- sidebar height (extras disabled)
--- height = dpi(580),
-
--- sidebar new height (extras enabled)
--- height = dpi(715),
-
-]]
-
 awful.screen.connect_for_each_screen(function(s)
 	-- Mainbox
 	--~~~~~~~~~~~~~~~~~
@@ -51,8 +41,9 @@ awful.screen.connect_for_each_screen(function(s)
 	local slide_right = rubato.timed({
 		pos = s.geometry.width,
 		rate = 60,
-		intro = 0.14,
-		duration = 0.33,
+		intro = 0.12,
+		duration = 0.28,
+		easing = rubato.ease_in_out_cubic,
 		subscribed = function(pos)
 			control_c.x = s.geometry.x + pos
 		end,

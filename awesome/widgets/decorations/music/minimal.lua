@@ -58,7 +58,7 @@ local toggle_button = wibox.widget({
 	button_creator(
 		toggle_button_icon,
 		beautiful.fg_color,
-		beautiful.accent,
+		beautiful.fg_3 .. "80",
 		dpi(12),
 		nil,
 		nil,

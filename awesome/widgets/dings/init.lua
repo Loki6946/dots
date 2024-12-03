@@ -246,7 +246,7 @@ naughty.connect_signal("request::display", function(n)
 					},
 					layout = wibox.layout.fixed.vertical,
 				},
-				margins = dpi(18),
+				margins = dpi(14),
 				widget = wibox.container.margin,
 			},
 			widget = wibox.container.background,

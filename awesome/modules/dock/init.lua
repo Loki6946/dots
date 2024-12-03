@@ -21,11 +21,8 @@ local dock_size = beautiful.awesome_dock_size or 80
 local offset = beautiful.awesome_dock_offset or beautiful.useless_gap or 0
 local pinned_apps = beautiful.awesome_dock_pinned or pinned_defaults
 local active_color = beautiful.awesome_dock_color_active or beautiful.fg_focus or "#ffffff"
-local inactive_color = beautiful.awesome_dock_color_inactive or beautiful.fg_normal or "#ffffff99"
-local minimized_color = beautiful.awesome_dock_color_minimized or beautiful.fg_minimize or "#ffffff33"
 local background_color = beautiful.awesome_dock_color_bg or beautiful.bg_normal or "#000000"
 local modules_spacing = beautiful.awesome_dock_spacing or 12
-local hover_color = beautiful.awesome_dock_color_hover or "#f9f9f9"
 local icon_theme = beautiful.awesome_dock_icon
 
 if beautiful.awesome_dock_disabled == true then
@@ -41,10 +38,7 @@ else
 				offset,
 				modules_spacing,
 				active_color,
-				inactive_color,
-				minimized_color,
 				background_color,
-				hover_color,
 				icon_handler,
 				icon_theme
 			)

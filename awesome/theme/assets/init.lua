@@ -26,5 +26,5 @@ return {
 	machi = directory .. "layouts/layout-machi.png",
 
 	-- wallpaper
-	wall = directory .. "walls/stack.jpg",
+	wall = directory .. "walls/grey.png",
 }

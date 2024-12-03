@@ -15,10 +15,7 @@ local create_button = require("helpers.widget.create_button")
 -- ~~~~~~~~~
 require("widgets.topbar.mods.cc")
 
--- connect to screen
--- ~~~~~~~~~~~~~~~~~
 awful.screen.connect_for_each_screen(function(s)
-	-- screen width
 	local screen_width = s.geometry.width
 
 	-- widgets
@@ -45,14 +42,14 @@ awful.screen.connect_for_each_screen(function(s)
 		create_button(
 			launcher_icon,
 			beautiful.black .. "00",
-			beautiful.fg_color .. "99",
+			beautiful.fg_color .. "80",
 			dpi(10),
 			nil,
 			nil,
 			nil,
 			nil,
 			nil,
-			helpers.rrect(3),
+			helpers.rrect(4),
 			false
 		),
 		widget = wibox.container.background,
@@ -91,14 +88,14 @@ awful.screen.connect_for_each_screen(function(s)
 		create_button(
 			cc_ic_icon,
 			beautiful.black .. "00",
-			beautiful.fg_color .. "99",
+			beautiful.fg_color .. "80",
 			dpi(8),
 			dpi(7),
 			nil,
 			nil,
 			nil,
 			nil,
-			helpers.rrect(3)
+			helpers.rrect(4)
 		),
 		widget = wibox.container.background,
 	})
@@ -292,28 +289,28 @@ awful.screen.connect_for_each_screen(function(s)
 				create_button(
 					wifi,
 					beautiful.black .. "00",
-					beautiful.fg_color .. "99",
+					beautiful.fg_color .. "80",
 					dpi(8),
 					dpi(6),
 					nil,
 					nil,
 					nil,
 					nil,
-					helpers.rrect(3),
+					helpers.rrect(4),
 					false
 				),
 				cc_ic,
 				create_button(
 					layout,
 					beautiful.black .. "00",
-					beautiful.fg_color .. "99",
+					beautiful.fg_color .. "80",
 					dpi(8),
 					dpi(8),
 					nil,
 					nil,
 					nil,
 					nil,
-					helpers.rrect(3),
+					helpers.rrect(4),
 					false
 				),
 				{

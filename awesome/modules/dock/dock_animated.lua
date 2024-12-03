@@ -27,20 +27,7 @@ local helpers = require("helpers")
 local rubato = require("modules.rubato")
 ------------------------------------------------------
 
-return function(
-	screen,
-	pinned,
-	size,
-	offset,
-	modules_spacing,
-	active_color,
-	inactive_color,
-	minimized_color,
-	background_color,
-	hover_color,
-	icon_handler,
-	icon_theme
-)
+return function(screen, pinned, size, offset, modules_spacing, active_color, background_color, icon_handler, icon_theme)
 	-- buttons for the dock
 	------------------------
 	local tasklist_buttons = gears.table.join(
@@ -86,7 +73,7 @@ return function(
 					{
 						awful.widget.clienticon,
 						id = "app_icon_role",
-						margins = 6,
+						margins = 5,
 						opacity = 1,
 						widget = wibox.container.margin,
 					},
@@ -97,60 +84,34 @@ return function(
 			},
 			layout = wibox.layout.fixed.vertical,
 			create_callback = function(self, c, index, objects)
-				collectgarbage("collect")
+				self.update = function()
+					collectgarbage("collect")
 
-				self:connect_signal("mouse::enter", function()
-					T_t.markup = helpers.capitalize(c.name)
-				end)
+					self:connect_signal("mouse::enter", function()
+						T_t.markup = helpers.capitalize(c.name)
+					end)
 
-				if c.active then
-					self:get_children_by_id("app_icon_role")[1].opacity = 1
-					helpers.gc(self, "circle_animate").opacity = 0.5
-				elseif c.minimized then
-					self:get_children_by_id("app_icon_role")[1].opacity = 0.5
-					helpers.gc(self, "circle_animate").opacity = 0
-				else
-					self:get_children_by_id("app_icon_role")[1].opacity = 1
-					helpers.gc(self, "circle_animate").opacity = 0
+					if c.active then
+						self:get_children_by_id("app_icon_role")[1].opacity = 1
+						helpers.gc(self, "circle_animate").opacity = 0.5
+					elseif c.minimized then
+						self:get_children_by_id("app_icon_role")[1].opacity = 0.5
+						helpers.gc(self, "circle_animate").opacity = 0
+					else
+						self:get_children_by_id("app_icon_role")[1].opacity = 1
+						helpers.gc(self, "circle_animate").opacity = 0
+					end
+
+					helpers.hover_cursor(self, "app_icon_role")
+
+					when_no_apps_open(screen)
 				end
 
-				-- helpers.hover_cursor(self, "app_icon_role")
-
-				when_no_apps_open(screen)
+				self.update()
 			end,
 
 			update_callback = function(self, c, _, __)
-				collectgarbage("collect")
-
-				local animation_button_opacity = rubato.timed({
-					pos = 0,
-					rate = 60,
-					intro = 0.02,
-					duration = 0.1,
-					awestore_compat = true,
-					subscribed = function(pos)
-						helpers.gc(self, "circle_animate").opacity = pos
-					end,
-				})
-
-				self:connect_signal("mouse::enter", function()
-					T_t.markup = helpers.capitalize(c.name)
-				end)
-
-				if c.active then
-					self:get_children_by_id("app_icon_role")[1].opacity = 1
-					animation_button_opacity:set(0.5)
-				elseif c.minimized then
-					self:get_children_by_id("app_icon_role")[1].opacity = 0.5
-					animation_button_opacity:set(0)
-				else
-					self:get_children_by_id("app_icon_role")[1].opacity = 1
-					animation_button_opacity:set(0)
-				end
-
-				-- helpers.hover_cursor(self, "app_icon_role")
-
-				when_no_apps_open(screen)
+				self.update()
 			end,
 		},
 	})
@@ -159,9 +120,10 @@ return function(
 		objects = { screen.mytasklist },
 		mode = "outside",
 		align = "top",
-		margins = { top = dpi(5), bottom = dpi(5), left = dpi(12), right = dpi(12) },
+		margins = { top = dpi(4), bottom = dpi(4), left = dpi(12), right = dpi(12) },
 		gaps = { bottom = dpi(8) },
 		shape = helpers.rrect(3),
+		bg = background_color,
 	})
 	-- Eof taglist
 	-------------------------------------------------------------------------------
@@ -189,7 +151,7 @@ return function(
 					layout = wibox.container.place,
 				},
 				widget = wibox.container.margin,
-				margins = dpi(3),
+				margins = dpi(2),
 			},
 			layout = wibox.layout.stack,
 		})
@@ -199,17 +161,19 @@ return function(
 			objects = { w },
 			mode = "outside",
 			align = "top",
-			margins = { top = dpi(5), bottom = dpi(5), left = dpi(12), right = dpi(12) },
+			margins = { top = dpi(4), bottom = dpi(4), left = dpi(12), right = dpi(12) },
 			gaps = { bottom = dpi(8) },
 			shape = helpers.rrect(3),
+			bg = background_color,
 		})
 
 		local animation_button_opacity = rubato.timed({
 			pos = 0,
-			rate = 60,
-			intro = 0.02,
-			duration = 0.1,
+			rate = 75,
+			intro = 0.1,
+			duration = 0.20,
 			awestore_compat = true,
+			easing = rubato.easing.quadratic,
 			subscribed = function(pos)
 				helpers.gc(w, "animate").opacity = pos
 			end,
@@ -231,7 +195,7 @@ return function(
 			animation_button_opacity:set(0.5)
 		end)
 
-		-- helpers.hover_cursor(w)
+		helpers.hover_cursor(w)
 
 		return w
 	end
@@ -302,7 +266,7 @@ return function(
 			dock:setup({
 				pinned_apps,
 				widget = wibox.container.margin,
-				margins = dpi(3),
+				margins = dpi(4),
 			})
 		else
 			dock:setup({
@@ -323,7 +287,7 @@ return function(
 					}),
 				},
 				widget = wibox.container.margin,
-				margins = dpi(3),
+				margins = dpi(4),
 			})
 		end
 	end
@@ -342,11 +306,11 @@ return function(
 	-- animation when the dock is closed/opened
 	local animation = rubato.timed({
 		intro = 0.05,
-		outro = 0.05,
-		duration = 0.1,
+		outro = 0.1,
+		duration = 0.2,
 		pos = hidden_y,
 		rate = 60,
-		easing = rubato.linear,
+		easing = rubato.ease_in_out_cubic,
 		subscribed = function(pos)
 			dock.y = pos
 		end,

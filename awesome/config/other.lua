@@ -4,7 +4,6 @@ local wibox = require("wibox")
 local naughty = require("naughty")
 local gears = require("gears")
 local helpers = require("helpers")
-local bling = require("modules.bling")
 
 require("config.tags")
 
@@ -52,20 +51,6 @@ client.connect_signal("mouse::enter", function(c)
 	c:activate({ context = "mouse_enter", raise = false })
 end)
 
--- Hide all windows when a splash is shown
-awesome.connect_signal("widgets::splash::visibility", function(vis)
-	local t = screen.primary.selected_tag
-	if vis then
-		for idx, c in ipairs(t:clients()) do
-			c.hidden = true
-		end
-	else
-		for idx, c in ipairs(t:clients()) do
-			c.hidden = false
-		end
-	end
-end)
-
 -- round windows
 -- ~~~~~~~~~~~~~
 local function enable_rounding()
@@ -96,27 +81,6 @@ local function enable_rounding()
 end
 
 enable_rounding()
-
--- task preview
--- ~~~~~~~~~~~~
--- bling.widget.task_preview.enable({
--- 	x = 850, -- The x-coord of the popup
--- 	y = 524, -- The y-coord of the popup
--- 	widget_structure = {
--- 		{
--- 			{
--- 				{
--- 					id = "name_role", -- The client name / title
--- 					widget = wibox.widget.textbox,
--- 				},
--- 				layout = wibox.layout.flex.horizontal,
--- 			},
--- 			widget = wibox.container.margin,
--- 			margins = 5,
--- 		},
--- 		layout = wibox.layout.fixed.vertical,
--- 	},
--- })
 
 -- Garbage Collection
 -- ~~~~~~~~~~~~~~~~~~

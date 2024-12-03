@@ -43,16 +43,15 @@ local get_taglist = function(s)
 	local the_taglist = awful.widget.taglist({
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
-		layout = { spacing = dpi(0), layout = wibox.layout.fixed.horizontal },
+		layout = { spacing = dpi(2), layout = wibox.layout.fixed.horizontal },
 		widget_template = {
 			{
 				{
 					{
 						id = "hover",
 						widget = wibox.container.background,
-						shape = helpers.rrect(3),
-						bg = beautiful.fg_color .. "99",
-						opacity = 0,
+						shape = helpers.rrect(4),
+						bg = beautiful.fg_color .. "80",
 					},
 					{
 						{
@@ -79,56 +78,50 @@ local get_taglist = function(s)
 			create_callback = function(self, c3, _)
 				local animation_button_opacity = rubato.timed({
 					pos = 0,
-					rate = 60,
-					intro = 0.02,
-					duration = 0.1,
+					rate = 75,
+					intro = 0.1,
+					duration = 0.20,
 					awestore_compat = true,
+					easing = rubato.easing.quadratic,
 					subscribed = function(pos)
 						helpers.gc(self, "hover").opacity = pos
 					end,
 				})
 
-				-- helpers.gc(self, "hover"):connect_signal("mouse::enter", function()
-				-- 	animation_button_opacity:set(0.4)
-				-- end)
-
-				-- helpers.gc(self, "hover"):connect_signal("mouse::leave", function()
-				-- 	animation_button_opacity:set(0.0)
-				-- end)
-
-				-- add buttons and commands
-				helpers.gc(self, "hover"):connect_signal("button::press", function()
+				helpers.gc(self, "hover"):connect_signal("mouse::enter", function()
 					animation_button_opacity:set(0.4)
 				end)
 
-				helpers.gc(self, "hover"):connect_signal("button::release", function()
-					gears.timer({
-						timeout = 1,
-						autostart = true,
-						single_shot = true,
-						callback = function()
-							animation_button_opacity:set(0)
-						end,
-					})
+				helpers.gc(self, "hover"):connect_signal("mouse::leave", function()
+					animation_button_opacity:set(0.0)
 				end)
 
-				-- helpers.hover_cursor(helpers.gc(self, "hover"))
+				-- add buttons and commands
+				helpers.gc(self, "hover"):connect_signal("button::press", function()
+					animation_button_opacity:set(0.2)
+				end)
 
-				self.update = function()
-					-- if c3.selected then
-					-- 	helpers.gc(self, "bg_role").bg = beautiful.fg_2 .. "33"
-					-- elseif #c3:clients() == 0 then
-					-- 	helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
-					-- else
-					-- 	helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
-					-- end
-				end
+				helpers.gc(self, "hover"):connect_signal("button::release", function()
+					animation_button_opacity:set(0.4)
+				end)
 
-				self.update()
+				helpers.hover_cursor(helpers.gc(self, "hover"))
+
+				-- self.update = function()
+				-- 	if c3.selected then
+				-- 		helpers.gc(self, "bg_role").bg = beautiful.fg_2 .. "33"
+				-- 	elseif #c3:clients() == 0 then
+				-- 		helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
+				-- 	else
+				-- 		helpers.gc(self, "bg_role").bg = beautiful.black .. "00"
+				-- 	end
+				-- end
+				--
+				-- self.update()
 			end,
 
 			update_callback = function(self)
-				self.update()
+				-- self.update()
 			end,
 		},
 

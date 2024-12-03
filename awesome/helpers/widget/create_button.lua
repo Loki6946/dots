@@ -59,10 +59,11 @@ return function(
 
 	local animation_button_opacity = rubato.timed({
 		pos = 0,
-		rate = 60,
-		intro = 0.02,
-		duration = 0.1,
+		rate = 75,
+		intro = 0.1,
+		duration = 0.20,
 		awestore_compat = true,
+		easing = rubato.easing.quadratic,
 		subscribed = function(pos)
 			circle_animate.opacity = pos
 		end,

@@ -4,7 +4,6 @@ local gtimer = require("gears.timer")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
---local rubato = require("modules.rubato")
 local dpi = beautiful.xresources.apply_dpi
 local setmetatable = setmetatable
 local ipairs = ipairs
@@ -149,7 +148,7 @@ function menu.menu(widgets, width)
 		visible = false,
 		ontop = true,
 		minimum_width = width or dpi(170),
-		maximum_width = width or dpi(170),
+		maximum_width = width or dpi(180),
 		shape = helpers.rrect(beautiful.rounded - 4),
 		bg = beautiful.bg_2 .. "CC",
 		border_width = dpi(1),
