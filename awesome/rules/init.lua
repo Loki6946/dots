@@ -70,6 +70,8 @@ ruled.client.connect_signal("request::rules", function()
 		rule_any = {
 			class = {
 				"zen-alpha",
+				"zen-beta",
+				"zen-twilight",
 				"Google-chrome",
 				"Code",
 				"org.gnome.Nautilus",
@@ -78,9 +80,22 @@ ruled.client.connect_signal("request::rules", function()
 				"bottles",
 				"Lutris",
 				"Totem",
+				"About-this-mc",
+				"python3",
+				"Dconf-editor",
+				"gnome-calculator",
 			},
 		},
 		properties = { titlebars_enabled = false },
+	})
+
+	ruled.client.append_rule({
+		rule_any = {
+			class = {
+				"About-this-mc",
+			},
+		},
+		properties = { border_width = 0 },
 	})
 
 	-- Music client
@@ -92,6 +107,28 @@ ruled.client.connect_signal("request::rules", function()
 			-- height = 540,
 			width = 510,
 			height = 520,
+			placement = helpers.centered_client_placement,
+		},
+	})
+
+	-- calculator
+	ruled.client.append_rule({
+		rule_any = { class = { "Galculator" } },
+		properties = {
+			floating = true,
+			width = 150,
+			height = 480,
+			placement = helpers.centered_client_placement,
+		},
+	})
+
+	-- neovim
+	ruled.client.append_rule({
+		rule_any = { class = { "neovim" } },
+		properties = {
+			floating = true,
+			height = 650,
+			width = 1100,
 			placement = helpers.centered_client_placement,
 		},
 	})

@@ -182,7 +182,7 @@ return wibox.widget({
 		widget = wibox.container.margin,
 	},
 	widget = wibox.container.background,
-	bg = beautiful.bg_2 .. "CC",
+	bg = beautiful.bg_2 .. "B3",
 	border_width = dpi(1),
 	border_color = beautiful.border_color .. "CC",
 	shape = helpers.rrect(beautiful.rounded),

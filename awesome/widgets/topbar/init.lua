@@ -14,24 +14,25 @@ local create_button = require("helpers.widget.create_button")
 -- misc/vars
 -- ~~~~~~~~~
 require("widgets.topbar.mods.cc")
+require("widgets.topbar.mods.awesomemenu")
 
 awful.screen.connect_for_each_screen(function(s)
 	local screen_width = s.geometry.width
 
 	-- widgets
 	-- ~~~~~~~
-	s.calendar = require("widgets.topbar.mods.widget.calendar")(s)
-	s.clock = require("widgets.topbar.mods.widget.clock")(s)
-
+	s.lock = require("widgets.lock")(s)
+	s.exit = require("widgets.exit")(s)
 	local taglist = require("widgets.topbar.mods.taglist")(s)
 
 	-- launcher {{
 	local launcher_icon = wibox.widget({
 		{
 			widget = wibox.widget.imagebox,
-			image = gears.color.recolor_image(beautiful.awm_icon, beautiful.fg_color),
-			forced_height = 16,
-			forced_width = 16,
+			image = gears.color.recolor_image(beautiful.search_icon, beautiful.fg_color),
+			forced_height = 13,
+			forced_width = 13,
+			valign = "center",
 			resize = true,
 		},
 		align = "center",
@@ -43,14 +44,13 @@ awful.screen.connect_for_each_screen(function(s)
 			launcher_icon,
 			beautiful.black .. "00",
 			beautiful.fg_color .. "80",
-			dpi(10),
+			dpi(8),
 			nil,
 			nil,
 			nil,
 			nil,
 			nil,
-			helpers.rrect(4),
-			false
+			helpers.rrect(4)
 		),
 		widget = wibox.container.background,
 	})
@@ -62,8 +62,42 @@ awful.screen.connect_for_each_screen(function(s)
 	}))
 	-- }}
 
+	local awesomemenu_icon = wibox.widget({
+		{
+			widget = wibox.widget.imagebox,
+			image = gears.color.recolor_image(beautiful.awm_icon, beautiful.fg_color),
+			forced_height = 15,
+			forced_width = 15,
+			resize = true,
+		},
+		align = "center",
+		widget = wibox.container.place,
+	})
+
+	local awesomemenu = wibox.widget({
+		create_button(
+			awesomemenu_icon,
+			beautiful.black .. "00",
+			beautiful.fg_color .. "80",
+			dpi(10),
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			helpers.rrect(4)
+		),
+		widget = wibox.container.background,
+	})
+
+	awesomemenu:buttons(gears.table.join({
+		awful.button({}, 1, function()
+			awesome.emit_signal("toggle::awesomemenu")
+		end),
+	}))
+
 	-- wifi
-	local wifi = wibox.widget({
+	local wifi_icon = wibox.widget({
 		{
 			id = "wifi_icon",
 			markup = helpers.colorize_text("", beautiful.fg_color),
@@ -76,9 +110,24 @@ awful.screen.connect_for_each_screen(function(s)
 		widget = wibox.container.margin,
 	})
 
+	local wifi = create_button(
+		wifi_icon,
+		beautiful.black .. "00",
+		beautiful.fg_color .. "80",
+		dpi(8),
+		nil,
+		nil,
+		nil,
+		nil,
+		nil,
+		helpers.rrect(4)
+	)
+
 	-- cc
 	local cc_ic_icon = wibox.widget({
 		image = gears.color.recolor_image(beautiful.control_center_icon, beautiful.fg_color),
+		forced_height = 13,
+		forced_width = 13,
 		resize = true,
 		valign = "center",
 		widget = wibox.widget.imagebox,
@@ -90,7 +139,7 @@ awful.screen.connect_for_each_screen(function(s)
 			beautiful.black .. "00",
 			beautiful.fg_color .. "80",
 			dpi(8),
-			dpi(7),
+			nil,
 			nil,
 			nil,
 			nil,
@@ -101,28 +150,53 @@ awful.screen.connect_for_each_screen(function(s)
 	})
 
 	-- layout
-	local layout = awful.widget.layoutbox({
-		buttons = {
-			awful.button({
-				modifiers = {},
-				button = 1,
-				on_press = function()
-					awful.layout.inc(1)
-				end,
-			}),
-			awful.button({
-				modifiers = {},
-				button = 3,
-				on_press = function()
-					awful.layout.inc(-1)
-				end,
-			}),
-		},
-	})
+	local layout = create_button(
+		awful.widget.layoutbox(),
+		beautiful.black .. "00",
+		beautiful.fg_color .. "80",
+		dpi(8),
+		dpi(9),
+		nil,
+		nil,
+		nil,
+		nil,
+		helpers.rrect(4)
+	)
+
+	layout:buttons(gears.table.join({
+		awful.button({
+			modifiers = {},
+			button = 1,
+			on_press = function()
+				awful.layout.inc(1)
+			end,
+		}),
+		awful.button({
+			modifiers = {},
+			button = 3,
+			on_press = function()
+				awful.layout.inc(-1)
+			end,
+		}),
+	}))
 
 	--------------------
 	-- battery widget
 	local battery = wibox.widget({
+		{
+			{
+				id = "status",
+				markup = helpers.colorize_text("", beautiful.fg_color),
+				font = beautiful.icon_outlined .. "10",
+				valign = "center",
+				align = "center",
+				widget = wibox.widget.textbox,
+			},
+			widget = wibox.container.margin,
+			top = 1,
+			bottom = 0,
+			right = 0,
+		},
 		{
 			{
 				{
@@ -148,29 +222,16 @@ awful.screen.connect_for_each_screen(function(s)
 					bg = beautiful.fg_color .. "99",
 					forced_height = 5,
 					forced_width = 2,
-					shape = helpers.rrect(beautiful.rounded),
+					shape = helpers.rrect(9999),
 					widget = wibox.container.background,
 				},
 				widget = wibox.container.place,
 			},
-			spacing = 2,
+			spacing = 1,
 			layout = wibox.layout.fixed.horizontal,
 		},
-		{
-			{
-				id = "status",
-				markup = helpers.colorize_text("", beautiful.black),
-				font = beautiful.icon_var .. "8",
-				valign = "center",
-				align = "center",
-				widget = wibox.widget.textbox,
-			},
-			widget = wibox.container.margin,
-			top = 0,
-			bottom = 0,
-			right = 3,
-		},
-		layout = wibox.layout.stack,
+		spacing = 1,
+		layout = wibox.layout.fixed.horizontal,
 	})
 
 	local battery_t = awful.tooltip({
@@ -195,7 +256,7 @@ awful.screen.connect_for_each_screen(function(s)
 		{
 			{
 				widget = wibox.widget.textclock,
-				format = helpers.colorize_text("%a %b %d", beautiful.fg_color),
+				format = helpers.colorize_text("%a %d %b", beautiful.fg_color),
 				font = beautiful.font_var .. "Medium 10",
 				valign = "center",
 				align = "center",
@@ -228,21 +289,21 @@ awful.screen.connect_for_each_screen(function(s)
 			helpers.gc(battery, "status").visible = false
 		end
 
-		if value < 50 then
-			helpers.gc(battery, "status").markup = helpers.colorize_text("", beautiful.fg_color)
-		else
-			helpers.gc(battery, "status").markup = helpers.colorize_text("", beautiful.black)
-		end
+		-- if value < 45 then
+		-- 	helpers.gc(battery, "status").markup = helpers.colorize_text("", beautiful.fg_color)
+		-- else
+		-- 	helpers.gc(battery, "status").markup = helpers.colorize_text("", beautiful.black)
+		-- end
 	end)
 
 	awesome.connect_signal("signal::wifi", function(value)
 		if value then
-			helpers.gc(wifi, "wifi_icon").markup = helpers.colorize_text("", beautiful.fg_color)
+			helpers.gc(wifi_icon, "wifi_icon").markup = helpers.colorize_text("", beautiful.fg_color)
 			wifi:buttons(gears.table.join(awful.button({}, 1, function()
 				awful.spawn("nmcli radio wifi off", false)
 			end)))
 		else
-			helpers.gc(wifi, "wifi_icon").markup = helpers.colorize_text("", beautiful.fg_color .. "99")
+			helpers.gc(wifi_icon, "wifi_icon").markup = helpers.colorize_text("", beautiful.fg_color .. "99")
 			wifi:buttons(gears.table.join(awful.button({}, 1, function()
 				awful.spawn("nmcli radio wifi on", false)
 			end)))
@@ -256,7 +317,7 @@ awful.screen.connect_for_each_screen(function(s)
 		ontop = false,
 		type = "dock",
 		width = screen_width,
-		height = dpi(28),
+		height = dpi(30),
 		bg = beautiful.topbar_background,
 	})
 
@@ -267,7 +328,7 @@ awful.screen.connect_for_each_screen(function(s)
 	s.wibar_wid:setup({
 		{
 			{
-				launcher,
+				awesomemenu,
 				taglist,
 				spacing = dpi(3),
 				layout = wibox.layout.fixed.horizontal,
@@ -282,46 +343,21 @@ awful.screen.connect_for_each_screen(function(s)
 					battery,
 					left = dpi(8),
 					right = dpi(8),
-					top = dpi(9),
-					bottom = dpi(9),
+					top = dpi(10),
+					bottom = dpi(10),
 					widget = wibox.container.margin,
 				},
-				create_button(
-					wifi,
-					beautiful.black .. "00",
-					beautiful.fg_color .. "80",
-					dpi(8),
-					dpi(6),
-					nil,
-					nil,
-					nil,
-					nil,
-					helpers.rrect(4),
-					false
-				),
+				wifi,
+				launcher,
 				cc_ic,
-				create_button(
-					layout,
-					beautiful.black .. "00",
-					beautiful.fg_color .. "80",
-					dpi(8),
-					dpi(8),
-					nil,
-					nil,
-					nil,
-					nil,
-					helpers.rrect(4),
-					false
-				),
+				layout,
 				{
 					clock,
 					left = dpi(8),
 					right = dpi(8),
-					top = dpi(6),
-					bottom = dpi(6),
 					widget = wibox.container.margin,
 				},
-				spacing = dpi(2),
+				spacing = dpi(1),
 				layout = wibox.layout.fixed.horizontal,
 			},
 			right = 10,

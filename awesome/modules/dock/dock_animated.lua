@@ -63,29 +63,49 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		},
 		widget_template = {
 			{
+				id = "app_icon_role",
+				forced_height = dpi(size - 15),
+				forced_width = dpi(size - 15),
+				resize = true,
+				valign = "center",
+				halign = "center",
+				widget = awful.widget.clienticon,
+			},
+			{
 				{
 					{
 						id = "circle_animate",
 						widget = wibox.container.background,
-						shape = helpers.rrect(14),
 						bg = active_color,
+						shape = helpers.rrect(999),
+						forced_width = dpi(5),
+						forced_height = dpi(5),
 					},
-					{
-						awful.widget.clienticon,
-						id = "app_icon_role",
-						margins = 5,
-						opacity = 1,
-						widget = wibox.container.margin,
-					},
-					layout = wibox.layout.stack,
+					halign = "center",
+					widget = wibox.container.place,
 				},
-				margins = dpi(0),
-				widget = wibox.container.margin,
+				forced_width = dpi(size - 15),
+				widget = wibox.container.background,
 			},
+			spacing = dpi(2),
 			layout = wibox.layout.fixed.vertical,
 			create_callback = function(self, c, index, objects)
+				local animation_button_opacity = rubato.timed({
+					pos = 0,
+					rate = 75,
+					intro = 0.1,
+					duration = 0.20,
+					awestore_compat = true,
+					easing = rubato.easing.quadratic,
+					subscribed = function(pos)
+						helpers.gc(self, "circle_animate").opacity = pos
+					end,
+				})
+
 				self.update = function()
 					collectgarbage("collect")
+
+					helpers.gc(self, "app_icon_role").client = c
 
 					self:connect_signal("mouse::enter", function()
 						T_t.markup = helpers.capitalize(c.name)
@@ -93,13 +113,13 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 
 					if c.active then
 						self:get_children_by_id("app_icon_role")[1].opacity = 1
-						helpers.gc(self, "circle_animate").opacity = 0.5
+						animation_button_opacity:set(1.0)
 					elseif c.minimized then
-						self:get_children_by_id("app_icon_role")[1].opacity = 0.5
-						helpers.gc(self, "circle_animate").opacity = 0
+						self:get_children_by_id("app_icon_role")[1].opacity = 1
+						animation_button_opacity:set(0.3)
 					else
 						self:get_children_by_id("app_icon_role")[1].opacity = 1
-						helpers.gc(self, "circle_animate").opacity = 0
+						animation_button_opacity:set(0.3)
 					end
 
 					helpers.hover_cursor(self, "app_icon_role")
@@ -135,25 +155,32 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 
 		local w = wibox.widget({
 			{
-				id = "animate",
-				widget = wibox.container.background,
-				shape = helpers.rrect(14),
-				bg = active_color,
+				widget = wibox.widget.imagebox,
+				image = app_icon,
+				valign = "center",
+				halign = "center",
+				forced_height = dpi(size - 15),
+				forced_width = dpi(size - 15),
+				resize = true,
 			},
 			{
 				{
 					{
-						widget = wibox.widget.imagebox,
-						image = app_icon,
-						valign = "center",
-						halign = "center",
+						id = "animate",
+						widget = wibox.container.background,
+						bg = active_color,
+						shape = helpers.rrect(999),
+						forced_width = dpi(5),
+						forced_height = dpi(5),
 					},
+					halign = "center",
 					layout = wibox.container.place,
 				},
-				widget = wibox.container.margin,
-				margins = dpi(2),
+				forced_width = dpi(size - 15),
+				widget = wibox.container.background,
 			},
-			layout = wibox.layout.stack,
+			spacing = dpi(2),
+			layout = wibox.layout.fixed.vertical,
 		})
 
 		local w_t = awful.tooltip({
@@ -165,6 +192,19 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 			gaps = { bottom = dpi(8) },
 			shape = helpers.rrect(3),
 			bg = background_color,
+		})
+
+		-- Animation using rubato
+		local click_animation = rubato.timed({
+			pos = 1, -- Normal scale
+			rate = 120,
+			intro = 0.05,
+			duration = 0.2,
+			easing = rubato.easing.quadratic,
+			subscribed = function(pos)
+				w.children[1].forced_height = dpi((size - 15) * pos)
+				w.children[1].forced_width = dpi((size - 15) * pos)
+			end,
 		})
 
 		local animation_button_opacity = rubato.timed({
@@ -180,19 +220,23 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		})
 
 		w:connect_signal("mouse::enter", function()
-			animation_button_opacity:set(0.5)
+			animation_button_opacity:set(1.0)
 		end)
 
 		w:connect_signal("mouse::leave", function()
 			animation_button_opacity:set(0)
 		end)
 
-		w:connect_signal("button::press", function()
-			awful.spawn.with_shell(app_command, false)
-			animation_button_opacity:set(0.2)
+		w:connect_signal("button::press", function(_, _, _, button)
+			if button == 1 then
+				awful.spawn.with_shell(app_command, false)
+				animation_button_opacity:set(0.8)
+				click_animation.target = 0.8
+			end
 		end)
 		w:connect_signal("button::release", function()
-			animation_button_opacity:set(0.5)
+			animation_button_opacity:set(1.0)
+			click_animation.target = 1.0
 		end)
 
 		helpers.hover_cursor(w)
@@ -229,7 +273,7 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		maximum_height = dpi(size),
 		x = screen.geometry.x + screen.geometry.width / 2,
 		y = awful.screen.focused().geometry.height,
-		shape = helpers.rrect(17),
+		shape = helpers.rrect(20),
 	})
 
 	dock:setup({
@@ -266,7 +310,7 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 			dock:setup({
 				pinned_apps,
 				widget = wibox.container.margin,
-				margins = dpi(4),
+				margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
 			})
 		else
 			dock:setup({
@@ -283,11 +327,11 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 							thickness = 2,
 						},
 						widget = wibox.container.margin,
-						margins = { top = dpi(8), bottom = dpi(8) },
+						margins = { top = dpi(5), bottom = dpi(10) },
 					}),
 				},
 				widget = wibox.container.margin,
-				margins = dpi(4),
+				margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
 			})
 		end
 	end

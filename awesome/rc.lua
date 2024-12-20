@@ -23,3 +23,6 @@ require("config.other")
 
 -- load signals
 require("signals")
+
+-- icon customizer
+require("modules/icon_customizer")({ delay = 0.2 })

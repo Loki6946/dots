@@ -30,13 +30,13 @@ return function(s)
 			image = beautiful.pp,
 			clip_shape = helpers.rrect(9999),
 			halign = "center",
-			forced_width = 100,
-			forced_height = 100,
+			forced_width = 70,
+			forced_height = 70,
 			widget = wibox.widget.imagebox,
 		},
 		{
 			markup = cache.user .. "@" .. cache.hostname,
-			font = beautiful.font_var .. "Bold 14",
+			font = beautiful.font_var .. "Bold 12",
 			halign = "center",
 			widget = wibox.widget.textbox,
 		},
@@ -68,7 +68,7 @@ return function(s)
 			{
 				id = "txt",
 				markup = "Enter Password",
-				font = beautiful.font_var .. "12",
+				font = beautiful.font_var .. "10",
 				align = "center",
 				halign = "center",
 				widget = wibox.widget.textbox,
@@ -223,14 +223,14 @@ return function(s)
 
 	local time = wibox.widget({
 		{
-			font = beautiful.font_var .. "Medium 25",
-			format = helpers.colorize_text("%A, %B %d", beautiful.bg_color),
+			font = beautiful.font_var .. "Medium 18",
+			format = helpers.colorize_text("%A, %B %d", beautiful.black),
 			halign = "center",
 			widget = wibox.widget.textclock,
 		},
 		{
-			font = beautiful.font_var .. "Heavy 120",
-			format = helpers.colorize_text("%H:%M", beautiful.bg_color),
+			font = beautiful.font_var .. "Medium 70",
+			format = helpers.colorize_text("%H:%M", beautiful.black),
 			halign = "center",
 			widget = wibox.widget.textclock,
 		},

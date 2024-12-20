@@ -47,29 +47,24 @@ local get_taglist = function(s)
 		widget_template = {
 			{
 				{
-					{
-						id = "hover",
-						widget = wibox.container.background,
-						shape = helpers.rrect(4),
-						bg = beautiful.fg_color .. "80",
-					},
-					{
-						{
-							id = "text_role",
-							widget = wibox.widget.textbox,
-							align = "center",
-							markup = "DD",
-							valign = "center",
-						},
-						left = dpi(10),
-						right = dpi(10),
-						widget = wibox.container.margin,
-					},
-					layout = wibox.layout.stack,
+					id = "hover",
+					widget = wibox.container.background,
+					shape = helpers.rrect(4),
+					bg = beautiful.fg_color .. "80",
 				},
-				id = "bg_role",
-				shape = helpers.rrect(3),
-				widget = wibox.container.background,
+				{
+					{
+						id = "text_role",
+						widget = wibox.widget.textbox,
+						align = "center",
+						markup = "DD",
+						valign = "center",
+					},
+					left = dpi(10),
+					right = dpi(10),
+					widget = wibox.container.margin,
+				},
+				layout = wibox.layout.stack,
 			},
 			top = dpi(0),
 			bottom = dpi(0),

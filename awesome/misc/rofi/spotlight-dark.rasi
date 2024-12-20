@@ -36,7 +36,7 @@ window {
 
     location:       center;
     y-offset:       -80px;
-    width:          640;
+    width:          600;
     border:         1px;
     border-color:   @border;
     border-radius:  10;

@@ -18,13 +18,12 @@ return {
 
 	--icons
 	control_center_icon = directory .. "icons/controlcenter.svg",
+	search_icon = directory .. "icons/search.svg",
+	bolt_icon = directory .. "icons/bolt.svg",
 
 	-- layouts
 	floating = directory .. "layouts/floating.png",
 	flair = directory .. "layouts/flair.png",
 	tile = directory .. "layouts/tile.png",
 	machi = directory .. "layouts/layout-machi.png",
-
-	-- wallpaper
-	wall = directory .. "walls/grey.png",
 }

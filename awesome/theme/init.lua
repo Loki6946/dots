@@ -9,8 +9,9 @@ local themes_path = gfs.get_themes_dir()
 -- misc/vars
 -- ~~~~~~~~~
 local assets = require("theme.assets")
+local apps_icon_dir = home_var .. "/.config/awesome/theme/assets/apps/"
 local apps = require("config.apps")
-local colors = require("theme.colors.dark")
+local colors = require("theme.colors.claude")
 
 -- initial empty array
 local theme = {}
@@ -75,6 +76,8 @@ theme.icon_tone = "Material Icons TwoTone "
 theme.notification_icon = assets.notification_icon
 theme.awm_icon = assets.awm_icon
 theme.control_center_icon = assets.control_center_icon
+theme.bolt_icon = assets.bolt_icon
+theme.search_icon = assets.search_icon
 theme.health_icon = assets.health_icon
 theme.album_art_fallback = assets.album_art_fallback
 theme.music_art_fallback = assets.music_art_fallback
@@ -82,11 +85,44 @@ theme.pp = assets.pp
 
 -- wallpaper
 -- ~~~~~~~~~
-theme.wallpaper = assets.wall
+local wallpaper_directory = home_var .. "/.config/awesome/theme/assets/walls/"
+
+local wallpapers = {
+	{ name = "italy", path = wallpaper_directory .. "italy.jpg", color = "#535552" },
+	{ name = "piazza-gae-aulenti", path = wallpaper_directory .. "piazza-gae-aulenti.jpg", color = "#070304" },
+	{ name = "calm-ocean-dusk", path = wallpaper_directory .. "calm-ocean-dusk.jpg", color = "#27194C" },
+	{ name = "dreamscape", path = wallpaper_directory .. "dreamscape.jpg", color = theme.bg_color },
+	{ name = "two-bird", path = wallpaper_directory .. "two-bird.jpg", color = theme.bg_color },
+	{ name = "white-minimalist", path = wallpaper_directory .. "white_minimalist.jpg", color = theme.bg_color },
+	{ name = "sun", path = wallpaper_directory .. "sun.jpg", color = "#31302C" },
+	{ name = "sierra", path = wallpaper_directory .. "sierra.jpg", color = "#261B21" },
+	{ name = "graphic", path = wallpaper_directory .. "graphic.jpg", color = "#3E424B" },
+	{ name = "tree", path = wallpaper_directory .. "tree.jpg", color = "#2F2F2F" },
+	{ name = "moneterey", path = wallpaper_directory .. "moneterey-light-3.jpg", color = "#373737" },
+	{ name = "snowy-mountain", path = wallpaper_directory .. "snowy-mountain.jpg", color = "#2C2B32" },
+	{ name = "dusk-mountain", path = wallpaper_directory .. "dusk-mountain.jpg", color = "#916B7E" },
+	{ name = "ridge", path = wallpaper_directory .. "ridge.jpg", color = "#181A32" },
+}
+
+local function get_wallpaper(identifier)
+	if type(identifier) == "number" then
+		return wallpapers[identifier]
+	elseif type(identifier) == "string" then
+		for _, wallpaper in ipairs(wallpapers) do
+			if wallpaper.name == identifier then
+				return wallpaper
+			end
+		end
+	end
+	return nil
+end
+
+theme.selected_wallpaper = get_wallpaper("ridge")
+theme.wallpaper = theme.selected_wallpaper.path
 
 -- gaps/border thing
 -- ~~~~~~~~~~~~~~~~~
-theme.useless_gap = dpi(2)
+theme.useless_gap = dpi(3)
 theme.border_width = dpi(1)
 theme.border_color = colors.border_color
 theme.border_normal = colors.border_color
@@ -167,13 +203,24 @@ theme.playerctl_player = { "mpd", "%any" }
 theme.playerctl_update_on_activity = true
 theme.playerctl_position_update_interval = 1
 
+-- custom icons
+-- ~~~~~~~~~~~~
+theme.ic_icons = {
+	["zen-alpha"] = apps_icon_dir .. "zen_browser.svg",
+	["Alacritty"] = apps_icon_dir .. "alacritty.svg",
+	["music"] = apps_icon_dir .. "music.svg",
+	["Google-chrome"] = apps_icon_dir .. "chrome.svg",
+	["neovim"] = apps_icon_dir .. "neovim.svg",
+	["About-this-mc"] = apps_icon_dir .. "about-this-mc.svg",
+}
+
 -- topbar
 -- ~~~~~~
-theme.topbar_background = theme.bg_2 .. "99"
+theme.topbar_background = theme.selected_wallpaper.color .. "99"
 
 -- Awesome dock
 -- ~~~~~~~~~~~~
-theme.awesome_dock_size = 65
+theme.awesome_dock_size = 70
 theme.awesome_dock_pinned = {
 	{ "thunar" },
 	{ "alacritty" },
@@ -184,11 +231,11 @@ theme.awesome_dock_pinned = {
 	{ "code", "vscode" },
 	{ apps.editor_cmd, "neovim" },
 }
-theme.awesome_dock_color_active = theme.fg_color .. "80"
-theme.awesome_dock_color_bg = theme.bg_3 .. "99"
+theme.awesome_dock_color_active = theme.fg_color
+theme.awesome_dock_color_bg = "#2A2A3099"
 theme.awesome_dock_disabled = false
-theme.awesome_dock_spacing = dpi(2)
-theme.awesome_dock_offset = theme.useless_gap + 8
+theme.awesome_dock_spacing = dpi(4)
+theme.awesome_dock_offset = theme.useless_gap + 4
 theme.awesome_dock_icon = "WhiteSur-dark"
 
 -- init

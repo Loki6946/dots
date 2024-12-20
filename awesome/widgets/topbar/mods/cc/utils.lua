@@ -10,13 +10,14 @@ local helpers = require("helpers")
 local wibox = require("wibox")
 local gears = require("gears")
 local button_creator = require("helpers.widget.create_button")
+local apps = require("config.apps")
 
 -- widgets
 -- ~~~~~~~
 
-local widget_button = wibox.widget({
+local setting_button = wibox.widget({
 	widget = wibox.widget.textbox,
-	markup = helpers.colorize_text("", beautiful.fg_color),
+	markup = helpers.colorize_text("", beautiful.fg_color),
 	font = beautiful.icon_outlined .. "14",
 	align = "center",
 	valign = "center",
@@ -33,16 +34,18 @@ local power_button = wibox.widget({
 
 -- add function to power_button
 -- ~~~~~~~~~~~~~~~~~~~~
-widget_button:buttons(gears.table.join(awful.button({}, 1, function()
-	awesome.emit_signal("widget::hide")
+setting_button:buttons(gears.table.join(awful.button({}, 1, function()
+	if control_c.visible then
+		cc_toggle()
+	end
+	awful.spawn.with_shell("cd ~/.config/awesome && " .. apps.editor_cmd .. " ./theme/init.lua")
 end)))
 
 power_button:buttons(gears.table.join(awful.button({}, 1, function()
 	if control_c.visible then
 		cc_toggle()
 	end
-	require("modules.exit-screen")
-	awesome.emit_signal("module::exit_screen:show")
+	awesome.emit_signal("toggle::exit")
 end)))
 
 --~~~~~~~~~~~~~~~~~~~
@@ -51,7 +54,7 @@ return wibox.widget({
 	{
 		{
 			button_creator(
-				widget_button,
+				setting_button,
 				beautiful.black .. "00",
 				nil,
 				dpi(7),
@@ -91,7 +94,7 @@ return wibox.widget({
 		right = dpi(6),
 		widget = wibox.container.margin,
 	},
-	bg = beautiful.bg_2 .. "CC",
+	bg = beautiful.bg_2 .. "B3",
 	border_width = dpi(1),
 	border_color = beautiful.border_color .. "CC",
 	forced_height = dpi(40),

@@ -20,7 +20,7 @@ awful.screen.connect_for_each_screen(function(s)
 		screen = s,
 		width = dpi(380),
 		height = dpi(438),
-		bg = beautiful.bg_color .. "E6",
+		bg = beautiful.bg_color .. "BF",
 		border_width = dpi(1),
 		border_color = "#5A5A5E",
 		margins = 10,
@@ -39,52 +39,41 @@ awful.screen.connect_for_each_screen(function(s)
 	-- animations
 	--------------
 	local slide_right = rubato.timed({
-		pos = s.geometry.width,
+		pos = s.geometry.width, -- Ensure this starts at screen width
 		rate = 60,
-		intro = 0.12,
 		duration = 0.28,
+		intro = 0.12,
 		easing = rubato.ease_in_out_cubic,
 		subscribed = function(pos)
 			control_c.x = s.geometry.x + pos
 		end,
 	})
 
-	local slide_end = gears.timer({
-		single_shot = true,
-		timeout = 0.33 + 0.08,
-		callback = function()
-			control_c.visible = false
-		end,
-	})
-
-	-- toggler script
-	--~~~~~~~~~~~~~~~
-	local screen_backup = 1
-
 	cc_toggle = function(screen)
-		-- set screen to default, if none were found
-		if not screen then
-			screen = s
-		end
-
-		-- control center x position
+		screen = screen or s
 		control_c.y = screen.geometry.y + (dpi(33) + beautiful.useless_gap)
 
-		-- toggle visibility
-		if control_c.visible then
-			-- check if screen is different or the same
-			if screen_backup ~= screen.index then
-				control_c.visible = true
-			else
-				slide_end:again()
-				slide_right.target = s.geometry.width
-			end
-		elseif not control_c.visible then
+		if not control_c.visible then
 			slide_right.target = s.geometry.width - (control_c.width + beautiful.useless_gap * 5)
+			control_c.x = s.geometry.x + s.geometry.width -- Start from far right
 			control_c.visible = true
+		else
+			if screen.index ~= screen_backup then
+				return
+			end
+
+			slide_right.target = s.geometry.width
+			gears
+				.timer({
+					single_shot = true,
+					timeout = 0.41,
+					callback = function()
+						control_c.visible = false
+					end,
+				})
+				:start()
 		end
 
-		-- set screen_backup to new screen
 		screen_backup = screen.index
 	end
 	-- Eof toggler script
