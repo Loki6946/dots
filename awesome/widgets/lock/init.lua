@@ -224,13 +224,13 @@ return function(s)
 	local time = wibox.widget({
 		{
 			font = beautiful.font_var .. "Medium 18",
-			format = helpers.colorize_text("%A, %B %d", beautiful.black),
+			format = helpers.colorize_text("%A, %B %d", beautiful.white),
 			halign = "center",
 			widget = wibox.widget.textclock,
 		},
 		{
 			font = beautiful.font_var .. "Medium 70",
-			format = helpers.colorize_text("%H:%M", beautiful.black),
+			format = helpers.colorize_text("%H:%M", beautiful.white),
 			halign = "center",
 			widget = wibox.widget.textclock,
 		},

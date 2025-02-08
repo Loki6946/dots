@@ -98,7 +98,7 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 					awestore_compat = true,
 					easing = rubato.easing.quadratic,
 					subscribed = function(pos)
-						helpers.gc(self, "circle_animate").opacity = pos
+						helpers.gc(self, "circle_animate").forced_width = pos
 					end,
 				})
 
@@ -111,15 +111,22 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 						T_t.markup = helpers.capitalize(c.name)
 					end)
 
+					self:connect_signal("button::press", function(_, _, _, button)
+						helpers.gc(self, "app_icon_role").opacity = 0.6
+					end)
+					self:connect_signal("button::release", function()
+						helpers.gc(self, "app_icon_role").opacity = 1
+					end)
+
 					if c.active then
 						self:get_children_by_id("app_icon_role")[1].opacity = 1
-						animation_button_opacity:set(1.0)
+						animation_button_opacity:set(10)
 					elseif c.minimized then
 						self:get_children_by_id("app_icon_role")[1].opacity = 1
-						animation_button_opacity:set(0.3)
+						animation_button_opacity:set(5)
 					else
 						self:get_children_by_id("app_icon_role")[1].opacity = 1
-						animation_button_opacity:set(0.3)
+						animation_button_opacity:set(5)
 					end
 
 					helpers.hover_cursor(self, "app_icon_role")
@@ -140,6 +147,7 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		objects = { screen.mytasklist },
 		mode = "outside",
 		align = "top",
+		preferred_alignments = "middle",
 		margins = { top = dpi(4), bottom = dpi(4), left = dpi(12), right = dpi(12) },
 		gaps = { bottom = dpi(8) },
 		shape = helpers.rrect(3),
@@ -188,6 +196,7 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 			objects = { w },
 			mode = "outside",
 			align = "top",
+			preferred_alignments = "middle",
 			margins = { top = dpi(4), bottom = dpi(4), left = dpi(12), right = dpi(12) },
 			gaps = { bottom = dpi(8) },
 			shape = helpers.rrect(3),
@@ -195,17 +204,17 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		})
 
 		-- Animation using rubato
-		local click_animation = rubato.timed({
-			pos = 1, -- Normal scale
-			rate = 120,
-			intro = 0.05,
-			duration = 0.2,
-			easing = rubato.easing.quadratic,
-			subscribed = function(pos)
-				w.children[1].forced_height = dpi((size - 15) * pos)
-				w.children[1].forced_width = dpi((size - 15) * pos)
-			end,
-		})
+		-- local click_animation = rubato.timed({
+		-- 	pos = 1, -- Normal scale
+		-- 	rate = 120,
+		-- 	intro = 0.03,
+		-- 	duration = 0.12,
+		-- 	easing = rubato.easing.quadratic,
+		-- 	subscribed = function(pos)
+		-- 		w.children[1].forced_height = dpi((size - 15) * pos)
+		-- 		w.children[1].forced_width = dpi((size - 15) * pos)
+		-- 	end,
+		-- })
 
 		local animation_button_opacity = rubato.timed({
 			pos = 0,
@@ -231,12 +240,14 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 			if button == 1 then
 				awful.spawn.with_shell(app_command, false)
 				animation_button_opacity:set(0.8)
-				click_animation.target = 0.8
+				-- click_animation.target = 0.8
+				w.opacity = 0.6
 			end
 		end)
 		w:connect_signal("button::release", function()
 			animation_button_opacity:set(1.0)
-			click_animation.target = 1.0
+			-- click_animation.target = 1.0
+			w.opacity = 1
 		end)
 
 		helpers.hover_cursor(w)
@@ -323,7 +334,7 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 						{
 							widget = wibox.widget.separator,
 							orientation = "vertical",
-							color = "#4A4A4EB0",
+							color = "#4A4A4E",
 							thickness = 2,
 						},
 						widget = wibox.container.margin,

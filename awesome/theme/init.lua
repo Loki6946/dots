@@ -11,7 +11,7 @@ local themes_path = gfs.get_themes_dir()
 local assets = require("theme.assets")
 local apps_icon_dir = home_var .. "/.config/awesome/theme/assets/apps/"
 local apps = require("config.apps")
-local colors = require("theme.colors.claude")
+local colors = require("theme.colors.dark")
 
 -- initial empty array
 local theme = {}
@@ -92,16 +92,22 @@ local wallpapers = {
 	{ name = "piazza-gae-aulenti", path = wallpaper_directory .. "piazza-gae-aulenti.jpg", color = "#070304" },
 	{ name = "calm-ocean-dusk", path = wallpaper_directory .. "calm-ocean-dusk.jpg", color = "#27194C" },
 	{ name = "dreamscape", path = wallpaper_directory .. "dreamscape.jpg", color = theme.bg_color },
-	{ name = "two-bird", path = wallpaper_directory .. "two-bird.jpg", color = theme.bg_color },
 	{ name = "white-minimalist", path = wallpaper_directory .. "white_minimalist.jpg", color = theme.bg_color },
 	{ name = "sun", path = wallpaper_directory .. "sun.jpg", color = "#31302C" },
+	{ name = "blue-sun", path = wallpaper_directory .. "blue-sun.png", color = "#31302C" },
 	{ name = "sierra", path = wallpaper_directory .. "sierra.jpg", color = "#261B21" },
-	{ name = "graphic", path = wallpaper_directory .. "graphic.jpg", color = "#3E424B" },
 	{ name = "tree", path = wallpaper_directory .. "tree.jpg", color = "#2F2F2F" },
 	{ name = "moneterey", path = wallpaper_directory .. "moneterey-light-3.jpg", color = "#373737" },
-	{ name = "snowy-mountain", path = wallpaper_directory .. "snowy-mountain.jpg", color = "#2C2B32" },
-	{ name = "dusk-mountain", path = wallpaper_directory .. "dusk-mountain.jpg", color = "#916B7E" },
-	{ name = "ridge", path = wallpaper_directory .. "ridge.jpg", color = "#181A32" },
+	{ name = "ridge", path = wallpaper_directory .. "ridge.jpg", color = "#3739ae" },
+	{ name = "kivec", path = wallpaper_directory .. "kivec.jpg", color = "#3D516B" },
+	{ name = "winter-river", path = wallpaper_directory .. "winter-river.jpg", color = "#416095" },
+	{ name = "black", path = wallpaper_directory .. "black.jpg", color = "#1E1E1E" },
+	{ name = "grey", path = wallpaper_directory .. "grey.png", color = "#434343" },
+	{ name = "string", path = wallpaper_directory .. "string.png", color = "#252B3D" },
+	{ name = "mojave", path = wallpaper_directory .. "mojave.jpg", color = "#252D44" },
+	{ name = "island", path = wallpaper_directory .. "island.jpg", color = "#1F63AE" },
+	{ name = "beautiful-sky", path = wallpaper_directory .. "beautiful-sky.jpg", color = "#1F63AE" },
+	{ name = "catalina", path = wallpaper_directory .. "catalina.jpg", color = "#293E6A" },
 }
 
 local function get_wallpaper(identifier)
@@ -117,12 +123,12 @@ local function get_wallpaper(identifier)
 	return nil
 end
 
-theme.selected_wallpaper = get_wallpaper("ridge")
+theme.selected_wallpaper = get_wallpaper("catalina")
 theme.wallpaper = theme.selected_wallpaper.path
 
 -- gaps/border thing
 -- ~~~~~~~~~~~~~~~~~
-theme.useless_gap = dpi(3)
+theme.useless_gap = dpi(6)
 theme.border_width = dpi(1)
 theme.border_color = colors.border_color
 theme.border_normal = colors.border_color
@@ -139,7 +145,7 @@ theme.tooltip_bg = theme.bg_3
 
 -- rounded corner
 -- ~~~~~~~~~~~~~~
-theme.rounded = dpi(12)
+theme.rounded = dpi(13)
 
 -- notifs
 -- ~~~~~~
@@ -163,7 +169,7 @@ theme.titlebars_enabled = true
 -- taglist
 -- ~~~~~~~
 theme.taglist_fg_focus = theme.fg_color
-theme.taglist_fg_urgent = theme.accent
+theme.taglist_fg_urgent = theme.red
 theme.taglist_fg_occupied = theme.fg_color
 theme.taglist_fg_empty = theme.fg_color
 
@@ -206,12 +212,13 @@ theme.playerctl_position_update_interval = 1
 -- custom icons
 -- ~~~~~~~~~~~~
 theme.ic_icons = {
-	["zen-alpha"] = apps_icon_dir .. "zen_browser.svg",
+	["zen"] = apps_icon_dir .. "zen-browser.svg",
 	["Alacritty"] = apps_icon_dir .. "alacritty.svg",
 	["music"] = apps_icon_dir .. "music.svg",
 	["Google-chrome"] = apps_icon_dir .. "chrome.svg",
 	["neovim"] = apps_icon_dir .. "neovim.svg",
 	["About-this-mc"] = apps_icon_dir .. "about-this-mc.svg",
+	["com.mitchellh.ghostty"] = apps_icon_dir .. "ghostty.svg",
 }
 
 -- topbar
@@ -222,20 +229,19 @@ theme.topbar_background = theme.selected_wallpaper.color .. "99"
 -- ~~~~~~~~~~~~
 theme.awesome_dock_size = 70
 theme.awesome_dock_pinned = {
-	{ "thunar" },
-	{ "alacritty" },
-	{ "galculator" },
-	{ apps.web_browser, "zen_browser" },
+	{ "nemo" },
+	{ "ghostty" },
+	{ "gnome-calculator" },
+	{ apps.web_browser, "zen-browser" },
 	{ apps.music, "gnome-music" },
 	{ "spotify", "spotify" },
 	{ "code", "vscode" },
-	{ apps.editor_cmd, "neovim" },
 }
 theme.awesome_dock_color_active = theme.fg_color
-theme.awesome_dock_color_bg = "#2A2A3099"
+theme.awesome_dock_color_bg = theme.bg_2 .. "99"
 theme.awesome_dock_disabled = false
 theme.awesome_dock_spacing = dpi(4)
-theme.awesome_dock_offset = theme.useless_gap + 4
+theme.awesome_dock_offset = theme.useless_gap + 5
 theme.awesome_dock_icon = "WhiteSur-dark"
 
 -- init

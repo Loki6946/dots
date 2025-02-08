@@ -17,7 +17,7 @@ return {
 	pp = directory .. "images/pp.jpeg",
 
 	--icons
-	control_center_icon = directory .. "icons/controlcenter.svg",
+	control_center_icon = directory .. "icons/control-centre.svg",
 	search_icon = directory .. "icons/search.svg",
 	bolt_icon = directory .. "icons/bolt.svg",
 

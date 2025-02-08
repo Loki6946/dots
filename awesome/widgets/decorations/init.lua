@@ -8,6 +8,7 @@ require("widgets.decorations.music.minimal")
 
 local predefined_colors = {
 	["Thunar"] = "#373737",
+	["Nemo"] = "#373737",
 	["neovim"] = "#161616",
 	["Galculator"] = "#333333",
 	["Gpick"] = "#373737",
@@ -15,6 +16,7 @@ local predefined_colors = {
 	["Alacritty"] = "#1C1C1EFC",
 	["qBittorrent"] = "#EFEFEF",
 	["Nm-applet"] = "#333333",
+	["Lxappearance"] = "#333333",
 	["music"] = beautiful.bg_color,
 	["default"] = beautiful.titlebar_bg_normal,
 }
@@ -24,13 +26,13 @@ local function create_button(icon, action)
 		{
 			id = "iconbot",
 			markup = helpers.colorize_text("", beautiful.fg_color),
-			font = beautiful.icon_var .. "12",
+			font = beautiful.icon_var .. "13",
 			widget = wibox.widget.textbox,
 		},
 		{
 			id = "icon",
 			markup = helpers.colorize_text(icon, beautiful.fg_color),
-			font = beautiful.icon_var .. "12",
+			font = beautiful.icon_var .. "13",
 			widget = wibox.widget.textbox,
 		},
 		layout = wibox.layout.stack,
@@ -124,7 +126,7 @@ client.connect_signal("request::titlebars", function(c)
 				buttons.close,
 				buttons.minimize,
 				buttons.maximize,
-				spacing = 5,
+				spacing = 6,
 				layout = wibox.layout.fixed.horizontal,
 			},
 		},

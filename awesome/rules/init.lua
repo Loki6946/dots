@@ -72,6 +72,7 @@ ruled.client.connect_signal("request::rules", function()
 				"zen-alpha",
 				"zen-beta",
 				"zen-twilight",
+				"zen",
 				"Google-chrome",
 				"Code",
 				"org.gnome.Nautilus",
@@ -84,6 +85,13 @@ ruled.client.connect_signal("request::rules", function()
 				"python3",
 				"Dconf-editor",
 				"gnome-calculator",
+				"file-roller",
+				"ghostty",
+				"gnome-system-monitor",
+				"Gnome-screenshot",
+				"org.gnome.clocks",
+				"Cursor",
+				"Spotube",
 			},
 		},
 		properties = { titlebars_enabled = false },
@@ -92,6 +100,10 @@ ruled.client.connect_signal("request::rules", function()
 	ruled.client.append_rule({
 		rule_any = {
 			class = {
+				"zen-alpha",
+				"zen-beta",
+				"zen-twilight",
+				"zen",
 				"About-this-mc",
 			},
 		},

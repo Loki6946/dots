@@ -79,18 +79,19 @@ return function(
 
 	-- add buttons and commands
 	mainbox:connect_signal("button::press", function()
-		animation_button_opacity:set(0.2)
+		animation_button_opacity:set(0.8)
 	end)
 
 	mainbox:connect_signal("button::release", function()
-		gears.timer({
-			timeout = 0.008,
-			autostart = true,
-			single_shot = true,
-			callback = function()
-				animation_button_opacity:set(0.4)
-			end,
-		})
+		-- gears.timer({
+		-- 	timeout = 0.008,
+		-- 	autostart = true,
+		-- 	single_shot = true,
+		-- 	callback = function()
+		-- 		animation_button_opacity:set(0)
+		-- 	end,
+		-- })
+		animation_button_opacity:set(0.4)
 	end)
 
 	helpers.hover_cursor(mainbox)

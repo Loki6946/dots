@@ -30,8 +30,8 @@ awful.screen.connect_for_each_screen(function(s)
 		{
 			widget = wibox.widget.imagebox,
 			image = gears.color.recolor_image(beautiful.search_icon, beautiful.fg_color),
-			forced_height = 13,
-			forced_width = 13,
+			forced_height = 14,
+			forced_width = 14,
 			valign = "center",
 			resize = true,
 		},
@@ -44,10 +44,10 @@ awful.screen.connect_for_each_screen(function(s)
 			launcher_icon,
 			beautiful.black .. "00",
 			beautiful.fg_color .. "80",
-			dpi(8),
+			dpi(10),
 			nil,
 			nil,
-			nil,
+			dpi(4),
 			nil,
 			nil,
 			helpers.rrect(4)
@@ -82,7 +82,7 @@ awful.screen.connect_for_each_screen(function(s)
 			dpi(10),
 			nil,
 			nil,
-			nil,
+			dpi(4),
 			nil,
 			nil,
 			helpers.rrect(4)
@@ -114,10 +114,10 @@ awful.screen.connect_for_each_screen(function(s)
 		wifi_icon,
 		beautiful.black .. "00",
 		beautiful.fg_color .. "80",
-		dpi(8),
+		dpi(10),
 		nil,
 		nil,
-		nil,
+		dpi(4),
 		nil,
 		nil,
 		helpers.rrect(4)
@@ -138,10 +138,10 @@ awful.screen.connect_for_each_screen(function(s)
 			cc_ic_icon,
 			beautiful.black .. "00",
 			beautiful.fg_color .. "80",
-			dpi(8),
+			dpi(10),
 			nil,
 			nil,
-			nil,
+			dpi(4),
 			nil,
 			nil,
 			helpers.rrect(4)
@@ -154,10 +154,10 @@ awful.screen.connect_for_each_screen(function(s)
 		awful.widget.layoutbox(),
 		beautiful.black .. "00",
 		beautiful.fg_color .. "80",
-		dpi(8),
-		dpi(9),
+		dpi(10),
+		dpi(7),
 		nil,
-		nil,
+		dpi(4),
 		nil,
 		nil,
 		helpers.rrect(4)
@@ -288,12 +288,6 @@ awful.screen.connect_for_each_screen(function(s)
 		else
 			helpers.gc(battery, "status").visible = false
 		end
-
-		-- if value < 45 then
-		-- 	helpers.gc(battery, "status").markup = helpers.colorize_text("", beautiful.fg_color)
-		-- else
-		-- 	helpers.gc(battery, "status").markup = helpers.colorize_text("", beautiful.black)
-		-- end
 	end)
 
 	awesome.connect_signal("signal::wifi", function(value)
@@ -317,7 +311,7 @@ awful.screen.connect_for_each_screen(function(s)
 		ontop = false,
 		type = "dock",
 		width = screen_width,
-		height = dpi(30),
+		height = dpi(34),
 		bg = beautiful.topbar_background,
 	})
 
@@ -341,10 +335,10 @@ awful.screen.connect_for_each_screen(function(s)
 			{
 				{
 					battery,
-					left = dpi(8),
-					right = dpi(8),
-					top = dpi(10),
-					bottom = dpi(10),
+					left = dpi(10),
+					right = dpi(10),
+					top = dpi(12),
+					bottom = dpi(12),
 					widget = wibox.container.margin,
 				},
 				wifi,
@@ -353,11 +347,11 @@ awful.screen.connect_for_each_screen(function(s)
 				layout,
 				{
 					clock,
-					left = dpi(8),
-					right = dpi(8),
+					left = dpi(10),
+					right = dpi(10),
 					widget = wibox.container.margin,
 				},
-				spacing = dpi(1),
+				spacing = dpi(0),
 				layout = wibox.layout.fixed.horizontal,
 			},
 			right = 10,

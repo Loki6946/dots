@@ -15,7 +15,7 @@ configuration {
 
     bg0:    #242424CC;
     bg1:    #7E7E7E80;
-    bg2:    #0A84FFE6;
+    bg2:    #80808066;
 
     fg0:    #DEDEDE;
     fg1:    #FFFFFF;
@@ -35,7 +35,7 @@ window {
     background-color:   @bg0;
 
     location:       center;
-    y-offset:       -80px;
+    y-offset:       -55px;
     width:          600;
     border:         1px;
     border-color:   @border;
@@ -43,7 +43,7 @@ window {
 }
 
 inputbar {
-    font:       "SF Pro Display 16";
+    font:       "SF Pro Display 14";
     padding:    8px;
     spacing:    8px;
     children:   [ textbox-prompt-colon, entry ];
@@ -53,12 +53,12 @@ textbox-prompt-colon {
 	expand: 						false;
 	str: 							"";
   text-color:                     @fg2;
-  padding:                        8px 0px 0px 16px;
-	font:							"Material Icons Round 20";
+  padding:                        10px 0px 0px 10px;
+	font:							"Material Icons Round 18";
 }
 
-// icon-search {
 //     expand:     false;
+// icon-search {
 //     filename:   "search";
 //     size: 28px;
 // }
@@ -69,7 +69,7 @@ icon-search, entry, element-icon, element-text {
 
 entry {
     font:   inherit;
-    placeholder         : "Search";
+    placeholder         : "Search for apps";
     placeholder-color   : @fg2;
 }
 
@@ -84,9 +84,9 @@ textbox {
 }
 
 listview {
-    lines:      6;
+    lines:      7;
     columns:    1;
-    spacing:    0px;
+    spacing:    6px;
 
     padding:    8px 0 0 0;
     margin:     0 0 8px 0;
@@ -97,10 +97,10 @@ listview {
 
 element {
     margin:             2px 10px 2px 10px;
-    padding:            12px;
+    padding:            10px;
     spacing:            10px;
     background-color:   transparent;
-    border-radius:      6px;
+    border-radius:      7px;
 }
 
 element normal active {
@@ -117,7 +117,7 @@ element selected normal, element selected active {
 }
 
 element-icon {
-    size:   1.8em;
+    size:   1.4em;
 }
 
 element-text {

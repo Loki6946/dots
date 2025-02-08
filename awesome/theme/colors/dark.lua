@@ -13,11 +13,9 @@ return {
 	green = "#30D158", -- Modern macOS green, from iOS 14+
 	green_2 = "#30D15899", -- Translucent green
 	green_3 = "#227D47", -- Dark green accent
-
 	red = "#FF453A", -- Vibrant red, very close to your original
 	red_2 = "#FF453A99", -- Translucent red
 	red_3 = "#C63B30", -- Dark red accent
-
 	accent = "#0A84FF", -- Maintained your original bright blue
 	accent_2 = "#0A84FF66", -- Translucent blue
 	accent_3 = "#4A6A80", -- Muted blue accent

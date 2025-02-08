@@ -50,20 +50,20 @@ awful.keyboard.append_global_keybindings({
 			awesome.emit_signal("toggle::lock")
 		end,
 	}),
-	awful.key({
-		modifiers = { mod.super },
-		key = "x",
-		description = "lua execute prompt",
-		group = "awesome",
-		on_press = function()
-			awful.prompt.run({
-				prompt = "Run Lua code: ",
-				textbox = awful.screen.focused().promptbox.widget,
-				exe_callback = awful.util.eval,
-				history_path = awful.util.get_cache_dir() .. "/history_eval",
-			})
-		end,
-	}),
+	-- awful.key({
+	-- 	modifiers = { mod.super },
+	-- 	key = "x",
+	-- 	description = "lua execute prompt",
+	-- 	group = "awesome",
+	-- 	on_press = function()
+	-- 		awful.prompt.run({
+	-- 			prompt = "Run Lua code: ",
+	-- 			textbox = awful.screen.focused().promptbox.widget,
+	-- 			exe_callback = awful.util.eval,
+	-- 			history_path = awful.util.get_cache_dir() .. "/history_eval",
+	-- 		})
+	-- 	end,
+	-- }),
 	awful.key({
 		modifiers = { mod.super },
 		key = "Return",

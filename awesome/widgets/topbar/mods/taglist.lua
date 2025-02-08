@@ -66,8 +66,8 @@ local get_taglist = function(s)
 				},
 				layout = wibox.layout.stack,
 			},
-			top = dpi(0),
-			bottom = dpi(0),
+			top = dpi(4),
+			bottom = dpi(4),
 			widget = wibox.container.margin,
 
 			create_callback = function(self, c3, _)
@@ -91,9 +91,8 @@ local get_taglist = function(s)
 					animation_button_opacity:set(0.0)
 				end)
 
-				-- add buttons and commands
 				helpers.gc(self, "hover"):connect_signal("button::press", function()
-					animation_button_opacity:set(0.2)
+					animation_button_opacity:set(0.8)
 				end)
 
 				helpers.gc(self, "hover"):connect_signal("button::release", function()

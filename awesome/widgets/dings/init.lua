@@ -93,7 +93,7 @@ naughty.connect_signal("request::display", function(n)
 			widget = wibox.container.margin,
 		},
 		bg = beautiful.bg_2,
-		shape = helpers.rrect(dpi(4)),
+		shape = helpers.rrect(dpi(8)),
 		widget = wibox.container.background,
 	}
 
@@ -180,7 +180,7 @@ naughty.connect_signal("request::display", function(n)
 
 	local time_n = wibox.widget({
 		{
-			markup = helpers.colorize_text("now", beautiful.fg_color .. "BF"),
+			markup = helpers.colorize_text(os.date("%I:%M"), beautiful.fg_color .. "BF"),
 			font = beautiful.font_var .. " 10",
 			align = "right",
 			valign = "center",

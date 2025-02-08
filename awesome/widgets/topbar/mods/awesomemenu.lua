@@ -68,7 +68,7 @@ awesome.connect_signal("toggle::awesomemenu", function()
 	awesomemenu:toggle({
 		coords = {
 			x = 10,
-			y = 30,
+			y = 33,
 		},
 	})
 end)

@@ -77,4 +77,3 @@ local function Get_icon(theme, client, program_string, class_string, is_steam)
 end
 
 return Get_icon
-

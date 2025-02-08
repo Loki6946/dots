@@ -16,7 +16,7 @@ awful.screen.connect_for_each_screen(function(s)
 	--~~~~~~~~~~~~~~~~~
 	control_c = wibox({
 		type = "dock",
-		shape = helpers.rrect(beautiful.rounded + 5),
+		shape = helpers.rrect(beautiful.rounded),
 		screen = s,
 		width = dpi(380),
 		height = dpi(438),
@@ -51,10 +51,10 @@ awful.screen.connect_for_each_screen(function(s)
 
 	cc_toggle = function(screen)
 		screen = screen or s
-		control_c.y = screen.geometry.y + (dpi(33) + beautiful.useless_gap)
+		control_c.y = screen.geometry.y + (dpi(35) + beautiful.useless_gap)
 
 		if not control_c.visible then
-			slide_right.target = s.geometry.width - (control_c.width + beautiful.useless_gap * 5)
+			slide_right.target = s.geometry.width - (control_c.width + beautiful.useless_gap * 3)
 			control_c.x = s.geometry.x + s.geometry.width -- Start from far right
 			control_c.visible = true
 		else
