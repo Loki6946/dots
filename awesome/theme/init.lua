@@ -11,7 +11,7 @@ local themes_path = gfs.get_themes_dir()
 local assets = require("theme.assets")
 local apps_icon_dir = home_var .. "/.config/awesome/theme/assets/apps/"
 local apps = require("config.apps")
-local colors = require("theme.colors.dark")
+local colors = require("theme.colors.bigsur")
 
 -- initial empty array
 local theme = {}
@@ -74,6 +74,7 @@ theme.icon_tone = "Material Icons TwoTone "
 -- images
 -- ~~~~~~
 theme.notification_icon = assets.notification_icon
+theme.warning_icon = assets.warning_icon
 theme.awm_icon = assets.awm_icon
 theme.control_center_icon = assets.control_center_icon
 theme.bolt_icon = assets.bolt_icon
@@ -88,7 +89,6 @@ theme.pp = assets.pp
 local wallpaper_directory = home_var .. "/.config/awesome/theme/assets/walls/"
 
 local wallpapers = {
-	{ name = "italy", path = wallpaper_directory .. "italy.jpg", color = "#535552" },
 	{ name = "piazza-gae-aulenti", path = wallpaper_directory .. "piazza-gae-aulenti.jpg", color = "#070304" },
 	{ name = "calm-ocean-dusk", path = wallpaper_directory .. "calm-ocean-dusk.jpg", color = "#27194C" },
 	{ name = "dreamscape", path = wallpaper_directory .. "dreamscape.jpg", color = theme.bg_color },
@@ -100,14 +100,23 @@ local wallpapers = {
 	{ name = "moneterey", path = wallpaper_directory .. "moneterey-light-3.jpg", color = "#373737" },
 	{ name = "ridge", path = wallpaper_directory .. "ridge.jpg", color = "#3739ae" },
 	{ name = "kivec", path = wallpaper_directory .. "kivec.jpg", color = "#3D516B" },
-	{ name = "winter-river", path = wallpaper_directory .. "winter-river.jpg", color = "#416095" },
 	{ name = "black", path = wallpaper_directory .. "black.jpg", color = "#1E1E1E" },
 	{ name = "grey", path = wallpaper_directory .. "grey.png", color = "#434343" },
-	{ name = "string", path = wallpaper_directory .. "string.png", color = "#252B3D" },
-	{ name = "mojave", path = wallpaper_directory .. "mojave.jpg", color = "#252D44" },
-	{ name = "island", path = wallpaper_directory .. "island.jpg", color = "#1F63AE" },
-	{ name = "beautiful-sky", path = wallpaper_directory .. "beautiful-sky.jpg", color = "#1F63AE" },
+	{ name = "mojave", path = wallpaper_directory .. "mojave.jpg", color = "#44388E" },
 	{ name = "catalina", path = wallpaper_directory .. "catalina.jpg", color = "#293E6A" },
+	{ name = "dune", path = wallpaper_directory .. "dune.jpg", color = "#3E373E" },
+	{ name = "apple-black", path = wallpaper_directory .. "apple-black.png", color = "#000000" },
+	{ name = "leaf", path = wallpaper_directory .. "leaf.jpg", color = "#000000" },
+	{ name = "polygon", path = wallpaper_directory .. "polygon.jpg", color = "#000000" },
+	{ name = "dark-grey", path = wallpaper_directory .. "dark-grey.jpg", color = "#363636" },
+	{ name = "cube-mono", path = wallpaper_directory .. "cube-mono.jpg", color = "#0C0C0C" },
+	{ name = "loupe-mono-dark", path = wallpaper_directory .. "loupe-mono-dark.jpg", color = "#131313" },
+	{ name = "mono-dark-distortion-1", path = wallpaper_directory .. "mono-dark-distortion-1.jpg", color = "#0D0D0D" },
+	{
+		name = "mono-light-distortion-1",
+		path = wallpaper_directory .. "mono-light-distortion-1.jpg",
+		color = "#181818",
+	},
 }
 
 local function get_wallpaper(identifier)
@@ -123,7 +132,7 @@ local function get_wallpaper(identifier)
 	return nil
 end
 
-theme.selected_wallpaper = get_wallpaper("catalina")
+theme.selected_wallpaper = get_wallpaper("loupe-mono-dark")
 theme.wallpaper = theme.selected_wallpaper.path
 
 -- gaps/border thing
@@ -138,10 +147,10 @@ theme.border_accent = colors.border_accent
 -- tooltip
 -- ~~~~~~~
 theme.tooltip_border_width = dpi(1)
-theme.tooltip_border_color = theme.border_accent
+theme.tooltip_border_color = theme.border_normal
 theme.tooltip_font = theme.font_var .. "10"
 theme.tooltip_fg = theme.fg_color
-theme.tooltip_bg = theme.bg_3
+theme.tooltip_bg = theme.bg_color .. "99"
 
 -- rounded corner
 -- ~~~~~~~~~~~~~~
@@ -204,8 +213,8 @@ theme.layout_tileleft = themes_path .. "default/layouts/tileleftw.png"
 
 -- Bling playerctl
 -- ~~~~~~~~~~~~~~~
-theme.playerctl_ignore = { "firefox", "chromium", "brave" }
-theme.playerctl_player = { "mpd", "%any" }
+theme.playerctl_ignore = { "firefox", "brave" }
+theme.playerctl_player = { "mpd", "chromium", "chromium.instance", "%any" }
 theme.playerctl_update_on_activity = true
 theme.playerctl_position_update_interval = 1
 
@@ -219,6 +228,11 @@ theme.ic_icons = {
 	["neovim"] = apps_icon_dir .. "neovim.svg",
 	["About-this-mc"] = apps_icon_dir .. "about-this-mc.svg",
 	["com.mitchellh.ghostty"] = apps_icon_dir .. "ghostty.svg",
+	["com.github.th_ch.youtube_music"] = apps_icon_dir .. "youtube-music.svg",
+	["cursor"] = apps_icon_dir .. "cursor.svg",
+	["code"] = apps_icon_dir .. "vscode.svg",
+	["Ld-linux-x86-64.so.2"] = apps_icon_dir .. "org.inkscape.Inkscape.svg",
+	["org.gnome.Nautilus"] = apps_icon_dir .. "folder.svg",
 }
 
 -- topbar
@@ -229,20 +243,20 @@ theme.topbar_background = theme.selected_wallpaper.color .. "99"
 -- ~~~~~~~~~~~~
 theme.awesome_dock_size = 70
 theme.awesome_dock_pinned = {
-	{ "nemo" },
+	{ apps.file_manager },
 	{ "ghostty" },
-	{ "gnome-calculator" },
 	{ apps.web_browser, "zen-browser" },
-	{ apps.music, "gnome-music" },
-	{ "spotify", "spotify" },
+	{ "youtube-music" },
+	{ home_var .. "/.local/share/AppImage/Cursor.AppImage", "cursor" },
 	{ "code", "vscode" },
 }
 theme.awesome_dock_color_active = theme.fg_color
-theme.awesome_dock_color_bg = theme.bg_2 .. "99"
+theme.awesome_dock_color_bg = theme.bg_2 .. "CC"
+theme.awesome_dock_color_border = theme.border_focus
 theme.awesome_dock_disabled = false
 theme.awesome_dock_spacing = dpi(4)
 theme.awesome_dock_offset = theme.useless_gap + 5
-theme.awesome_dock_icon = "WhiteSur-dark"
+theme.awesome_dock_icon = "WhiteSur"
 
 -- init
 -- ~~~~

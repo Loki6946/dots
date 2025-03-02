@@ -26,7 +26,7 @@ return {
 
 	-- Border Colors
 	border_color = "#3A3A3C",
-	border_color_active = "#4A4A4E",
+	border_color_active = "#3F3F3F",
 	border_accent = "#4A4A4E",
 
 	-- Title Bar Buttons (MacOS Ventura style)

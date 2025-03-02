@@ -73,11 +73,11 @@ local get_taglist = function(s)
 			create_callback = function(self, c3, _)
 				local animation_button_opacity = rubato.timed({
 					pos = 0,
-					rate = 75,
-					intro = 0.1,
+					rate = 60,
+					intro = 0.05,
 					duration = 0.20,
 					awestore_compat = true,
-					easing = rubato.easing.quadratic,
+					easing = rubato.easing.inOutQuad,
 					subscribed = function(pos)
 						helpers.gc(self, "hover").opacity = pos
 					end,
@@ -92,10 +92,18 @@ local get_taglist = function(s)
 				end)
 
 				helpers.gc(self, "hover"):connect_signal("button::press", function()
-					animation_button_opacity:set(0.8)
+					animation_button_opacity:set(0.2)
 				end)
 
 				helpers.gc(self, "hover"):connect_signal("button::release", function()
+					-- gears.timer({
+					-- 	timeout = 0.001,
+					-- 	autostart = true,
+					-- 	single_shot = true,
+					-- 	callback = function()
+					-- 		animation_button_opacity:set(0.4)
+					-- 	end,
+					-- })
 					animation_button_opacity:set(0.4)
 				end)
 

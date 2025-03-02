@@ -149,8 +149,8 @@ function menu.menu(widgets, width)
 		ontop = true,
 		minimum_width = width or dpi(160),
 		maximum_width = width or dpi(180),
-		shape = helpers.rrect(beautiful.rounded - 4),
-		bg = beautiful.bg_2 .. "CC",
+		shape = helpers.rrect(8),
+		bg = beautiful.bg_3 .. "D9",
 		border_width = dpi(1),
 		border_color = beautiful.border_accent,
 		widget = wibox.layout.fixed.vertical,
@@ -236,7 +236,7 @@ function menu.sub_menu_button(args)
 						{
 							id = "text",
 							font = beautiful.font_var .. args.text_size,
-							markup = helpers.colorize_text(args.text, beautiful.fg_color),
+							markup = helpers.colorize_text(args.text, beautiful.white),
 							widget = wibox.widget.textbox,
 							halign = "start",
 						},
@@ -268,12 +268,12 @@ function menu.sub_menu_button(args)
 		coords.y = coords.y + self.menu.y
 		args.sub_menu:show({ coords = coords, offset = { x = -5 } })
 		helpers.gc(widget, "animate").opacity = 1
-		helpers.gc(widget, "text").font = beautiful.font_var .. "Semibold " .. args.text_size
+		-- helpers.gc(widget, "text").font = beautiful.font_var .. "Semibold " .. args.text_size
 	end)
 
 	widget:connect_signal("mouse::leave", function()
 		helpers.gc(widget, "animate").opacity = 0.0
-		helpers.gc(widget, "text").font = beautiful.font_var .. args.text_size
+		-- helpers.gc(widget, "text").font = beautiful.font_var .. args.text_size
 	end)
 
 	-- add buttons and commands
@@ -320,7 +320,7 @@ function menu.button(args)
 
 	local text_widget = wibox.widget({
 		font = beautiful.font_var .. args.text_size,
-		markup = helpers.colorize_text(args.text, beautiful.fg_color),
+		markup = helpers.colorize_text(args.text, beautiful.white),
 		widget = wibox.widget.textbox,
 		halign = "start",
 	})
@@ -367,12 +367,12 @@ function menu.button(args)
 			self.menu:hide_children_menus()
 		end
 		helpers.gc(widget, "animate").opacity = 1
-		text_widget.font = beautiful.font_var .. "Semibold " .. args.text_size
+		-- text_widget.font = beautiful.font_var .. "Semibold " .. args.text_size
 	end)
 
 	widget:connect_signal("mouse::leave", function()
 		helpers.gc(widget, "animate").opacity = 0.0
-		text_widget.font = beautiful.font_var .. args.text_size
+		-- text_widget.font = beautiful.font_var .. args.text_size
 	end)
 
 	-- add buttons and commands

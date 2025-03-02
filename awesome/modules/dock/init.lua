@@ -22,6 +22,7 @@ local offset = beautiful.awesome_dock_offset or beautiful.useless_gap or 0
 local pinned_apps = beautiful.awesome_dock_pinned or pinned_defaults
 local active_color = beautiful.awesome_dock_color_active or beautiful.fg_focus or "#ffffff"
 local background_color = beautiful.awesome_dock_color_bg or beautiful.bg_normal or "#000000"
+local border_color = beautiful.awesome_dock_color_border or "#3A3A3C"
 local modules_spacing = beautiful.awesome_dock_spacing or 12
 local icon_theme = beautiful.awesome_dock_icon
 
@@ -39,6 +40,7 @@ else
 				modules_spacing,
 				active_color,
 				background_color,
+				border_color,
 				icon_handler,
 				icon_theme
 			)

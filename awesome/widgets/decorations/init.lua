@@ -4,8 +4,6 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
 
-require("widgets.decorations.music.minimal")
-
 local predefined_colors = {
 	["Thunar"] = "#373737",
 	["Nemo"] = "#373737",
@@ -97,6 +95,17 @@ client.connect_signal("request::titlebars", function(c)
 		update_button_colors(false)
 	end)
 
+	local title = wibox.widget({
+		markup = c.name,
+		font = beautiful.font_var .. " 11",
+		align = "center",
+		valign = "center",
+		widget = wibox.widget.textbox,
+	})
+	c:connect_signal("property::name", function()
+		title.markup = c.name
+	end)
+
 	local click_timer
 	local function handle_click()
 		if click_timer then
@@ -132,11 +141,11 @@ client.connect_signal("request::titlebars", function(c)
 		},
 		{
 			{
-				nil,
+				title,
 				top = 5,
 				bottom = 5,
-				left = 200,
-				right = 200,
+				left = 40,
+				right = 90,
 				widget = wibox.container.margin,
 			},
 			align = "center",

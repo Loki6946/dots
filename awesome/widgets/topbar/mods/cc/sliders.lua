@@ -136,7 +136,7 @@ local volume_icon = wibox.widget({
 })
 
 local volume_button = wibox.widget({
-	button_creator(volume_icon, beautiful.bg_2 .. "00", nil, dpi(6), nil, nil, dpi(4)),
+	button_creator(volume_icon, beautiful.bg_2 .. "00", beautiful.fg_color .. "59", dpi(6), nil, nil, dpi(4)),
 	widget = wibox.container.background,
 })
 
@@ -212,7 +212,7 @@ return wibox.widget({
 			widget = wibox.container.margin,
 		},
 		widget = wibox.container.background,
-		bg = beautiful.bg_2 .. "B3",
+		bg = beautiful.bg_3 .. "CC",
 		border_width = dpi(1),
 		border_color = beautiful.border_color .. "CC",
 		shape = helpers.rrect(beautiful.rounded),
@@ -233,7 +233,7 @@ return wibox.widget({
 			widget = wibox.container.margin,
 		},
 		widget = wibox.container.background,
-		bg = beautiful.bg_2 .. "B3",
+		bg = beautiful.bg_3 .. "CC",
 		border_width = dpi(1),
 		border_color = beautiful.border_color .. "CC",
 		shape = helpers.rrect(beautiful.rounded),

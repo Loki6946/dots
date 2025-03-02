@@ -3,6 +3,7 @@ local menu = require("modules.menu")
 local beautiful = require("beautiful")
 local apps = require("config.apps")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local confirm_modal = require("helpers.widget.create_confirm_modal")
 
 local function awesome_menu()
 	return menu({
@@ -45,7 +46,11 @@ local function awesome_menu()
 			text = "Restart AwesomeWM",
 			on_press = function()
 				awesome.emit_signal("close::awesomemenu")
-				awesome.restart()
+				confirm_modal.show("Restart AwesomeWM?", "This will restart awesomewm config.", function()
+					awesome.restart()
+				end, function()
+					print("Cancelled")
+				end)
 			end,
 		}),
 		menu.button({
@@ -53,7 +58,11 @@ local function awesome_menu()
 			text = "Quit AwesomeWM",
 			on_press = function()
 				awesome.emit_signal("close::awesomemenu")
-				awesome.quit()
+				confirm_modal.show("Quit AwesomeWM?", "This will close all window and return to sddm.", function()
+					awesome.quit()
+				end, function()
+					print("Cancelled")
+				end)
 			end,
 		}),
 	})
@@ -67,7 +76,7 @@ end)
 awesome.connect_signal("toggle::awesomemenu", function()
 	awesomemenu:toggle({
 		coords = {
-			x = 10,
+			x = 0,
 			y = 33,
 		},
 	})

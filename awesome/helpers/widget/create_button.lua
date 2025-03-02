@@ -14,7 +14,7 @@ local helpers = require("helpers")
 return function(
 	widget,
 	normal_bg,
-	press_color,
+	hover_color,
 	inner_inline_margin,
 	inner_block_margin,
 	outer_inline_margin,
@@ -27,7 +27,7 @@ return function(
 	local circle_animate = wibox.widget({
 		widget = wibox.container.background,
 		shape = shape_spe or gears.shape.rounded_bar,
-		bg = press_color or beautiful.fg_color .. "99",
+		bg = hover_color or beautiful.fg_color .. "80",
 	})
 
 	local mainbox = wibox.widget({
@@ -47,7 +47,7 @@ return function(
 			bg = normal_bg or beautiful.bg_3,
 			shape = shape_spe or gears.shape.rounded_bar,
 			border_width = border_width or dpi(0),
-			border_color = border_color or press_color or "#00000000",
+			border_color = border_color or hover_color or "#00000000",
 			widget = wibox.container.background,
 		},
 		top = outer_block_margin or 0,
@@ -59,11 +59,11 @@ return function(
 
 	local animation_button_opacity = rubato.timed({
 		pos = 0,
-		rate = 75,
-		intro = 0.1,
+		rate = 60,
+		intro = 0.05,
 		duration = 0.20,
 		awestore_compat = true,
-		easing = rubato.easing.quadratic,
+		easing = rubato.easing.inOutQuad,
 		subscribed = function(pos)
 			circle_animate.opacity = pos
 		end,
@@ -79,16 +79,16 @@ return function(
 
 	-- add buttons and commands
 	mainbox:connect_signal("button::press", function()
-		animation_button_opacity:set(0.8)
+		animation_button_opacity:set(0.2)
 	end)
 
 	mainbox:connect_signal("button::release", function()
 		-- gears.timer({
-		-- 	timeout = 0.008,
+		-- 	timeout = 0.001,
 		-- 	autostart = true,
 		-- 	single_shot = true,
 		-- 	callback = function()
-		-- 		animation_button_opacity:set(0)
+		-- 		animation_button_opacity:set(0.4)
 		-- 	end,
 		-- })
 		animation_button_opacity:set(0.4)

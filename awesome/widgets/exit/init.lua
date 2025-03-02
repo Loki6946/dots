@@ -96,30 +96,59 @@ end
 return function(s)
 	exit = wibox({
 		screen = s,
-		width = 390,
-		height = 130,
+		type = "splash",
+		height = s.geometry.height,
+		width = s.geometry.width,
+		x = s.geometry.x,
+		y = s.geometry.y,
 		ontop = true,
-		shape = helpers.rrect(beautiful.rounded),
-		bg = beautiful.bg_color,
-		border_width = beautiful.border_width,
-		border_color = beautiful.border_accent,
+		bg = beautiful.black .. "1A",
 		visible = false,
 	})
 
 	exit:setup({
+		nil,
 		{
 			{
-				id = "uptime",
-				align = "center",
-				font = beautiful.font_var .. "Medium 12",
-				widget = wibox.widget.textbox,
+				{
+					{
+						id = "uptime",
+						align = "center",
+						font = beautiful.font_var .. "Medium 12",
+						widget = wibox.widget.textbox,
+					},
+					entries_container,
+					layout = wibox.layout.fixed.vertical,
+				},
+				widget = wibox.container.margin,
+				margins = 15,
 			},
-			entries_container,
-			layout = wibox.layout.fixed.vertical,
+			widget = wibox.container.background,
+			forced_width = 390,
+			forced_height = 130,
+			shape = helpers.rrect(beautiful.rounded),
+			bg = beautiful.bg_color,
+			border_width = beautiful.border_width,
+			border_color = beautiful.border_accent,
 		},
-		widget = wibox.container.margin,
-		margins = 15,
+		layout = wibox.container.place,
+		halign = "center",
+		valign = "center",
 	})
+
+	exit:buttons(gears.table.join(
+		awful.button({}, 2, function()
+			awesome.emit_signal("close::exit")
+		end),
+
+		awful.button({}, 3, function()
+			awesome.emit_signal("close::exit")
+		end),
+
+		awful.button({}, 1, function()
+			awesome.emit_signal("close::exit")
+		end)
+	))
 
 	awesome.connect_signal("signal::uptime", function(v)
 		helpers.gc(exit, "uptime").markup = helpers.colorize_text("Up: " .. v, beautiful.fg_color)

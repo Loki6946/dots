@@ -20,9 +20,9 @@ awful.screen.connect_for_each_screen(function(s)
 		screen = s,
 		width = dpi(380),
 		height = dpi(438),
-		bg = beautiful.bg_color .. "BF",
+		bg = beautiful.bg_2 .. "D9",
 		border_width = dpi(1),
-		border_color = "#5A5A5E",
+		border_color = beautiful.border_focus,
 		margins = 10,
 		ontop = true,
 		visible = false,
@@ -39,11 +39,11 @@ awful.screen.connect_for_each_screen(function(s)
 	-- animations
 	--------------
 	local slide_right = rubato.timed({
-		pos = s.geometry.width, -- Ensure this starts at screen width
+		pos = s.geometry.width,
 		rate = 60,
-		duration = 0.28,
-		intro = 0.12,
-		easing = rubato.ease_in_out_cubic,
+		duration = 0.3,
+		intro = 0.10,
+		easing = rubato.ease_out_cubic,
 		subscribed = function(pos)
 			control_c.x = s.geometry.x + pos
 		end,
@@ -54,28 +54,25 @@ awful.screen.connect_for_each_screen(function(s)
 		control_c.y = screen.geometry.y + (dpi(35) + beautiful.useless_gap)
 
 		if not control_c.visible then
-			slide_right.target = s.geometry.width - (control_c.width + beautiful.useless_gap * 3)
-			control_c.x = s.geometry.x + s.geometry.width -- Start from far right
+			control_c.x = s.geometry.width -- Start off-screen
 			control_c.visible = true
+			slide_right.target = s.geometry.width - (control_c.width + beautiful.useless_gap * 3)
 		else
-			if screen.index ~= screen_backup then
-				return
-			end
-
 			slide_right.target = s.geometry.width
-			gears
-				.timer({
-					single_shot = true,
-					timeout = 0.41,
-					callback = function()
-						control_c.visible = false
-					end,
-				})
-				:start()
+			if slide_right.ended then
+				slide_right.ended:subscribe(function()
+					control_c.visible = false
+				end)
+			else
+				gears.timer.start_new(0.3, function()
+					control_c.visible = false
+				end)
+			end
 		end
 
 		screen_backup = screen.index
 	end
+
 	-- Eof toggler script
 	--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

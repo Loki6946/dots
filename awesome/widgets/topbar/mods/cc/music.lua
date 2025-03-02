@@ -163,9 +163,33 @@ return wibox.widget({
 				},
 				{
 					{
-						button_creator(prev_button, beautiful.black .. "00", nil, dpi(5), nil, nil, dpi(0)),
-						button_creator(toggle_button, beautiful.black .. "00", nil, dpi(4), nil, nil, dpi(0)),
-						button_creator(next_button, beautiful.black .. "00", nil, dpi(5), nil, nil, dpi(0)),
+						button_creator(
+							prev_button,
+							beautiful.black .. "00",
+							beautiful.fg_color .. "59",
+							dpi(5),
+							nil,
+							nil,
+							dpi(0)
+						),
+						button_creator(
+							toggle_button,
+							beautiful.black .. "00",
+							beautiful.fg_color .. "59",
+							dpi(4),
+							nil,
+							nil,
+							dpi(0)
+						),
+						button_creator(
+							next_button,
+							beautiful.black .. "00",
+							beautiful.fg_color .. "59",
+							dpi(5),
+							nil,
+							nil,
+							dpi(0)
+						),
 						layout = wibox.layout.fixed.horizontal,
 						spacing = dpi(0),
 					},
@@ -182,7 +206,7 @@ return wibox.widget({
 		widget = wibox.container.margin,
 	},
 	widget = wibox.container.background,
-	bg = beautiful.bg_2 .. "B3",
+	bg = beautiful.bg_3 .. "CC",
 	border_width = dpi(1),
 	border_color = beautiful.border_color .. "CC",
 	shape = helpers.rrect(beautiful.rounded),

@@ -74,7 +74,7 @@ ruled.client.connect_signal("request::rules", function()
 				"zen-twilight",
 				"zen",
 				"Google-chrome",
-				"Code",
+				-- "Code",
 				"org.gnome.Nautilus",
 				"obsidian",
 				"Eog",
@@ -90,8 +90,9 @@ ruled.client.connect_signal("request::rules", function()
 				"gnome-system-monitor",
 				"Gnome-screenshot",
 				"org.gnome.clocks",
-				"Cursor",
 				"Spotube",
+				"Chromium-browser",
+				-- "com.github.th_ch.youtube_music",
 			},
 		},
 		properties = { titlebars_enabled = false },
@@ -100,11 +101,12 @@ ruled.client.connect_signal("request::rules", function()
 	ruled.client.append_rule({
 		rule_any = {
 			class = {
-				"zen-alpha",
-				"zen-beta",
-				"zen-twilight",
-				"zen",
+				-- "zen-alpha",
+				-- "zen-beta",
+				-- "zen-twilight",
+				-- "zen",
 				"About-this-mc",
+				"Chromium-browser",
 			},
 		},
 		properties = { border_width = 0 },
@@ -141,6 +143,17 @@ ruled.client.connect_signal("request::rules", function()
 			floating = true,
 			height = 650,
 			width = 1100,
+			placement = helpers.centered_client_placement,
+		},
+	})
+
+	-- Youtube music
+	ruled.client.append_rule({
+		rule_any = { class = { "com.github.th_ch.youtube_music" } },
+		properties = {
+			floating = true,
+			width = 330,
+			height = 590,
 			placement = helpers.centered_client_placement,
 		},
 	})

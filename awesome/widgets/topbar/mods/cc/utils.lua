@@ -56,13 +56,11 @@ return wibox.widget({
 			button_creator(
 				setting_button,
 				beautiful.black .. "00",
-				nil,
+				beautiful.fg_color .. "59",
 				dpi(7),
 				dpi(8),
 				nil,
-				nil,
-				0,
-				beautiful.fg_color .. "33"
+				nil
 			),
 			spacing_widget = wibox.widget({
 				{
@@ -74,17 +72,7 @@ return wibox.widget({
 				widget = wibox.container.margin,
 				margins = { top = dpi(5), bottom = dpi(5) },
 			}),
-			button_creator(
-				power_button,
-				beautiful.black .. "00",
-				nil,
-				dpi(7),
-				dpi(8),
-				nil,
-				nil,
-				0,
-				beautiful.fg_color .. "33"
-			),
+			button_creator(power_button, beautiful.black .. "00", beautiful.fg_color .. "59", dpi(7), dpi(8), nil, nil),
 			layout = wibox.layout.fixed.horizontal,
 			spacing = dpi(18),
 		},
@@ -94,7 +82,7 @@ return wibox.widget({
 		right = dpi(6),
 		widget = wibox.container.margin,
 	},
-	bg = beautiful.bg_2 .. "B3",
+	bg = beautiful.bg_3 .. "CC",
 	border_width = dpi(1),
 	border_color = beautiful.border_color .. "CC",
 	forced_height = dpi(40),

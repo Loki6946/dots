@@ -6,118 +6,128 @@ local helpers = require("helpers")
 
 local M = {}
 
-local datewidget = function(date, weekend, notIn)
-	weekend = weekend or false
+local function datewidget(date, weekend, notIn)
 	if notIn then
-		return wibox.widget({
-			markup = helpers.colorize_text(date, beautiful.fg_color .. "55"),
-			align = "center",
-			font = beautiful.font_var .. "Medium 10",
-			widget = wibox.widget.textbox,
-		})
-	else
-		return wibox.widget({
-			markup = weekend and helpers.colorize_text(date, beautiful.fg_color) or date,
-			align = "center",
-			font = beautiful.font_var .. "Medium 10",
-			widget = wibox.widget.textbox,
-		})
+		return wibox.widget({})
 	end
-end
 
-local daywidget = function(day, weekend, notIn)
-	weekend = weekend or false
 	return wibox.widget({
-		markup = weekend and helpers.colorize_text(day, beautiful.red_2) or day,
+		markup = weekend and helpers.colorize_text(date, beautiful.fg_color) or date,
 		align = "center",
-		font = beautiful.font_var .. "Bold 11",
+		font = beautiful.font_var .. "Semibold 9",
 		widget = wibox.widget.textbox,
 	})
 end
-local currwidget = function(day)
+
+local function daywidget(day, weekend)
 	return wibox.widget({
-		markup = helpers.colorize_text(day, beautiful.accent),
+		markup = weekend and helpers.colorize_text(day, beautiful.fg_3) or day,
 		align = "center",
-		font = beautiful.font_var .. "Bold 11",
+		font = beautiful.font_var .. "Bold 10",
 		widget = wibox.widget.textbox,
+	})
+end
+
+local function currwidget(day)
+	return wibox.widget({
+		{
+			markup = helpers.colorize_text(day, beautiful.black),
+			align = "center",
+			font = beautiful.font_var .. "Semibold 10",
+			widget = wibox.widget.textbox,
+		},
+		shape = helpers.rrect(999),
+		bg = beautiful.fg_color,
+		widget = wibox.container.background,
 	})
 end
 
 local theGrid = wibox.widget({
 	forced_num_rows = 7,
 	forced_num_cols = 7,
-	vertical_spacing = 13,
-	horizontal_spacing = 18,
+	vertical_spacing = 8,
+	horizontal_spacing = 12,
 	min_rows_size = 20,
 	homogenous = true,
 	layout = wibox.layout.grid,
 })
 
-local curr
+local curr = os.date("*t")
+local title_text = wibox.widget({
+	font = beautiful.font_var .. "Bold 11",
+	widget = wibox.widget.textbox,
+	halign = "center",
+})
+
+local prev_button = wibox.widget({
+	markup = helpers.colorize_text("", beautiful.fg_3),
+	font = beautiful.icon_var .. "Bold 14",
+	widget = wibox.widget.textbox,
+	buttons = gears.table.join(awful.button({}, 1, function()
+		curr = os.date("*t", os.time({ day = curr.day, month = curr.month - 1, year = curr.year }))
+		M.updateCalendar(curr)
+	end)),
+})
+
+local next_button = wibox.widget({
+	markup = helpers.colorize_text("", beautiful.fg_3),
+	font = beautiful.icon_var .. "Bold 14",
+	widget = wibox.widget.textbox,
+	buttons = gears.table.join(awful.button({}, 1, function()
+		curr = os.date("*t", os.time({ day = curr.day, month = curr.month + 1, year = curr.year }))
+		M.updateCalendar(curr)
+	end)),
+})
 
 local title = wibox.widget({
 	{
-		id = "text",
-		font = beautiful.font_var .. "Bold 12",
-		widget = wibox.widget.textbox,
-		halign = "left",
-		valign = "center",
+		prev_button,
+		title_text,
+		next_button,
+		layout = wibox.layout.align.horizontal,
 	},
-	left = 20,
+	left = 15,
+	right = 15,
+	top = 5,
 	widget = wibox.container.margin,
 })
 
 M.updateCalendar = function(date)
-	helpers.gc(title, "text").markup =
-		helpers.colorize_text(string.upper(os.date("%B %Y", os.time(date))), beautiful.red_2)
+	title_text.markup = helpers.colorize_text(string.upper(os.date("%B %Y", os.time(date))), beautiful.fg_color)
 	theGrid:reset()
 	for _, w in ipairs({ "S", "M", "T", "W", "T", "F", "S" }) do
-		if w == "S" then
-			theGrid:add(daywidget(w, true, false))
-		else
-			theGrid:add(daywidget(w, false, false))
-		end
+		theGrid:add(daywidget(w, w == "S"))
 	end
+
 	local firstDate = os.date("*t", os.time({ day = 1, month = date.month, year = date.year }))
 	local lastDate = os.date("*t", os.time({ day = 0, month = date.month + 1, year = date.year }))
-	local days_to_add_at_month_start = firstDate.wday - 1
-	local days_to_add_at_month_end = 42 - lastDate.day - days_to_add_at_month_start
+	local prevMonthLastDay = os.date("*t", os.time({ year = date.year, month = date.month, day = 0 })).day
+	local offsetStart = firstDate.wday - 1
+	local offsetEnd = 42 - lastDate.day - offsetStart
 
-	local previous_month_last_day = os.date("*t", os.time({ year = date.year, month = date.month, day = 0 })).day
-	local row = 2
-	local col = firstDate.wday
+	local row, col = 2, firstDate.wday
 
-	for day = previous_month_last_day - days_to_add_at_month_start, previous_month_last_day - 1, 1 do
+	for day = prevMonthLastDay - offsetStart, prevMonthLastDay - 1 do
 		theGrid:add(datewidget(day, false, true))
 	end
 
 	for day = 1, lastDate.day do
-		if day == date.day then
-			theGrid:add_widget_at(currwidget(day), row, col)
-		elseif col == 1 or col == 7 then
-			theGrid:add_widget_at(datewidget(day, true, false), row, col)
-		else
-			theGrid:add_widget_at(datewidget(day, false, false), row, col)
-		end
+		local widget = day == date.day and currwidget(day) or datewidget(day, col == 1 or col == 7, false)
+		theGrid:add_widget_at(widget, row, col)
 
-		if col == 7 then
-			col = 1
-			row = row + 1
-		else
-			col = col + 1
-		end
+		col = col == 7 and 1 or col + 1
+		row = col == 1 and row + 1 or row
 	end
 
-	for day = 1, days_to_add_at_month_end do
+	for day = 1, offsetEnd do
 		theGrid:add(datewidget(day, false, true))
 	end
 end
 
-curr = os.date("*t")
 M.updateCalendar(curr)
+
 gears.timer({
 	timeout = 86400,
-	call_now = false,
 	autostart = true,
 	callback = function()
 		curr = os.date("*t")
@@ -126,62 +136,35 @@ gears.timer({
 })
 
 return function(s)
-	local caca = wibox({
+	local calendar = wibox({
 		screen = s,
-		width = 290,
-		height = 290,
-		bg = beautiful.bg_color .. "CC",
+		width = 230,
+		height = 235,
+		bg = beautiful.bg_3 .. "D3",
 		border_width = 1,
 		border_color = beautiful.border_accent,
-		shape = helpers.rrect(beautiful.rounded + 5),
+		shape = helpers.rrect(beautiful.rounded),
 		ontop = false,
 		visible = false,
 	})
 
-	caca:setup({
+	calendar:setup({
 		{
 			title,
-			{
-				theGrid,
-				widget = wibox.container.place,
-				halign = "center",
-			},
-			spacing = 20,
+			{ theGrid, widget = wibox.container.place, halign = "center" },
+			spacing = 8,
 			layout = wibox.layout.fixed.vertical,
 		},
 		widget = wibox.container.margin,
-		margins = 10,
-		buttons = gears.table.join(
-			awful.button({}, 4, function()
-				curr = os.date(
-					"*t",
-					os.time({
-						day = curr.day,
-						month = curr.month + 1,
-						year = curr.year,
-					})
-				)
-				M.updateCalendar(curr)
-			end),
-			awful.button({}, 5, function()
-				curr = os.date(
-					"*t",
-					os.time({
-						day = curr.day,
-						month = curr.month - 1,
-						year = curr.year,
-					})
-				)
-				M.updateCalendar(curr)
-			end)
-		),
+		margins = 5,
 	})
-	helpers.place_widget(caca, "top_left", beautiful.useless_gap + 23, 0, beautiful.useless_gap * 2, 0)
-	helpers.popup_opacity(caca, 0.3)
 
-	awesome.connect_signal("widget::hide", function()
-		caca.visible = not caca.visible
+	helpers.place_widget(calendar, "top_right", beautiful.useless_gap - 3, 0, 0, beautiful.useless_gap - 3)
+	helpers.popup_opacity(calendar, 0.3)
+
+	awesome.connect_signal("widget::toggle", function()
+		calendar.visible = not calendar.visible
 	end)
 
-	return caca
+	return calendar
 end

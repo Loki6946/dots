@@ -10,10 +10,11 @@ local directory = home_var .. "/.config/awesome/theme/assets/"
 return {
 	-- images
 	notification_icon = directory .. "images/notif.png",
+	warning_icon = directory .. "images/warning.png",
 	health_icon = directory .. "images/heart.png",
 	awm_icon = directory .. "images/awm.png",
 	album_art_fallback = directory .. "images/album-art.png",
-	music_art_fallback = directory .. "images/disk.png",
+	music_art_fallback = directory .. "images/music.png",
 	pp = directory .. "images/pp.jpeg",
 
 	--icons

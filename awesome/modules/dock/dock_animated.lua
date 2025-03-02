@@ -27,7 +27,18 @@ local helpers = require("helpers")
 local rubato = require("modules.rubato")
 ------------------------------------------------------
 
-return function(screen, pinned, size, offset, modules_spacing, active_color, background_color, icon_handler, icon_theme)
+return function(
+	screen,
+	pinned,
+	size,
+	offset,
+	modules_spacing,
+	active_color,
+	background_color,
+	border_color,
+	icon_handler,
+	icon_theme
+)
 	-- buttons for the dock
 	------------------------
 	local tasklist_buttons = gears.table.join(
@@ -64,39 +75,33 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		widget_template = {
 			{
 				id = "app_icon_role",
-				forced_height = dpi(size - 15),
-				forced_width = dpi(size - 15),
+				forced_height = dpi(size - 14),
+				forced_width = dpi(size - 14),
 				resize = true,
-				valign = "center",
-				halign = "center",
 				widget = awful.widget.clienticon,
 			},
 			{
 				{
-					{
-						id = "circle_animate",
-						widget = wibox.container.background,
-						bg = active_color,
-						shape = helpers.rrect(999),
-						forced_width = dpi(5),
-						forced_height = dpi(5),
-					},
-					halign = "center",
-					widget = wibox.container.place,
+					id = "circle_animate",
+					widget = wibox.container.background,
+					bg = active_color,
+					shape = helpers.rrect(999),
+					forced_width = dpi(5),
+					forced_height = dpi(5),
 				},
-				forced_width = dpi(size - 15),
-				widget = wibox.container.background,
+				halign = "center",
+				widget = wibox.container.place,
 			},
-			spacing = dpi(2),
+			spacing = dpi(1),
 			layout = wibox.layout.fixed.vertical,
 			create_callback = function(self, c, index, objects)
-				local animation_button_opacity = rubato.timed({
+				local animation_circle_width = rubato.timed({
 					pos = 0,
-					rate = 75,
+					rate = 60,
 					intro = 0.1,
 					duration = 0.20,
 					awestore_compat = true,
-					easing = rubato.easing.quadratic,
+					easing = rubato.easing.ease_out_cubic,
 					subscribed = function(pos)
 						helpers.gc(self, "circle_animate").forced_width = pos
 					end,
@@ -120,13 +125,13 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 
 					if c.active then
 						self:get_children_by_id("app_icon_role")[1].opacity = 1
-						animation_button_opacity:set(10)
+						animation_circle_width:set(10)
 					elseif c.minimized then
 						self:get_children_by_id("app_icon_role")[1].opacity = 1
-						animation_button_opacity:set(5)
+						animation_circle_width:set(5)
 					else
 						self:get_children_by_id("app_icon_role")[1].opacity = 1
-						animation_button_opacity:set(5)
+						animation_circle_width:set(5)
 					end
 
 					helpers.hover_cursor(self, "app_icon_role")
@@ -151,7 +156,6 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		margins = { top = dpi(4), bottom = dpi(4), left = dpi(12), right = dpi(12) },
 		gaps = { bottom = dpi(8) },
 		shape = helpers.rrect(3),
-		bg = background_color,
 	})
 	-- Eof taglist
 	-------------------------------------------------------------------------------
@@ -165,29 +169,23 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 			{
 				widget = wibox.widget.imagebox,
 				image = app_icon,
-				valign = "center",
-				halign = "center",
 				forced_height = dpi(size - 15),
 				forced_width = dpi(size - 15),
 				resize = true,
 			},
 			{
 				{
-					{
-						id = "animate",
-						widget = wibox.container.background,
-						bg = active_color,
-						shape = helpers.rrect(999),
-						forced_width = dpi(5),
-						forced_height = dpi(5),
-					},
-					halign = "center",
-					layout = wibox.container.place,
+					id = "animate",
+					widget = wibox.container.background,
+					bg = active_color,
+					shape = helpers.rrect(999),
+					forced_width = dpi(5),
+					forced_height = dpi(5),
 				},
-				forced_width = dpi(size - 15),
-				widget = wibox.container.background,
+				halign = "center",
+				layout = wibox.container.place,
 			},
-			spacing = dpi(2),
+			spacing = dpi(1),
 			layout = wibox.layout.fixed.vertical,
 		})
 
@@ -200,27 +198,13 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 			margins = { top = dpi(4), bottom = dpi(4), left = dpi(12), right = dpi(12) },
 			gaps = { bottom = dpi(8) },
 			shape = helpers.rrect(3),
-			bg = background_color,
 		})
 
-		-- Animation using rubato
-		-- local click_animation = rubato.timed({
-		-- 	pos = 1, -- Normal scale
-		-- 	rate = 120,
-		-- 	intro = 0.03,
-		-- 	duration = 0.12,
-		-- 	easing = rubato.easing.quadratic,
-		-- 	subscribed = function(pos)
-		-- 		w.children[1].forced_height = dpi((size - 15) * pos)
-		-- 		w.children[1].forced_width = dpi((size - 15) * pos)
-		-- 	end,
-		-- })
-
-		local animation_button_opacity = rubato.timed({
+		local animation_circle_opacity = rubato.timed({
 			pos = 0,
-			rate = 75,
+			rate = 60,
 			intro = 0.1,
-			duration = 0.20,
+			duration = 0.2,
 			awestore_compat = true,
 			easing = rubato.easing.quadratic,
 			subscribed = function(pos)
@@ -229,24 +213,22 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		})
 
 		w:connect_signal("mouse::enter", function()
-			animation_button_opacity:set(1.0)
+			animation_circle_opacity:set(1.0)
 		end)
 
 		w:connect_signal("mouse::leave", function()
-			animation_button_opacity:set(0)
+			animation_circle_opacity:set(0)
 		end)
 
 		w:connect_signal("button::press", function(_, _, _, button)
 			if button == 1 then
 				awful.spawn.with_shell(app_command, false)
-				animation_button_opacity:set(0.8)
-				-- click_animation.target = 0.8
-				w.opacity = 0.6
+				animation_circle_opacity:set(0.8)
+				w.opacity = 0.5
 			end
 		end)
 		w:connect_signal("button::release", function()
-			animation_button_opacity:set(1.0)
-			-- click_animation.target = 1.0
+			animation_circle_opacity:set(1.0)
 			w.opacity = 1
 		end)
 
@@ -277,7 +259,7 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		widget = wibox.container.background,
 		ontop = true,
 		bg = background_color,
-		border_color = "#3A3A3C",
+		border_color = border_color,
 		border_width = dpi(1),
 		visible = true,
 		maximum_width = dpi(1000),
@@ -316,15 +298,57 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 
 	-- helper function for empty dock
 	---------------------------------------
+	-- function when_no_apps_open(s)
+	-- 	if #s.selected_tag:clients() < 1 then
+	-- 		dock:setup({
+	-- 			{
+	-- 				pinned_apps,
+	-- 				align = "center",
+	-- 				widget = wibox.container.place,
+	-- 			},
+	-- 			widget = wibox.container.margin,
+	-- 			margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
+	-- 		})
+	-- 	else
+	-- 		dock:setup({
+	-- 			{
+	-- 				pinned_apps,
+	-- 				screen.mytasklist,
+	-- 				layout = wibox.layout.fixed.horizontal,
+	-- 				spacing = dpi(20),
+	-- 				spacing_widget = wibox.widget({
+	-- 					{
+	-- 						widget = wibox.widget.separator,
+	-- 						orientation = "vertical",
+	-- 						color = "#4A4A4E",
+	-- 						thickness = 2,
+	-- 					},
+	-- 					widget = wibox.container.margin,
+	-- 					margins = { top = dpi(5), bottom = dpi(10) },
+	-- 				}),
+	-- 			},
+	-- 			widget = wibox.container.margin,
+	-- 			margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
+	-- 		})
+	-- 	end
+	-- end
+
 	function when_no_apps_open(s)
+		local content
+
 		if #s.selected_tag:clients() < 1 then
-			dock:setup({
-				pinned_apps,
+			-- No apps open, center pinned apps
+			content = {
+				{
+					pinned_apps,
+					align = "center",
+					widget = wibox.container.place,
+				},
 				widget = wibox.container.margin,
-				margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
-			})
+			}
 		else
-			dock:setup({
+			-- Apps open, show pinned apps + tasklist with separator
+			content = {
 				{
 					pinned_apps,
 					screen.mytasklist,
@@ -342,9 +366,15 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 					}),
 				},
 				widget = wibox.container.margin,
-				margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
-			})
+			}
 		end
+
+		-- Apply layout to the dock with common margins
+		dock:setup({
+			content,
+			margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
+			widget = wibox.container.margin,
+		})
 	end
 
 	-------------------------------------------
@@ -352,10 +382,7 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 	-- The dock visibility
 	------------------------------------------------------------
 
-	-- hidden y
 	local hidden_y = awful.screen.focused().geometry.height
-
-	--visible y
 	local visible_y = awful.screen.focused().geometry.height - (dock.maximum_height + offset)
 
 	-- animation when the dock is closed/opened
@@ -365,72 +392,74 @@ return function(screen, pinned, size, offset, modules_spacing, active_color, bac
 		duration = 0.2,
 		pos = hidden_y,
 		rate = 60,
-		easing = rubato.ease_in_out_cubic,
+		easing = rubato.easing.inOutCubic,
 		subscribed = function(pos)
 			dock.y = pos
 		end,
 	})
 
 	local function check_for_dock_hide()
-		for _, client in ipairs(screen.selected_tag:clients()) do
-			if client.fullscreen then
+		local screen = awful.screen.focused()
+
+		-- If a fullscreen or maximized window is active, hide the dock
+		for _, c in ipairs(screen.selected_tag:clients()) do
+			if c.fullscreen or c.maximized then
 				animation.target = hidden_y
+
+				-- Delay hiding the dock until after the animation
 				gears.timer({
-					timeout = 1,
+					timeout = 0.3, -- Reduce delay to make it more responsive
 					single_shot = true,
 					callback = function()
-						dock.visible = false
+						if animation.target == hidden_y then
+							dock.visible = false
+						end
 					end,
 				})
+				return
 			end
 		end
-		-- make dock visible if nothing is open
+
+		-- If no windows are open, show the dock
 		if #screen.selected_tag:clients() < 1 then
-			animation.target = visible_y
 			dock.visible = true
+			animation.target = visible_y
 			return
 		end
+
+		-- If mouse is in the dock area, keep it visible
 		if screen == mouse.screen then
 			local minimized
 			for _, c in ipairs(screen.selected_tag:clients()) do
 				if c.minimized then
 					minimized = true
 				end
-				if c.maximized or c.fullscreen then
-					animation.target = hidden_y
-					return
-				end
 				if not c.minimized then
-					-- if client enters dock area then hide it
-					local y = c:geometry().y
-					local h = c.height
+					-- Hide if a window overlaps the dock area
+					local y, h = c:geometry().y, c.height
 					if (y + h) >= screen.geometry.height - 85 then
 						animation.target = hidden_y
-						gears.timer({
-							timeout = 1,
-							single_shot = true,
-							callback = function()
-								dock.visible = false
-							end,
-						})
 						return
 					else
-						animation.target = visible_y
 						dock.visible = true
+						animation.target = visible_y
 					end
 				end
 			end
 			if minimized then
-				animation.target = visible_y
 				dock.visible = true
+				animation.target = visible_y
 			end
 		else
+			-- If the mouse leaves the screen, smoothly hide the dock
 			animation.target = hidden_y
 			gears.timer({
-				timeout = 1,
+				timeout = 0.3, -- Reduced delay for better responsiveness
 				single_shot = true,
 				callback = function()
-					dock.visible = false
+					if animation.target == hidden_y then
+						dock.visible = false
+					end
 				end,
 			})
 		end

@@ -47,6 +47,7 @@ end)
 screen.connect_signal("request::desktop_decoration", function(s)
 	screen[s].padding = { left = 0, right = 0, top = 0, bottom = 0 }
 	awful.tag(names, s, awful.layout.layouts[1])
+	s.calendar = require("widgets.topbar.mods.widget.calendar")(s)
 end)
 
 local tag = require("awful.widget.taglist")
