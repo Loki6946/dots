@@ -40,9 +40,9 @@ awful.screen.connect_for_each_screen(function(s)
 
 	-- Launcher Button
 	local launcher = create_button(
-		create_icon(beautiful.search_icon, 14),
+		create_icon(beautiful.search_icon, 15),
 		beautiful.black .. "00",
-		beautiful.fg_color .. "80",
+		beautiful.fg_color,
 		dpi(10),
 		nil,
 		nil,
@@ -59,7 +59,7 @@ awful.screen.connect_for_each_screen(function(s)
 	local awesomemenu = create_button(
 		create_icon(beautiful.awm_icon, 15),
 		beautiful.black .. "00",
-		beautiful.fg_color .. "80",
+		beautiful.fg_color,
 		dpi(10),
 		nil,
 		nil,
@@ -74,16 +74,20 @@ awful.screen.connect_for_each_screen(function(s)
 
 	-- WiFi Indicator
 	local wifi_icon = wibox.widget({
-		id = "wifi_icon",
-		markup = helpers.colorize_text("", beautiful.fg_color),
-		font = beautiful.icon_var .. "11",
-		align = "center",
-		widget = wibox.widget.textbox,
+		{
+			id = "wifi_icon",
+			markup = helpers.colorize_text("", beautiful.fg_color),
+			font = beautiful.icon_var .. "12",
+			align = "center",
+			widget = wibox.widget.textbox,
+		},
+		bottom = dpi(2),
+		widget = wibox.container.margin,
 	})
 	local wifi = create_button(
 		wifi_icon,
 		beautiful.black .. "00",
-		beautiful.fg_color .. "80",
+		beautiful.fg_color,
 		dpi(10),
 		nil,
 		nil,
@@ -128,7 +132,7 @@ awful.screen.connect_for_each_screen(function(s)
 	local cc_ic = create_button(
 		create_icon(beautiful.control_center_icon, 13),
 		beautiful.black .. "00",
-		beautiful.fg_color .. "80",
+		beautiful.fg_color,
 		dpi(10),
 		nil,
 		nil,
@@ -145,9 +149,9 @@ awful.screen.connect_for_each_screen(function(s)
 	local layout = create_button(
 		awful.widget.layoutbox(),
 		beautiful.black .. "00",
-		beautiful.fg_color .. "80",
+		beautiful.fg_color,
 		dpi(10),
-		dpi(7),
+		dpi(6),
 		nil,
 		dpi(4),
 		nil,
@@ -163,49 +167,35 @@ awful.screen.connect_for_each_screen(function(s)
 		end)
 	))
 
-	-- Battery Widget
 	local battery = wibox.widget({
 		{
-			{
-				{
-					id = "status",
-					markup = helpers.colorize_text("", beautiful.fg_color),
-					font = beautiful.icon_outlined .. "10",
-					valign = "center",
-					align = "center",
-					widget = wibox.widget.textbox,
-				},
-				widget = wibox.container.margin,
-				top = 1,
-				bottom = 0,
-				right = 0,
-			},
 			{
 				{
 					{
 						max_value = 100,
 						value = 69,
 						id = "prog",
-						forced_width = 18,
+						forced_height = 0,
+						forced_width = 22,
 						paddings = 1,
-						border_color = beautiful.fg_color .. "99",
-						background_color = beautiful.bg_color .. "00",
-						color = beautiful.fg_color,
-						bar_shape = helpers.rrect(1),
 						border_width = 1,
-						shape = helpers.rrect(2),
+						border_color = beautiful.fg_2,
+						background_color = beautiful.black .. "00",
+						color = beautiful.fg_color,
+						bar_shape = helpers.rrect(2),
+						shape = helpers.rrect(3),
 						widget = wibox.widget.progressbar,
 					},
 					widget = wibox.container.margin,
-					top = dpi(12),
-					bottom = dpi(12),
+					top = 10,
+					bottom = 10,
 				},
 				{
 					{
-						bg = beautiful.fg_color .. "99",
-						forced_height = 5,
+						bg = beautiful.fg_2,
+						forced_height = 4,
 						forced_width = 2,
-						shape = helpers.rrect(9999),
+						shape = helpers.rrect(15),
 						widget = wibox.container.background,
 					},
 					widget = wibox.container.place,
@@ -213,12 +203,24 @@ awful.screen.connect_for_each_screen(function(s)
 				spacing = 1,
 				layout = wibox.layout.fixed.horizontal,
 			},
-			spacing = 1,
-			layout = wibox.layout.fixed.horizontal,
+			{
+				{
+					id = "status",
+					image = nil,
+					resize = true,
+					halign = "center",
+					widget = wibox.widget.imagebox,
+				},
+				widget = wibox.container.margin,
+				top = 12,
+				bottom = 12,
+				right = 2,
+			},
+			layout = wibox.layout.stack,
 		},
-		widget = wibox.container.margin,
 		left = dpi(10),
 		right = dpi(10),
+		widget = wibox.container.margin,
 	})
 	local battery_t = awful.tooltip({
 		objects = { battery },
@@ -228,7 +230,6 @@ awful.screen.connect_for_each_screen(function(s)
 		margins = { top = dpi(4), bottom = dpi(4), left = dpi(12), right = dpi(12) },
 		gaps = { bottom = dpi(8) },
 		shape = helpers.rrect(3),
-		bg = beautiful.bg_color .. "99",
 	})
 
 	-- Clock Widget
@@ -236,26 +237,31 @@ awful.screen.connect_for_each_screen(function(s)
 		{
 			{
 				widget = wibox.widget.textclock,
-				format = helpers.colorize_text("%a %d %b", beautiful.fg_color),
-				font = beautiful.font_var .. "Medium 10",
+				format = helpers.colorize_text(" %a %b %d ", beautiful.fg_color),
+				font = beautiful.font_var .. "Semibold 10",
+				align = "center",
+				forced_width = dpi(86),
 			},
 			{
 				widget = wibox.widget.textclock,
-				format = helpers.colorize_text("%H:%M", beautiful.fg_color),
-				font = beautiful.font_var .. "Medium 10",
+				format = helpers.colorize_text(" %H:%M ", beautiful.fg_color),
+				font = beautiful.font_var .. "Semibold 10",
+				align = "center",
+				forced_width = dpi(49),
 			},
-			spacing = dpi(10),
+			spacing = dpi(0),
 			layout = wibox.layout.fixed.horizontal,
 		},
 		bottom = dpi(1),
+		right = dpi(6),
 		widget = wibox.container.margin,
 	})
 
 	local clock_widget = create_button(
 		clock,
 		beautiful.black .. "00",
-		beautiful.fg_color .. "80",
-		dpi(10),
+		beautiful.fg_color,
+		dpi(0),
 		nil,
 		nil,
 		dpi(4),
@@ -271,12 +277,22 @@ awful.screen.connect_for_each_screen(function(s)
 	-- Update Widgets on Signals
 	awesome.connect_signal("signal::battery", function(value, state)
 		helpers.gc(battery, "prog").value = value
-		battery_t.markup = tostring(value) .. "%"
-		helpers.gc(battery, "status").visible = state == 1
+		local b = helpers.gc(battery, "status")
+		if state == 1 then
+			if value < 50 then
+				b.image = gears.color.recolor_image(beautiful.charge_icon, beautiful.fg_color)
+			else
+				b.image = gears.color.recolor_image(beautiful.charge_icon, beautiful.bg_color)
+			end
+			battery_t.markup = "Charging " .. tostring(value) .. "%"
+		else
+			b.image = nil
+			battery_t.markup = tostring(value) .. "%"
+		end
 	end)
 
 	awesome.connect_signal("signal::wifi", function(value)
-		wifi_icon.markup =
+		helpers.gc(wifi_icon, "wifi_icon").markup =
 			helpers.colorize_text(value and "" or "", value and beautiful.fg_color or beautiful.fg_color .. "99")
 	end)
 
@@ -287,7 +303,7 @@ awful.screen.connect_for_each_screen(function(s)
 		ontop = false,
 		type = "dock",
 		width = screen_width,
-		height = dpi(34),
+		height = dpi(33),
 		bg = beautiful.topbar_background,
 	})
 
@@ -303,7 +319,7 @@ awful.screen.connect_for_each_screen(function(s)
 				spacing = dpi(3),
 				layout = wibox.layout.fixed.horizontal,
 			},
-			left = 10,
+			left = 5,
 			widget = wibox.container.margin,
 		},
 		nil,
@@ -318,7 +334,7 @@ awful.screen.connect_for_each_screen(function(s)
 				spacing = dpi(0),
 				layout = wibox.layout.fixed.horizontal,
 			},
-			right = 10,
+			right = 5,
 			widget = wibox.container.margin,
 		},
 		layout = wibox.layout.align.horizontal,

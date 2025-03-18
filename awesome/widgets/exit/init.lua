@@ -26,7 +26,7 @@ local function createButton(icon, cmd)
 		bg = beautiful.bg_2,
 		shape_border_width = beautiful.border_width,
 		shape_border_color = beautiful.border_accent,
-		shape = helpers.rrect(beautiful.rounded),
+		shape = helpers.rrect(15),
 		widget = wibox.container.background,
 		buttons = {
 			awful.button({}, 1, function()
@@ -102,7 +102,7 @@ return function(s)
 		x = s.geometry.x,
 		y = s.geometry.y,
 		ontop = true,
-		bg = beautiful.black .. "1A",
+		bg = beautiful.black .. "33",
 		visible = false,
 	})
 
@@ -126,7 +126,7 @@ return function(s)
 			widget = wibox.container.background,
 			forced_width = 390,
 			forced_height = 130,
-			shape = helpers.rrect(beautiful.rounded),
+			shape = helpers.rrect(13),
 			bg = beautiful.bg_color,
 			border_width = beautiful.border_width,
 			border_color = beautiful.border_accent,

@@ -1,8 +1,4 @@
--- minimal music widget
--- ~~~~~~~~~~~~~~~~~~~~
-
--- requirements
--- ~~~~~~~~~~~~
+-- Requirements
 local awful = require("awful")
 local beautiful = require("beautiful")
 local gears = require("gears")
@@ -11,24 +7,15 @@ local helpers = require("helpers")
 local wibox = require("wibox")
 local button_creator = require("helpers.widget.create_button")
 
--- widgets
--- ~~~~~~~
-
--- Song info
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
--- album art
+-- Song Info Widgets
 local album_art = wibox.widget({
 	widget = wibox.widget.imagebox,
 	clip_shape = helpers.rrect(beautiful.rounded - 3),
-	forced_height = dpi(75),
-	forced_width = dpi(75),
+	forced_height = dpi(60),
+	forced_width = dpi(60),
 	image = beautiful.album_art_fallback,
-	border_color = beautiful.fg_color .. "33",
-	border_width = dpi(1),
 })
 
--- song artist
 local song_artist = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("Unknown", beautiful.fg_color),
@@ -37,7 +24,6 @@ local song_artist = wibox.widget({
 	valign = "center",
 })
 
--- song name
 local song_name = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("None", beautiful.fg_color),
@@ -46,93 +32,49 @@ local song_name = wibox.widget({
 	valign = "center",
 })
 
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EOF Song info
+-- Control Buttons
+local function create_button(icon, size)
+	return wibox.widget({
+		widget = wibox.widget.textbox,
+		markup = helpers.colorize_text(icon, beautiful.fg_color .. "D9"),
+		font = beautiful.icon_round .. size,
+		align = "right",
+		valign = "center",
+	})
+end
 
--- buttons
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+local toggle_button = create_button("", "25")
+local next_button = create_button("", "25")
+local prev_button = create_button("", "14")
 
--- toggle button
-local toggle_button = wibox.widget({
-	widget = wibox.widget.textbox,
-	markup = helpers.colorize_text("", beautiful.fg_color),
-	font = beautiful.icon_var .. "16",
-	align = "right",
-	valign = "center",
-})
-
--- next button
-local next_button = wibox.widget({
-	widget = wibox.widget.textbox,
-	markup = helpers.colorize_text("", beautiful.fg_color),
-	font = beautiful.icon_var .. "14",
-	align = "right",
-	valign = "center",
-})
-
--- prev button
-local prev_button = wibox.widget({
-	widget = wibox.widget.textbox,
-	markup = helpers.colorize_text("", beautiful.fg_color),
-	font = beautiful.icon_var .. "14",
-	align = "right",
-	valign = "center",
-})
-
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EOF buttons
-
--- update widgets
--- ~~~~~~~~~~~~~~
-
+-- Playerctl Integration
 local playerctl = require("modules.bling").signal.playerctl.lib()
 
-local toggle_command = function()
-	playerctl:play_pause()
-end
-local prev_command = function()
-	playerctl:previous()
-end
-local next_command = function()
-	playerctl:next()
-end
-
 toggle_button:buttons(gears.table.join(awful.button({}, 1, function()
-	toggle_command()
+	playerctl:play_pause()
 end)))
 
 next_button:buttons(gears.table.join(awful.button({}, 1, function()
-	next_command()
+	playerctl:next()
 end)))
 
 prev_button:buttons(gears.table.join(awful.button({}, 1, function()
-	prev_command()
+	playerctl:previous()
 end)))
 
-playerctl:connect_signal("metadata", function(_, title, artist, album_path, __, ___, ____)
-	if title == "" then
-		title = "None"
-	end
-	if artist == "" then
-		artist = "Unknown"
-	end
-	if album_path == "" then
-		album_path = beautiful.album_art_fallback
-	end
-
-	album_art:set_image(gears.surface.load_uncached(album_path))
-	song_name:set_markup_silently(helpers.colorize_text(title, beautiful.fg_color))
-	song_artist:set_markup_silently(helpers.colorize_text("~" .. artist, beautiful.fg_color))
+playerctl:connect_signal("metadata", function(_, title, artist, album_path, ...)
+	song_name:set_markup_silently(helpers.colorize_text(title ~= "" and title or "None", beautiful.fg_color))
+	song_artist:set_markup_silently(
+		helpers.colorize_text("~" .. (artist ~= "" and artist or "Unknown"), beautiful.fg_color)
+	)
+	album_art:set_image(gears.surface.load_uncached(album_path ~= "" and album_path or beautiful.album_art_fallback))
 end)
 
-playerctl:connect_signal("playback_status", function(_, playing, __)
-	if playing then
-		toggle_button.markup = helpers.colorize_text("", beautiful.fg_color)
-	else
-		toggle_button.markup = helpers.colorize_text("", beautiful.fg_color)
-	end
+playerctl:connect_signal("playback_status", function(_, playing, ...)
+	toggle_button.markup = helpers.colorize_text(playing and "" or "", beautiful.fg_color)
 end)
 
--- ~~~~~~~~~~~~~~~~~~
--- ~~~~~~~~~~~~~~~~~~
+-- Layout
 return wibox.widget({
 	{
 		{
@@ -144,14 +86,14 @@ return wibox.widget({
 						{
 							step_function = wibox.container.scroll.step_functions.waiting_nonlinear_back_and_forth,
 							widget = wibox.container.scroll.horizontal,
-							forced_width = dpi(140),
+							forced_width = dpi(150),
 							speed = 30,
 							song_name,
 						},
 						{
 							step_function = wibox.container.scroll.step_functions.waiting_nonlinear_back_and_forth,
 							widget = wibox.container.scroll.horizontal,
-							forced_width = dpi(140),
+							forced_width = dpi(150),
 							speed = 30,
 							song_artist,
 						},
@@ -163,15 +105,6 @@ return wibox.widget({
 				},
 				{
 					{
-						button_creator(
-							prev_button,
-							beautiful.black .. "00",
-							beautiful.fg_color .. "59",
-							dpi(5),
-							nil,
-							nil,
-							dpi(0)
-						),
 						button_creator(
 							toggle_button,
 							beautiful.black .. "00",
@@ -185,7 +118,7 @@ return wibox.widget({
 							next_button,
 							beautiful.black .. "00",
 							beautiful.fg_color .. "59",
-							dpi(5),
+							dpi(4),
 							nil,
 							nil,
 							dpi(0)
@@ -193,22 +126,20 @@ return wibox.widget({
 						layout = wibox.layout.fixed.horizontal,
 						spacing = dpi(0),
 					},
-					margins = { top = dpi(23), bottom = dpi(23) },
+					margins = { top = dpi(5), bottom = dpi(5) },
 					widget = wibox.container.margin,
 				},
 				layout = wibox.layout.fixed.horizontal,
 				spacing = dpi(10),
 			},
 			layout = wibox.layout.fixed.horizontal,
-			spacing = dpi(10),
+			spacing = dpi(0),
 		},
-		margins = dpi(12),
+		margins = dpi(10),
 		widget = wibox.container.margin,
 	},
-	widget = wibox.container.background,
-	bg = beautiful.bg_3 .. "CC",
-	border_width = dpi(1),
-	border_color = beautiful.border_color .. "CC",
+	forced_height = dpi(70),
+	bg = beautiful.bg_3 .. "D9",
 	shape = helpers.rrect(beautiful.rounded),
+	widget = wibox.container.background,
 })
--- ~~~~~~~~~~~~~~~~~~

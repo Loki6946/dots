@@ -101,7 +101,7 @@ return function(
 					intro = 0.1,
 					duration = 0.20,
 					awestore_compat = true,
-					easing = rubato.easing.ease_out_cubic,
+					easing = rubato.easing.inOutCubic,
 					subscribed = function(pos)
 						helpers.gc(self, "circle_animate").forced_width = pos
 					end,
@@ -134,9 +134,7 @@ return function(
 						animation_circle_width:set(5)
 					end
 
-					helpers.hover_cursor(self, "app_icon_role")
-
-					when_no_apps_open(screen)
+					-- helpers.hover_cursor(self, "app_icon_role")
 				end
 
 				self.update()
@@ -153,9 +151,15 @@ return function(
 		mode = "outside",
 		align = "top",
 		preferred_alignments = "middle",
-		margins = { top = dpi(4), bottom = dpi(4), left = dpi(12), right = dpi(12) },
+		margins = { top = dpi(4), bottom = dpi(10), left = dpi(12), right = dpi(12) },
 		gaps = { bottom = dpi(8) },
-		shape = helpers.rrect(3),
+		shape = function(cr, width, height)
+			gears
+				.shape
+				.transform(gears.shape.infobubble)
+				:rotate_at(width / 2, height / 2, math.pi) -- Rotate 180° (π radians)
+				(cr, width, height, dpi(3), dpi(6))
+		end,
 	})
 	-- Eof taglist
 	-------------------------------------------------------------------------------
@@ -189,15 +193,22 @@ return function(
 			layout = wibox.layout.fixed.vertical,
 		})
 
+		local formatted_name = app_name:gsub("[_-]", " ")
 		local w_t = awful.tooltip({
-			markup = helpers.capitalize(app_name),
+			markup = helpers.capitalize(formatted_name),
 			objects = { w },
 			mode = "outside",
 			align = "top",
 			preferred_alignments = "middle",
-			margins = { top = dpi(4), bottom = dpi(4), left = dpi(12), right = dpi(12) },
+			margins = { top = dpi(4), bottom = dpi(10), left = dpi(12), right = dpi(12) },
 			gaps = { bottom = dpi(8) },
-			shape = helpers.rrect(3),
+			shape = function(cr, width, height)
+				gears
+					.shape
+					.transform(gears.shape.infobubble)
+					:rotate_at(width / 2, height / 2, math.pi) -- Rotate 180° (π radians)
+					(cr, width, height, dpi(3), dpi(6))
+			end,
 		})
 
 		local animation_circle_opacity = rubato.timed({
@@ -206,7 +217,7 @@ return function(
 			intro = 0.1,
 			duration = 0.2,
 			awestore_compat = true,
-			easing = rubato.easing.quadratic,
+			easing = rubato.easing.inOutCubic,
 			subscribed = function(pos)
 				helpers.gc(w, "animate").opacity = pos
 			end,
@@ -224,7 +235,7 @@ return function(
 			if button == 1 then
 				awful.spawn.with_shell(app_command, false)
 				animation_circle_opacity:set(0.8)
-				w.opacity = 0.5
+				w.opacity = 0.3
 			end
 		end)
 		w:connect_signal("button::release", function()
@@ -232,7 +243,7 @@ return function(
 			w.opacity = 1
 		end)
 
-		helpers.hover_cursor(w)
+		-- helpers.hover_cursor(w)
 
 		return w
 	end
@@ -287,7 +298,7 @@ return function(
 		opacity = 0,
 		visible = true,
 		width = dpi(800),
-		height = dpi(1),
+		height = dpi(2),
 		type = "tooltip",
 	})
 
@@ -298,46 +309,11 @@ return function(
 
 	-- helper function for empty dock
 	---------------------------------------
-	-- function when_no_apps_open(s)
-	-- 	if #s.selected_tag:clients() < 1 then
-	-- 		dock:setup({
-	-- 			{
-	-- 				pinned_apps,
-	-- 				align = "center",
-	-- 				widget = wibox.container.place,
-	-- 			},
-	-- 			widget = wibox.container.margin,
-	-- 			margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
-	-- 		})
-	-- 	else
-	-- 		dock:setup({
-	-- 			{
-	-- 				pinned_apps,
-	-- 				screen.mytasklist,
-	-- 				layout = wibox.layout.fixed.horizontal,
-	-- 				spacing = dpi(20),
-	-- 				spacing_widget = wibox.widget({
-	-- 					{
-	-- 						widget = wibox.widget.separator,
-	-- 						orientation = "vertical",
-	-- 						color = "#4A4A4E",
-	-- 						thickness = 2,
-	-- 					},
-	-- 					widget = wibox.container.margin,
-	-- 					margins = { top = dpi(5), bottom = dpi(10) },
-	-- 				}),
-	-- 			},
-	-- 			widget = wibox.container.margin,
-	-- 			margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
-	-- 		})
-	-- 	end
-	-- end
 
-	function when_no_apps_open(s)
+	local function when_no_apps_open(s)
 		local content
 
 		if #s.selected_tag:clients() < 1 then
-			-- No apps open, center pinned apps
 			content = {
 				{
 					pinned_apps,
@@ -347,7 +323,6 @@ return function(
 				widget = wibox.container.margin,
 			}
 		else
-			-- Apps open, show pinned apps + tasklist with separator
 			content = {
 				{
 					pinned_apps,
@@ -369,7 +344,6 @@ return function(
 			}
 		end
 
-		-- Apply layout to the dock with common margins
 		dock:setup({
 			content,
 			margins = { top = dpi(5), left = dpi(5), right = dpi(5), bottom = dpi(1) },
@@ -386,91 +360,54 @@ return function(
 	local visible_y = awful.screen.focused().geometry.height - (dock.maximum_height + offset)
 
 	-- animation when the dock is closed/opened
-	local animation = rubato.timed({
-		intro = 0.05,
-		outro = 0.1,
-		duration = 0.2,
+	local slide_animation = rubato.timed({
+		duration = 0.35,
 		pos = hidden_y,
 		rate = 60,
-		easing = rubato.easing.inOutCubic,
+		easing = rubato.easing.inOutSine,
 		subscribed = function(pos)
 			dock.y = pos
 		end,
 	})
 
 	local function check_for_dock_hide()
-		local screen = awful.screen.focused()
+		local clients = screen.selected_tag:clients()
+		local should_hide = false
 
-		-- If a fullscreen or maximized window is active, hide the dock
-		for _, c in ipairs(screen.selected_tag:clients()) do
+		for _, c in ipairs(clients) do
 			if c.fullscreen or c.maximized then
-				animation.target = hidden_y
+				should_hide = true
+				break
+			end
 
-				-- Delay hiding the dock until after the animation
-				gears.timer({
-					timeout = 0.3, -- Reduce delay to make it more responsive
-					single_shot = true,
-					callback = function()
-						if animation.target == hidden_y then
-							dock.visible = false
-						end
-					end,
-				})
-				return
+			if not c.minimized then
+				local y, h = c:geometry().y, c.height
+				if (y + h) >= screen.geometry.height - 85 then
+					should_hide = true
+					break
+				else
+					should_hide = false
+					break
+				end
 			end
 		end
 
-		-- If no windows are open, show the dock
-		if #screen.selected_tag:clients() < 1 then
-			dock.visible = true
-			animation.target = visible_y
-			return
-		end
-
-		-- If mouse is in the dock area, keep it visible
-		if screen == mouse.screen then
-			local minimized
-			for _, c in ipairs(screen.selected_tag:clients()) do
-				if c.minimized then
-					minimized = true
-				end
-				if not c.minimized then
-					-- Hide if a window overlaps the dock area
-					local y, h = c:geometry().y, c.height
-					if (y + h) >= screen.geometry.height - 85 then
-						animation.target = hidden_y
-						return
-					else
-						dock.visible = true
-						animation.target = visible_y
-					end
-				end
-			end
-			if minimized then
-				dock.visible = true
-				animation.target = visible_y
-			end
+		if should_hide then
+			slide_animation.target = hidden_y
+			gears.timer.start_new(0.35, function()
+				dock.visible = false
+			end)
 		else
-			-- If the mouse leaves the screen, smoothly hide the dock
-			animation.target = hidden_y
-			gears.timer({
-				timeout = 0.3, -- Reduced delay for better responsiveness
-				single_shot = true,
-				callback = function()
-					if animation.target == hidden_y then
-						dock.visible = false
-					end
-				end,
-			})
+			dock.visible = true
+			slide_animation.target = visible_y
 		end
 	end
 
 	-- a timer to check for dock hide
 	local dockHide = gears.timer({
 		timeout = 1,
-		autostart = true,
 		callback = function()
-			animation.target = visible_y
+			slide_animation.target = visible_y
 			when_no_apps_open(screen)
 			check_for_dock_hide()
 			dock:connect_signal("property::width", function()
@@ -481,7 +418,6 @@ return function(
 	dockHide:again()
 
 	dock_helper:connect_signal("mouse::leave", function()
-		when_no_apps_open(screen)
 		dockHide:again()
 	end)
 
@@ -489,9 +425,8 @@ return function(
 		dock:connect_signal("property::width", function()
 			dock.x = screen.geometry.x + screen.geometry.width / 2 - dock.width / 2
 		end)
-		when_no_apps_open(screen)
 		dock.visible = true
-		animation.target = visible_y
+		slide_animation.target = visible_y
 		dockHide:stop()
 	end)
 
@@ -500,9 +435,6 @@ return function(
 	end)
 
 	dock:connect_signal("mouse::enter", function()
-		dock:connect_signal("property::width", function()
-			dock.x = screen.geometry.x + screen.geometry.width / 2 - dock.width / 2
-		end)
 		dockHide:stop()
 	end)
 

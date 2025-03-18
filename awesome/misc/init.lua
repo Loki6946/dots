@@ -11,7 +11,7 @@ end
 
 -- picom
 
-run_once("picom --config $HOME/.config/awesome/misc/picom/panthom.conf &")
+run_once("picom --config $HOME/.config/awesome/misc/picom/new_picom.conf &")
 
 -- mpDris2
 

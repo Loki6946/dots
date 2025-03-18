@@ -44,13 +44,15 @@ local get_taglist = function(s)
 		screen = s,
 		filter = awful.widget.taglist.filter.all,
 		layout = { spacing = dpi(2), layout = wibox.layout.fixed.horizontal },
+		buttons = taglist_buttons,
 		widget_template = {
 			{
 				{
 					id = "hover",
 					widget = wibox.container.background,
 					shape = helpers.rrect(4),
-					bg = beautiful.fg_color .. "80",
+					bg = beautiful.fg_color,
+					opacity = 0.0,
 				},
 				{
 					{
@@ -69,45 +71,41 @@ local get_taglist = function(s)
 			top = dpi(4),
 			bottom = dpi(4),
 			widget = wibox.container.margin,
-
 			create_callback = function(self, c3, _)
 				local animation_button_opacity = rubato.timed({
 					pos = 0,
 					rate = 60,
-					intro = 0.05,
-					duration = 0.20,
+					intro = 0.01,
+					duration = 0.15,
 					awestore_compat = true,
-					easing = rubato.easing.inOutQuad,
+					easing = rubato.easing.inOutSine,
 					subscribed = function(pos)
 						helpers.gc(self, "hover").opacity = pos
 					end,
 				})
 
 				helpers.gc(self, "hover"):connect_signal("mouse::enter", function()
-					animation_button_opacity:set(0.4)
+					animation_button_opacity:set(0.0)
 				end)
 
 				helpers.gc(self, "hover"):connect_signal("mouse::leave", function()
 					animation_button_opacity:set(0.0)
 				end)
 
-				helpers.gc(self, "hover"):connect_signal("button::press", function()
-					animation_button_opacity:set(0.2)
+				helpers.gc(self, "hover"):connect_signal("button::press", function(_, _, _, button)
+					if button == 1 then
+						animation_button_opacity:set(0.4)
+					end
 				end)
 
 				helpers.gc(self, "hover"):connect_signal("button::release", function()
-					-- gears.timer({
-					-- 	timeout = 0.001,
-					-- 	autostart = true,
-					-- 	single_shot = true,
-					-- 	callback = function()
-					-- 		animation_button_opacity:set(0.4)
-					-- 	end,
-					-- })
-					animation_button_opacity:set(0.4)
+					gears.timer.start_new(1, function()
+						animation_button_opacity:set(0.0)
+					end)
+					-- animation_button_opacity:set(0.4)
 				end)
 
-				helpers.hover_cursor(helpers.gc(self, "hover"))
+				-- helpers.hover_cursor(helpers.gc(self, "hover"))
 
 				-- self.update = function()
 				-- 	if c3.selected then
@@ -126,8 +124,6 @@ local get_taglist = function(s)
 				-- self.update()
 			end,
 		},
-
-		buttons = taglist_buttons,
 	})
 
 	return the_taglist

@@ -4,6 +4,7 @@ local M = {}
 function M.show(message_header, message, on_confirm, on_cancel)
 	local awful = require("awful")
 	local wibox = require("wibox")
+	local gears = require("gears")
 	local beautiful = require("beautiful")
 	local rubato = require("modules.rubato")
 	local dpi = beautiful.xresources.apply_dpi
@@ -11,15 +12,15 @@ function M.show(message_header, message, on_confirm, on_cancel)
 
 	-- Modal Container
 	local modal = wibox({
-		width = dpi(280),
+		width = dpi(270),
 		height = dpi(250),
 		ontop = true,
 		visible = false,
 		type = "dialog",
 		bg = beautiful.bg_3 .. "D9",
-		border_width = dpi(1),
+		border_width = dpi(1.5),
 		border_color = beautiful.border_focus,
-		shape = helpers.rrect(10),
+		shape = helpers.rrect(dpi(10)),
 	})
 
 	-- Message Icon
@@ -35,7 +36,7 @@ function M.show(message_header, message, on_confirm, on_cancel)
 
 	-- Message Title
 	local message_title = wibox.widget({
-		text = message_header or "Are you sure?",
+		markup = helpers.colorize_text(message_header or "Are you sure?", beautiful.white),
 		font = beautiful.font_var .. "Bold 11",
 		align = "center",
 		valign = "center",
@@ -44,7 +45,7 @@ function M.show(message_header, message, on_confirm, on_cancel)
 
 	-- Message Text
 	local message_text = wibox.widget({
-		text = message or "You cannot undo this action.",
+		markup = helpers.colorize_text(message or "You cannot undo this action.", beautiful.fg_color),
 		font = beautiful.font_var .. "10",
 		align = "center",
 		valign = "center",
@@ -56,8 +57,8 @@ function M.show(message_header, message, on_confirm, on_cancel)
 		local btn = wibox.widget({
 			{
 				{
-					text = label,
-					font = beautiful.font_var .. "11",
+					markup = helpers.colorize_text(label, beautiful.fg_color),
+					font = beautiful.font_var .. "Medium 10",
 					align = "center",
 					valign = "center",
 					widget = wibox.widget.textbox,
@@ -76,7 +77,7 @@ function M.show(message_header, message, on_confirm, on_cancel)
 			rate = 60,
 			intro = 0.1,
 			duration = 0.2,
-			easing = rubato.easing.inOutQuad,
+			easing = rubato.easing.inOutSine,
 			subscribed = function(pos)
 				btn.opacity = 1 - pos * 0.3
 			end,
@@ -97,14 +98,18 @@ function M.show(message_header, message, on_confirm, on_cancel)
 			modal.visible = false
 		end)
 
-		helpers.hover_cursor(btn)
+		-- helpers.hover_cursor(btn)
 
 		return btn
 	end
 
 	-- Create Buttons
-	local confirm_btn = create_button("Yes", beautiful.accent, on_confirm)
-	local cancel_btn = create_button("No", beautiful.bg_2, on_cancel)
+	local confirm_btn = create_button("Continue", beautiful.accent, function()
+		gears.timer.start_new(0.1, function()
+			on_confirm()
+		end)
+	end)
+	local cancel_btn = create_button("Cancel", beautiful.bg_2, on_cancel)
 
 	modal:setup({
 		{
@@ -117,10 +122,10 @@ function M.show(message_header, message, on_confirm, on_cancel)
 						spacing = dpi(10),
 						layout = wibox.layout.fixed.vertical,
 					},
-					spacing = dpi(25),
+					spacing = dpi(30),
 					layout = wibox.layout.fixed.vertical,
 				},
-				top = dpi(10),
+				top = dpi(15),
 				widget = wibox.container.margin,
 			},
 			nil,
@@ -132,7 +137,7 @@ function M.show(message_header, message, on_confirm, on_cancel)
 			},
 			layout = wibox.layout.align.vertical,
 		},
-		margins = dpi(18),
+		margins = dpi(16),
 		widget = wibox.container.margin,
 	})
 

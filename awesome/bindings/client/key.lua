@@ -96,5 +96,14 @@ client.connect_signal("request::default_keybindings", function()
 				c:raise()
 			end,
 		}),
+		awful.key({
+			modifiers = { mod.super },
+			key = "c",
+			description = "center client",
+			group = "client",
+			on_press = function()
+				awful.placement.centered(c, { honor_workarea = true, honor_padding = true })
+			end,
+		}),
 	})
 end)

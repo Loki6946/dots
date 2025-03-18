@@ -39,7 +39,7 @@ local song_artist = wibox.widget({
 local song_name = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("None", beautiful.fg_color),
-	font = beautiful.font_var .. "Bold 13",
+	font = beautiful.font_var .. "Bold 15",
 	align = "center",
 	valign = "center",
 })
@@ -49,7 +49,7 @@ local song_name = wibox.widget({
 local toggle_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.bg_color),
-	font = beautiful.icon_var .. "18",
+	font = beautiful.icon_round .. "22",
 	align = "center",
 	valign = "center",
 })
@@ -74,7 +74,7 @@ local toggle_button = wibox.widget({
 local next_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.fg_color),
-	font = beautiful.icon_var .. "16",
+	font = beautiful.icon_round .. "19",
 	align = "center",
 	valign = "center",
 })
@@ -99,7 +99,7 @@ local next_button = wibox.widget({
 local prev_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.fg_color),
-	font = beautiful.icon_var .. "16",
+	font = beautiful.icon_round .. "19",
 	align = "center",
 	valign = "center",
 })
@@ -123,7 +123,7 @@ local prev_button = wibox.widget({
 local loop_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.fg_color .. "99"),
-	font = beautiful.icon_var .. "12",
+	font = beautiful.icon_round .. "12",
 	align = "center",
 	valign = "center",
 })
@@ -133,7 +133,7 @@ local loop_button = wibox.widget({
 		loop_button_icon,
 		beautiful.black .. "00",
 		nil,
-		dpi(12),
+		dpi(15),
 		nil,
 		nil,
 		dpi(9),
@@ -147,7 +147,7 @@ local loop_button = wibox.widget({
 local shuffle_button_icon = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("", beautiful.fg_color .. "99"),
-	font = beautiful.icon_var .. "12",
+	font = beautiful.icon_round .. "12",
 	align = "center",
 	valign = "center",
 })
@@ -157,7 +157,7 @@ local shuffle_button = wibox.widget({
 		shuffle_button_icon,
 		beautiful.black .. "00",
 		nil,
-		dpi(12),
+		dpi(15),
 		nil,
 		nil,
 		dpi(9),
@@ -326,7 +326,7 @@ local music_init = function(c)
 						next_button,
 						loop_button,
 						layout = wibox.layout.fixed.horizontal,
-						spacing = dpi(10),
+						spacing = dpi(5),
 					},
 					layout = wibox.layout.align.horizontal,
 					expand = "none",
@@ -334,9 +334,9 @@ local music_init = function(c)
 				bg = "alpha",
 				widget = wibox.container.background,
 				forced_width = dpi(300),
-				forced_height = dpi(60),
+				forced_height = dpi(64),
 			},
-			helpers.vertical_pad(dpi(30)),
+			helpers.vertical_pad(dpi(40)),
 			layout = wibox.layout.fixed.vertical,
 			spacing = dpi(0),
 		},
@@ -350,8 +350,8 @@ end
 -- Add the titlebar whenever a new music client is spawned
 ruled.client.connect_signal("request::rules", function()
 	ruled.client.append_rule({
-		id = "music",
-		rule = { instance = "music" },
+		id = "local-music",
+		rule = { instance = "local-music" },
 		callback = music_init,
 	})
 end)

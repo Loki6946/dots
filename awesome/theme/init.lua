@@ -11,7 +11,7 @@ local themes_path = gfs.get_themes_dir()
 local assets = require("theme.assets")
 local apps_icon_dir = home_var .. "/.config/awesome/theme/assets/apps/"
 local apps = require("config.apps")
-local colors = require("theme.colors.bigsur")
+local colors = require("theme.colors.sequoia")
 
 -- initial empty array
 local theme = {}
@@ -65,8 +65,9 @@ theme.fg_urgent = theme.bg_color
 theme.fg_minimize = theme.bg_2
 
 -- font vars
-theme.font_var = "SF Pro Display "
+theme.font_var = "SF Pro "
 theme.icon_var = "Material Icons "
+theme.icon_round = "Material Icons Round "
 theme.icon_sharp = "Material Icons Sharp "
 theme.icon_outlined = "Material Icons Outlined "
 theme.icon_tone = "Material Icons TwoTone "
@@ -78,6 +79,7 @@ theme.warning_icon = assets.warning_icon
 theme.awm_icon = assets.awm_icon
 theme.control_center_icon = assets.control_center_icon
 theme.bolt_icon = assets.bolt_icon
+theme.charge_icon = assets.charge_icon
 theme.search_icon = assets.search_icon
 theme.health_icon = assets.health_icon
 theme.album_art_fallback = assets.album_art_fallback
@@ -90,21 +92,16 @@ local wallpaper_directory = home_var .. "/.config/awesome/theme/assets/walls/"
 
 local wallpapers = {
 	{ name = "piazza-gae-aulenti", path = wallpaper_directory .. "piazza-gae-aulenti.jpg", color = "#070304" },
-	{ name = "calm-ocean-dusk", path = wallpaper_directory .. "calm-ocean-dusk.jpg", color = "#27194C" },
 	{ name = "dreamscape", path = wallpaper_directory .. "dreamscape.jpg", color = theme.bg_color },
 	{ name = "white-minimalist", path = wallpaper_directory .. "white_minimalist.jpg", color = theme.bg_color },
 	{ name = "sun", path = wallpaper_directory .. "sun.jpg", color = "#31302C" },
 	{ name = "blue-sun", path = wallpaper_directory .. "blue-sun.png", color = "#31302C" },
-	{ name = "sierra", path = wallpaper_directory .. "sierra.jpg", color = "#261B21" },
-	{ name = "tree", path = wallpaper_directory .. "tree.jpg", color = "#2F2F2F" },
 	{ name = "moneterey", path = wallpaper_directory .. "moneterey-light-3.jpg", color = "#373737" },
 	{ name = "ridge", path = wallpaper_directory .. "ridge.jpg", color = "#3739ae" },
-	{ name = "kivec", path = wallpaper_directory .. "kivec.jpg", color = "#3D516B" },
 	{ name = "black", path = wallpaper_directory .. "black.jpg", color = "#1E1E1E" },
 	{ name = "grey", path = wallpaper_directory .. "grey.png", color = "#434343" },
 	{ name = "mojave", path = wallpaper_directory .. "mojave.jpg", color = "#44388E" },
 	{ name = "catalina", path = wallpaper_directory .. "catalina.jpg", color = "#293E6A" },
-	{ name = "dune", path = wallpaper_directory .. "dune.jpg", color = "#3E373E" },
 	{ name = "apple-black", path = wallpaper_directory .. "apple-black.png", color = "#000000" },
 	{ name = "leaf", path = wallpaper_directory .. "leaf.jpg", color = "#000000" },
 	{ name = "polygon", path = wallpaper_directory .. "polygon.jpg", color = "#000000" },
@@ -117,6 +114,8 @@ local wallpapers = {
 		path = wallpaper_directory .. "mono-light-distortion-1.jpg",
 		color = "#181818",
 	},
+	{ name = "sequoia-sunrise", path = wallpaper_directory .. "sequoia-sunrise.png", color = "#484F44" },
+	{ name = "sonoma-horizon", path = wallpaper_directory .. "sonoma-horizon.jpg", color = "#484F44" },
 }
 
 local function get_wallpaper(identifier)
@@ -132,12 +131,12 @@ local function get_wallpaper(identifier)
 	return nil
 end
 
-theme.selected_wallpaper = get_wallpaper("loupe-mono-dark")
+theme.selected_wallpaper = get_wallpaper("sonoma-horizon")
 theme.wallpaper = theme.selected_wallpaper.path
 
 -- gaps/border thing
 -- ~~~~~~~~~~~~~~~~~
-theme.useless_gap = dpi(6)
+theme.useless_gap = dpi(3)
 theme.border_width = dpi(1)
 theme.border_color = colors.border_color
 theme.border_normal = colors.border_color
@@ -147,14 +146,14 @@ theme.border_accent = colors.border_accent
 -- tooltip
 -- ~~~~~~~
 theme.tooltip_border_width = dpi(1)
-theme.tooltip_border_color = theme.border_normal
+theme.tooltip_border_color = theme.border_accent
 theme.tooltip_font = theme.font_var .. "10"
 theme.tooltip_fg = theme.fg_color
-theme.tooltip_bg = theme.bg_color .. "99"
+theme.tooltip_bg = theme.bg_2 .. "F2"
 
 -- rounded corner
 -- ~~~~~~~~~~~~~~
-theme.rounded = dpi(13)
+theme.rounded = dpi(10)
 
 -- notifs
 -- ~~~~~~
@@ -165,7 +164,6 @@ theme.notification_border_width = dpi(0)
 -- titlebar
 -- ~~~~~~~~
 theme.titlebar_bg_normal = theme.bg_2
-theme.titlebar_bg_focus = theme.bg_3
 theme.titlebar_unfocused = colors.inactive_button
 theme.titlebar_close = colors.close_button
 theme.titlebar_close_hover = colors.close_button_hover
@@ -177,7 +175,7 @@ theme.titlebars_enabled = true
 
 -- taglist
 -- ~~~~~~~
-theme.taglist_fg_focus = theme.fg_color
+theme.taglist_fg_focus = theme.white
 theme.taglist_fg_urgent = theme.red
 theme.taglist_fg_occupied = theme.fg_color
 theme.taglist_fg_empty = theme.fg_color
@@ -223,21 +221,22 @@ theme.playerctl_position_update_interval = 1
 theme.ic_icons = {
 	["zen"] = apps_icon_dir .. "zen-browser.svg",
 	["Alacritty"] = apps_icon_dir .. "alacritty.svg",
-	["music"] = apps_icon_dir .. "music.svg",
+	["local-music"] = apps_icon_dir .. "music.svg",
 	["Google-chrome"] = apps_icon_dir .. "chrome.svg",
 	["neovim"] = apps_icon_dir .. "neovim.svg",
 	["About-this-mc"] = apps_icon_dir .. "about-this-mc.svg",
 	["com.mitchellh.ghostty"] = apps_icon_dir .. "ghostty.svg",
 	["com.github.th_ch.youtube_music"] = apps_icon_dir .. "youtube-music.svg",
 	["cursor"] = apps_icon_dir .. "cursor.svg",
-	["code"] = apps_icon_dir .. "vscode.svg",
+	["Code"] = apps_icon_dir .. "vscode.svg",
 	["Ld-linux-x86-64.so.2"] = apps_icon_dir .. "org.inkscape.Inkscape.svg",
 	["org.gnome.Nautilus"] = apps_icon_dir .. "folder.svg",
+	["gnome-calculator"] = apps_icon_dir .. "calculator.svg",
 }
 
 -- topbar
 -- ~~~~~~
-theme.topbar_background = theme.selected_wallpaper.color .. "99"
+theme.topbar_background = theme.selected_wallpaper.color .. "CC"
 
 -- Awesome dock
 -- ~~~~~~~~~~~~
@@ -247,15 +246,14 @@ theme.awesome_dock_pinned = {
 	{ "ghostty" },
 	{ apps.web_browser, "zen-browser" },
 	{ "youtube-music" },
-	{ home_var .. "/.local/share/AppImage/Cursor.AppImage", "cursor" },
 	{ "code", "vscode" },
 }
 theme.awesome_dock_color_active = theme.fg_color
-theme.awesome_dock_color_bg = theme.bg_2 .. "CC"
+theme.awesome_dock_color_bg = theme.bg_2 .. "66"
 theme.awesome_dock_color_border = theme.border_focus
 theme.awesome_dock_disabled = false
-theme.awesome_dock_spacing = dpi(4)
-theme.awesome_dock_offset = theme.useless_gap + 5
+theme.awesome_dock_spacing = dpi(5)
+theme.awesome_dock_offset = theme.useless_gap + 3
 theme.awesome_dock_icon = "WhiteSur"
 
 -- init

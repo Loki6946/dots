@@ -164,13 +164,6 @@ naughty.connect_signal("request::display", function(n)
 
 	-- extra info
 	local notif_info = wibox.widget({
-		-- {
-		-- 	widget = wibox.widget.separator,
-		-- 	shape = gears.shape.circle,
-		-- 	forced_height = dpi(4),
-		-- 	forced_width = dpi(4),
-		-- 	color = beautiful.fg_color .. "BF",
-		-- },
 		{
 			image_n,
 			app_name_n,

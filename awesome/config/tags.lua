@@ -53,7 +53,7 @@ end)
 local tag = require("awful.widget.taglist")
 local original_create = tag.taglist_label
 tag.taglist_label = function(t, args)
-	beautiful.taglist_font = t.selected and beautiful.font_var .. "Bold 10" or beautiful.font_var .. "Medium 10"
+	beautiful.taglist_font = beautiful.font_var .. "Semibold 10"
 	local result = original_create(t, args)
 	return result
 end

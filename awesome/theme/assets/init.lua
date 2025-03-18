@@ -21,6 +21,7 @@ return {
 	control_center_icon = directory .. "icons/control-centre.svg",
 	search_icon = directory .. "icons/search.svg",
 	bolt_icon = directory .. "icons/bolt.svg",
+	charge_icon = directory .. "icons/charge.svg",
 
 	-- layouts
 	floating = directory .. "layouts/floating.png",

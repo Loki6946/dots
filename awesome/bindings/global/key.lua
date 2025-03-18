@@ -20,6 +20,15 @@ awful.keyboard.append_global_keybindings({
 	}),
 	awful.key({
 		modifiers = { mod.super },
+		key = "i",
+		description = "show island",
+		group = "awesome",
+		on_press = function()
+			awesome.emit_signal("toggle_alcove")
+		end,
+	}),
+	awful.key({
+		modifiers = { mod.super },
 		key = "w",
 		description = "show main menu",
 		group = "awesome",
@@ -111,7 +120,7 @@ awful.keyboard.append_global_keybindings({
 	}),
 })
 
--- mediu related keybindings
+-- media related keybindings
 awful.keyboard.append_global_keybindings({
 	awful.key({
 		modifiers = { mod.alt },
@@ -247,6 +256,15 @@ awful.keyboard.append_global_keybindings({
 			end
 		end,
 	}),
+	awful.key({
+		modifiers = { mod.super },
+		key = "c",
+		description = "center client",
+		group = "client",
+		on_press = function(c)
+			awful.placement.centered(c, { honor_workarea = true, honor_padding = true })
+		end,
+	}),
 })
 
 -- layout related keybindings
@@ -260,9 +278,6 @@ awful.keyboard.append_global_keybindings({
 			awful.client.swap.byidx(1)
 		end,
 	}),
-	awful.key({ mod.super }, "c", function()
-		awful.placement.centered(c, { honor_workarea = true, honor_padding = true })
-	end),
 	awful.key({
 		modifiers = { mod.super, mod.shift },
 		key = "k",

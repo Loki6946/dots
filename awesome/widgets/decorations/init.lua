@@ -4,10 +4,10 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local helpers = require("helpers")
 
+require("widgets/decorations/music/minimal")
+
 local predefined_colors = {
-	["Thunar"] = "#373737",
 	["Nemo"] = "#373737",
-	["neovim"] = "#161616",
 	["Galculator"] = "#333333",
 	["Gpick"] = "#373737",
 	["Spotify"] = "#000000",
@@ -15,7 +15,7 @@ local predefined_colors = {
 	["qBittorrent"] = "#EFEFEF",
 	["Nm-applet"] = "#333333",
 	["Lxappearance"] = "#333333",
-	["music"] = beautiful.bg_color,
+	["local-music"] = beautiful.bg_color,
 	["default"] = beautiful.titlebar_bg_normal,
 }
 

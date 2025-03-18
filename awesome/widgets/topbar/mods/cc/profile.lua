@@ -20,16 +20,18 @@ local profile_image = wibox.widget({
 		widget = wibox.widget.imagebox,
 	},
 	widget = wibox.container.background,
+	forced_height = dpi(65),
+	forced_width = dpi(65),
 	shape = gears.shape.circle,
 	border_width = dpi(1),
-	border_color = beautiful.border_color,
+	border_color = beautiful.border_accent,
 })
 
 -- username
 local username = wibox.widget({
 	widget = wibox.widget.textbox,
 	markup = helpers.colorize_text("Loki", beautiful.fg_color),
-	font = beautiful.font_var .. "Medium 12",
+	font = beautiful.font_var .. "Medium 11",
 	align = "left",
 	valign = "center",
 })
@@ -66,10 +68,8 @@ return wibox.widget({
 		widget = wibox.container.margin,
 	},
 	forced_height = dpi(80),
-	forced_width = dpi(245),
+	forced_width = dpi(214),
 	shape = helpers.rrect(beautiful.rounded),
 	bg = beautiful.black .. "00",
-	border_width = dpi(0),
-	border_color = beautiful.border_color .. "CC",
 	widget = wibox.container.background,
 })

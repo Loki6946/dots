@@ -31,10 +31,15 @@ end
 local function currwidget(day)
 	return wibox.widget({
 		{
-			markup = helpers.colorize_text(day, beautiful.black),
-			align = "center",
-			font = beautiful.font_var .. "Semibold 10",
-			widget = wibox.widget.textbox,
+			{
+				markup = helpers.colorize_text(day, beautiful.black),
+				align = "center",
+				font = beautiful.font_var .. "Semibold 9",
+				widget = wibox.widget.textbox,
+			},
+			left = 3,
+			right = 3,
+			widget = wibox.container.margin,
 		},
 		shape = helpers.rrect(999),
 		bg = beautiful.fg_color,
@@ -46,7 +51,7 @@ local theGrid = wibox.widget({
 	forced_num_rows = 7,
 	forced_num_cols = 7,
 	vertical_spacing = 8,
-	horizontal_spacing = 12,
+	horizontal_spacing = 10,
 	min_rows_size = 20,
 	homogenous = true,
 	layout = wibox.layout.grid,
@@ -93,7 +98,7 @@ local title = wibox.widget({
 })
 
 M.updateCalendar = function(date)
-	title_text.markup = helpers.colorize_text(string.upper(os.date("%B %Y", os.time(date))), beautiful.fg_color)
+	title_text.markup = helpers.colorize_text(helpers.capitalize(os.date("%B %Y", os.time(date))), beautiful.fg_color)
 	theGrid:reset()
 	for _, w in ipairs({ "S", "M", "T", "W", "T", "F", "S" }) do
 		theGrid:add(daywidget(w, w == "S"))
@@ -137,13 +142,16 @@ gears.timer({
 
 return function(s)
 	local calendar = wibox({
+		type = "menu",
 		screen = s,
 		width = 230,
-		height = 235,
+		height = 243,
 		bg = beautiful.bg_3 .. "D3",
 		border_width = 1,
 		border_color = beautiful.border_accent,
-		shape = helpers.rrect(beautiful.rounded),
+		shape = function(cr, width, height)
+			gears.shape.infobubble(cr, width, height, 13, 8, 160)
+		end,
 		ontop = false,
 		visible = false,
 	})
@@ -156,10 +164,10 @@ return function(s)
 			layout = wibox.layout.fixed.vertical,
 		},
 		widget = wibox.container.margin,
-		margins = 5,
+		margins = { top = 13, left = 5, bottom = 5, right = 5 },
 	})
 
-	helpers.place_widget(calendar, "top_right", beautiful.useless_gap - 3, 0, 0, beautiful.useless_gap - 3)
+	helpers.place_widget(calendar, "top_right", 3, 0, 0, 5)
 	helpers.popup_opacity(calendar, 0.3)
 
 	awesome.connect_signal("widget::toggle", function()

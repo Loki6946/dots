@@ -1,0 +1,311 @@
+configuration {
+    show-icons:                     true;
+    disable-history:                true;
+}
+
+/* ________Variables________ */
+* {
+	/* ________Window________ */	
+    window-width: 600px;
+	  window-height: 550px;
+	  window-border: 1px;
+    window-border-color: #4A4A4E;
+	  window-border-radius: 10px;
+    window-bg-color: #1D1D1FF2;
+
+    fg0:    #E5E5EA;
+    fg1:    #FFFFFF;
+    fg2:    #DEDEDE80;
+    
+    bg: #1D1D1FF2;
+    bg-hover: #FFFFFF1A;
+
+    border-color: #4A4A4E;
+
+}
+/* ________Main window________ */
+window {
+  location:       center;
+  y-offset:       -55px;
+
+	width: @window-width;
+  border: @window-border;
+  border-color: @window-border-color;
+  background-color: @window-bg-color;
+	border-radius: @window-border-radius;
+}
+
+/* ________Main view inside the window________ */
+mainbox {
+  background-color: transparent;
+	children: [inputbar, listview, footer];
+}
+
+spacer {
+	str: "";
+	expand: true;
+	background-color: transparent;
+}
+
+textbox-separator {
+	str: "|";
+	expand: true;
+	background-color: transparent;
+	margin: 0 6px;
+	font: "Inter Medium 16px";
+	vertical-align: 0.5;
+  text-color: rgba(255, 255, 255, 0.1);
+}
+
+keys-info {
+	children: [
+				// Launch
+				textbox-return-text, textbox-return-icon,
+				textbox-separator,
+				
+				// Left
+				textbox-left-text, textbox-left-icon
+				// textbox-separator,
+				//
+				// // Down
+				// textbox-down-text, textbox-command-icon, textbox-down-icon
+				// textbox-separator,
+				//
+				// // Up
+				// textbox-up-text, textbox-command-icon, textbox-up-icon,
+				// textbox-separator,
+				//
+				// // Right
+				// textbox-right-text, textbox-command-icon, textbox-right-icon
+        ];
+
+	expand: false;
+	vertical-align: 0.5;
+	orientation: horizontal;
+	spacing: 2px;
+  background-color: transparent; 
+}
+
+textbox-return-text {
+	str: "Launch";
+	expand: false;
+	text-color: @fg0; 
+	font: "SF Pro Display Semibold 11";
+	vertical-align: 0.5;
+	padding: 0 4px;
+	border-radius: 4px;
+  background-color: transparent; 
+}
+
+textbox-return-icon {
+	str: "󰌑";
+	expand: false;
+	text-color: @fg0;
+	font: "Ubuntu Nerd Font 16px";
+	vertical-align: 0.5;
+	margin: 10px 0;
+	padding: 0 8px;
+	border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+textbox-command-icon {
+	str: "󰘳";
+	expand: false;
+	text-color: @fg1; 
+	font: "Ubuntu Nerd Font 16px";
+	vertical-align: 0.5;
+	margin: 10px 0;
+	padding: 0 8px;
+	border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+textbox-down-text {
+	str: "";
+	expand: false;
+	text-color: @fg1; 
+	font: "Ubuntu Nerd Font 14px";
+	vertical-align: 0.5;
+  margin: 0 8px 0 0;
+	border-radius: 4px;
+  background-color: transparent; 
+}
+
+
+textbox-down-icon {
+	str: "J";
+	expand: false;
+	text-color: @fg1; 
+	font: "Inter Medium 12px";
+	vertical-align: 0.5;
+	margin: 10px 0;
+	padding: 0 8px;
+	border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+textbox-up-text {
+	str: "";
+	expand: false;
+	text-color: @fg1; 
+	font: "Ubuntu Nerd Font 14px";
+	vertical-align: 0.5;
+  margin: 0 8px 0 0;
+	border-radius: 4px;
+  background-color: transparent; 
+}
+
+
+textbox-up-icon {
+	str: "K";
+	expand: false;
+	text-color: @fg1; 
+	font: "Inter Medium 12px";
+	vertical-align: 0.5;
+	margin: 10px 0;
+	padding: 0 8px;
+	border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+textbox-left-text {
+	str: "Exit";
+	expand: false;
+	text-color: @fg1; 
+	font: "SF Pro Display Semibold 11";
+	vertical-align: 0.5;
+  margin: 0 8px 0 0;
+	border-radius: 4px;
+  background-color: transparent; 
+}
+
+
+textbox-left-icon {
+	str: "󱊷";
+	expand: false;
+	text-color: @fg1; 
+	font: "Ubuntu Nerd Font 16px";
+	vertical-align: 0.5;
+	margin: 10px 0;
+	padding: 0 8px;
+	border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+textbox-right-text {
+	str: "";
+	expand: false;
+	text-color: @fg1; 
+	font: "Ubuntu Nerd Font 14px";
+	vertical-align: 0.5;
+  margin: 0 8px 0 0;
+	border-radius: 4px;
+  background-color: transparent; 
+}
+
+
+textbox-right-icon {
+	str: "L";
+	expand: false;
+	text-color: @fg1; 
+	font: "Inter Medium 12px";
+	vertical-align: 0.5;
+	margin: 10px 0;
+	padding: 0 8px;
+	border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+footer {
+	children: [spacer, keys-info];
+	expand:false;
+	orientation: horizontal;
+	padding: 2px 10px;
+	background-color: @bg;
+  border-color: @border-color;
+	border: 1px 0 0 0;
+}
+
+textbox-1 {
+  expand: false;
+  str: "󰣇";
+	background-color: transparent;	
+	text-color: rgba(255, 255, 255, 0.1);
+	font: "Ubuntu Nerd Font 34px";
+	vertical-align: 0.5;
+}
+
+textbox {
+  expand: false;
+  str: "Application";
+	background-color: transparent;
+	text-color: @fg0;
+	font: "SF Pro Display 12";
+	vertical-align: 0.5;
+}
+
+inputbar {
+	children: [entry];
+	background-color: transparent;
+	border-color: @border-color;
+}
+
+entry {
+	font: "SF Pro Display 14";
+  placeholder: "Search for apps";
+  placeholder-color: @fg2;
+  padding: 18px 14px; 
+  text-color: @fg0;
+  border-color: @border-color;
+	border: 0 0 1px 0;
+  background-color: transparent;
+}
+
+prompt {
+  text-color: #FFFFFF;
+}
+
+listview {
+  padding: 6px;
+  lines: 7;
+	spacing: 5px;
+  background-color: transparent; 
+}
+
+element {
+  padding: 10px;
+	border-radius: 8px;
+	border: 0;
+  background-color: transparent; 
+  text-color: blue;
+	spacing: 10px;
+	children: [group, textbox];
+}
+
+
+group {
+  background-color: transparent;
+  orientation: horizontal;
+	spacing: 12px;
+	children: [element-icon, element-text];
+}
+
+element hover {
+	background-color: transparent;
+}
+
+element-icon {
+  size: 25px;
+	background-color: transparent;
+}
+
+
+element-text {
+	font: "SF Pro Display 11";
+	vertical-align: 0.5;
+	text-color: @fg0;
+	background-color: transparent;
+}
+
+element selected {
+  background-color:  @bg-hover;
+}

@@ -6,21 +6,21 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
-local helpers = require("helpers")
-local wibox = require("wibox")
 local gears = require("gears")
-local rubato = require("modules.rubato")
+local wibox = require("wibox")
 
 awful.screen.connect_for_each_screen(function(s)
 	-- Mainbox
 	--~~~~~~~~~~~~~~~~~
 	control_c = wibox({
-		type = "dock",
-		shape = helpers.rrect(beautiful.rounded),
+		type = "menu",
+		shape = function(cr, width, height)
+			gears.shape.infobubble(cr, width, height, dpi(17), 8)
+		end,
 		screen = s,
-		width = dpi(380),
-		height = dpi(438),
-		bg = beautiful.bg_2 .. "D9",
+		width = dpi(350),
+		height = dpi(400),
+		bg = beautiful.bg_color .. "D9",
 		border_width = dpi(1),
 		border_color = beautiful.border_focus,
 		margins = 10,
@@ -32,42 +32,19 @@ awful.screen.connect_for_each_screen(function(s)
 	-- widgets
 	--~~~~~~~~
 	local profile = require("widgets.topbar.mods.cc.profile")
-	local sliders = require("widgets.topbar.mods.cc.sliders")
+	local sliders = require("widgets.topbar.mods.cc.sliders_2")
 	local utils = require("widgets.topbar.mods.cc.utils")
 	local song = require("widgets.topbar.mods.cc.music")
 
-	-- animations
-	--------------
-	local slide_right = rubato.timed({
-		pos = s.geometry.width,
-		rate = 60,
-		duration = 0.3,
-		intro = 0.10,
-		easing = rubato.ease_out_cubic,
-		subscribed = function(pos)
-			control_c.x = s.geometry.x + pos
-		end,
-	})
-
 	cc_toggle = function(screen)
 		screen = screen or s
-		control_c.y = screen.geometry.y + (dpi(35) + beautiful.useless_gap)
+		control_c.y = screen.geometry.y + (dpi(42))
 
 		if not control_c.visible then
-			control_c.x = s.geometry.width -- Start off-screen
+			control_c.x = s.geometry.width - (control_c.width + 24)
 			control_c.visible = true
-			slide_right.target = s.geometry.width - (control_c.width + beautiful.useless_gap * 3)
 		else
-			slide_right.target = s.geometry.width
-			if slide_right.ended then
-				slide_right.ended:subscribe(function()
-					control_c.visible = false
-				end)
-			else
-				gears.timer.start_new(0.3, function()
-					control_c.visible = false
-				end)
-			end
+			control_c.visible = false
 		end
 
 		screen_backup = screen.index
@@ -97,10 +74,10 @@ awful.screen.connect_for_each_screen(function(s)
 				sliders,
 				song,
 				layout = wibox.layout.fixed.vertical,
-				spacing = dpi(12),
+				spacing = dpi(13),
 			},
 			widget = wibox.container.margin,
-			margins = dpi(12),
+			margins = dpi(13),
 		},
 		layout = wibox.layout.fixed.vertical,
 	})

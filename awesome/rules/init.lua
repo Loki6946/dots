@@ -92,6 +92,7 @@ ruled.client.connect_signal("request::rules", function()
 				"org.gnome.clocks",
 				"Spotube",
 				"Chromium-browser",
+				"errands",
 				-- "com.github.th_ch.youtube_music",
 			},
 		},
@@ -114,7 +115,7 @@ ruled.client.connect_signal("request::rules", function()
 
 	-- Music client
 	ruled.client.append_rule({
-		rule_any = { class = { "music" }, instance = { "music" } },
+		rule_any = { class = { "local-music" }, instance = { "local-music" } },
 		properties = {
 			floating = true,
 			-- width = 900,
@@ -148,13 +149,13 @@ ruled.client.connect_signal("request::rules", function()
 	})
 
 	-- Youtube music
-	ruled.client.append_rule({
-		rule_any = { class = { "com.github.th_ch.youtube_music" } },
-		properties = {
-			floating = true,
-			width = 330,
-			height = 590,
-			placement = helpers.centered_client_placement,
-		},
-	})
+	-- ruled.client.append_rule({
+	-- 	rule_any = { class = { "com.github.th_ch.youtube_music" } },
+	-- 	properties = {
+	-- 		floating = true,
+	-- 		width = 330,
+	-- 		height = 590,
+	-- 		placement = helpers.centered_client_placement,
+	-- 	},
+	-- })
 end)
