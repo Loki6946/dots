@@ -47,13 +47,17 @@ end)
 screen.connect_signal("request::desktop_decoration", function(s)
 	screen[s].padding = { left = 0, right = 0, top = 0, bottom = 0 }
 	awful.tag(names, s, awful.layout.layouts[1])
-	s.calendar = require("widgets.topbar.mods.widget.calendar")(s)
+	s.calendar = require("widgets.menubar.mods.widget.fancy_calendar")(s)
 end)
 
 local tag = require("awful.widget.taglist")
 local original_create = tag.taglist_label
 tag.taglist_label = function(t, args)
-	beautiful.taglist_font = beautiful.font_var .. "Semibold 10"
+	if t.selected then
+		beautiful.taglist_font = beautiful.font_var .. "Semibold 10"
+	else
+		beautiful.taglist_font = beautiful.font_var .. "Medium 10"
+	end
 	local result = original_create(t, args)
 	return result
 end

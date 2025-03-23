@@ -93,7 +93,6 @@ ruled.client.connect_signal("request::rules", function()
 				"Spotube",
 				"Chromium-browser",
 				"errands",
-				-- "com.github.th_ch.youtube_music",
 			},
 		},
 		properties = { titlebars_enabled = false },
@@ -102,10 +101,8 @@ ruled.client.connect_signal("request::rules", function()
 	ruled.client.append_rule({
 		rule_any = {
 			class = {
-				-- "zen-alpha",
-				-- "zen-beta",
-				-- "zen-twilight",
-				-- "zen",
+				"ghostty",
+				"org.gnome.Nautilus",
 				"About-this-mc",
 				"Chromium-browser",
 			},

@@ -80,7 +80,7 @@ return function(
 	-- add buttons and commands
 	mainbox:connect_signal("button::press", function(_, _, _, button)
 		if button == 1 then
-			animation_button_opacity:set(0.3)
+			animation_button_opacity:set(0.2)
 		end
 	end)
 

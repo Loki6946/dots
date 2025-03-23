@@ -89,11 +89,13 @@ naughty.connect_signal("request::display", function(n)
 				font = beautiful.font_var .. "10",
 				widget = wibox.widget.textbox,
 			},
-			margins = dpi(5),
+			margins = dpi(7),
 			widget = wibox.container.margin,
 		},
-		bg = beautiful.bg_2,
-		shape = helpers.rrect(dpi(8)),
+		bg = beautiful.bg_2 .. "99",
+		border_width = dpi(1),
+		border_color = beautiful.border_normal .. "D9",
+		shape = helpers.rrect(dpi(6)),
 		widget = wibox.container.background,
 	}
 
@@ -101,7 +103,7 @@ naughty.connect_signal("request::display", function(n)
 	local actions = wibox.widget({
 		notification = n,
 		base_layout = wibox.widget({
-			spacing = dpi(15),
+			spacing = dpi(10),
 			layout = wibox.layout.flex.horizontal,
 		}),
 		widget_template = action_widget,
@@ -129,16 +131,16 @@ naughty.connect_signal("request::display", function(n)
 
 	-- title
 	local title_n = wibox.widget({
-		markup = n.title,
-		font = beautiful.font_var .. "Semibold 11",
+		markup = helpers.colorize_text(n.title, beautiful.fg_color),
+		font = beautiful.font_var .. "Bold 11",
 		align = "left",
 		valign = "center",
 		widget = wibox.widget.textbox,
 	})
 
 	local message_n = wibox.widget({
-		markup = helpers.colorize_text("<span weight='normal'>" .. n.message .. "</span>", beautiful.fg_color .. "BF"),
-		font = beautiful.font_var .. " 11",
+		markup = helpers.colorize_text(n.message, beautiful.fg_color),
+		font = beautiful.font_var .. "11",
 		align = "left",
 		valign = "center",
 		wrap = "word",
@@ -148,7 +150,7 @@ naughty.connect_signal("request::display", function(n)
 	-- app name
 	local app_name_n = wibox.widget({
 		markup = helpers.colorize_text(n.app_name, beautiful.fg_color .. "BF"),
-		font = beautiful.font_var .. " 10",
+		font = beautiful.font_var .. "10",
 		align = "left",
 		valign = "center",
 		widget = wibox.widget.textbox,
@@ -187,35 +189,26 @@ naughty.connect_signal("request::display", function(n)
 		widget_template = {
 			{
 				{
+					notif_info,
 					{
-						notif_info,
-						{
-							{
-								title_n,
-								message_n,
-								layout = wibox.layout.fixed.vertical,
-								spacing = dpi(3),
-							},
-							margins = { left = dpi(0) },
-							widget = wibox.container.margin,
-						},
+						title_n,
+						message_n,
 						layout = wibox.layout.fixed.vertical,
-						spacing = dpi(12),
-					},
-					{
-						{ actions, layout = wibox.layout.fixed.vertical },
-						margins = { top = dpi(20) },
-						visible = n.actions and #n.actions > 0,
-						widget = wibox.container.margin,
+						spacing = dpi(3),
 					},
 					layout = wibox.layout.fixed.vertical,
+					spacing = dpi(12),
 				},
-				margins = dpi(13),
-				widget = wibox.container.margin,
+				{
+					{ actions, layout = wibox.layout.fixed.vertical },
+					margins = { top = dpi(12) },
+					visible = n.actions and #n.actions > 0,
+					widget = wibox.container.margin,
+				},
+				layout = wibox.layout.fixed.vertical,
 			},
-			widget = wibox.container.background,
-			shape = helpers.rrect(beautiful.rounded),
-			bg = beautiful.bg_color .. "99",
+			margins = dpi(12),
+			widget = wibox.container.margin,
 		},
 	})
 end)

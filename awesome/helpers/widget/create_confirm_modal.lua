@@ -12,14 +12,14 @@ function M.show(message_header, message, on_confirm, on_cancel)
 
 	-- Modal Container
 	local modal = wibox({
-		width = dpi(270),
-		height = dpi(250),
+		width = dpi(280),
+		height = dpi(245),
 		ontop = true,
 		visible = false,
 		type = "dialog",
 		bg = beautiful.bg_3 .. "D9",
-		border_width = dpi(1.5),
-		border_color = beautiful.border_focus,
+		border_width = dpi(1),
+		border_color = beautiful.border_accent,
 		shape = helpers.rrect(dpi(10)),
 	})
 
@@ -27,8 +27,8 @@ function M.show(message_header, message, on_confirm, on_cancel)
 	local icon_widget = wibox.widget({
 		image = beautiful.warning_icon,
 		resize = true,
-		forced_height = dpi(64),
-		forced_width = dpi(64),
+		forced_height = dpi(54),
+		forced_width = dpi(54),
 		halign = "center",
 		valign = "center",
 		widget = wibox.widget.imagebox,
@@ -125,7 +125,7 @@ function M.show(message_header, message, on_confirm, on_cancel)
 					spacing = dpi(30),
 					layout = wibox.layout.fixed.vertical,
 				},
-				top = dpi(15),
+				top = dpi(18),
 				widget = wibox.container.margin,
 			},
 			nil,

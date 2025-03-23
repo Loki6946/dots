@@ -65,7 +65,7 @@ theme.fg_urgent = theme.bg_color
 theme.fg_minimize = theme.bg_2
 
 -- font vars
-theme.font_var = "SF Pro "
+theme.font_var = "SF Pro Display "
 theme.icon_var = "Material Icons "
 theme.icon_round = "Material Icons Round "
 theme.icon_sharp = "Material Icons Sharp "
@@ -93,8 +93,8 @@ local wallpaper_directory = home_var .. "/.config/awesome/theme/assets/walls/"
 local wallpapers = {
 	{ name = "piazza-gae-aulenti", path = wallpaper_directory .. "piazza-gae-aulenti.jpg", color = "#070304" },
 	{ name = "dreamscape", path = wallpaper_directory .. "dreamscape.jpg", color = theme.bg_color },
-	{ name = "white-minimalist", path = wallpaper_directory .. "white_minimalist.jpg", color = theme.bg_color },
-	{ name = "sun", path = wallpaper_directory .. "sun.jpg", color = "#31302C" },
+	{ name = "white-minimalist", path = wallpaper_directory .. "white-minimalist.jpg", color = "#F2F2F2" },
+	{ name = "sun", path = wallpaper_directory .. "sun.jpg", color = "#F4F0E7" },
 	{ name = "blue-sun", path = wallpaper_directory .. "blue-sun.png", color = "#31302C" },
 	{ name = "moneterey", path = wallpaper_directory .. "moneterey-light-3.jpg", color = "#373737" },
 	{ name = "ridge", path = wallpaper_directory .. "ridge.jpg", color = "#3739ae" },
@@ -115,7 +115,10 @@ local wallpapers = {
 		color = "#181818",
 	},
 	{ name = "sequoia-sunrise", path = wallpaper_directory .. "sequoia-sunrise.png", color = "#484F44" },
-	{ name = "sonoma-horizon", path = wallpaper_directory .. "sonoma-horizon.jpg", color = "#484F44" },
+	{ name = "sonoma-horizon", path = wallpaper_directory .. "sonoma-horizon.png", color = "#E4E4DD" },
+	{ name = "sonoma-clouds1", path = wallpaper_directory .. "sonoma-clouds1.png", color = "#E5DDBF" },
+	{ name = "sonoma-clouds2", path = wallpaper_directory .. "sonoma-clouds2.png", color = "#DFDAC0" },
+	{ name = "pro-black", path = wallpaper_directory .. "pro-black.png", color = "#000001" },
 }
 
 local function get_wallpaper(identifier)
@@ -131,8 +134,27 @@ local function get_wallpaper(identifier)
 	return nil
 end
 
+local function is_light_color(hex)
+	local r, g, b = tonumber(hex:sub(2, 3), 16), tonumber(hex:sub(4, 5), 16), tonumber(hex:sub(6, 7), 16)
+	local brightness = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+	return brightness > 0.5
+end
+
 theme.selected_wallpaper = get_wallpaper("sonoma-horizon")
 theme.wallpaper = theme.selected_wallpaper.path
+
+-- menubar/taglist
+-- ~~~~~~
+theme.menubar_bg = theme.selected_wallpaper.color .. "CC"
+if is_light_color(theme.selected_wallpaper.color) then
+	theme.menubar_fg = theme.black
+	theme.menubar_fg_2 = theme.bg_3
+	theme.menubar_item_bg = theme.black .. "D9"
+else
+	theme.menubar_fg = theme.fg_color
+	theme.menubar_fg_2 = theme.fg_2
+	theme.menubar_item_bg = theme.fg_color
+end
 
 -- gaps/border thing
 -- ~~~~~~~~~~~~~~~~~
@@ -175,10 +197,10 @@ theme.titlebars_enabled = true
 
 -- taglist
 -- ~~~~~~~
-theme.taglist_fg_focus = theme.white
+theme.taglist_fg_focus = theme.menubar_fg
 theme.taglist_fg_urgent = theme.red
-theme.taglist_fg_occupied = theme.fg_color
-theme.taglist_fg_empty = theme.fg_color
+theme.taglist_fg_occupied = theme.menubar_fg
+theme.taglist_fg_empty = theme.menubar_fg
 
 -- drop down Menu
 -- ~~~~~~~~~~~~~~
@@ -189,12 +211,12 @@ theme.menu_width = dpi(200)
 
 -- Layout icons
 -- ~~~~~~~~~~~~
-theme.layout_floating = gears.color.recolor_image(themes_path .. "default/layouts/floating.png", theme.fg_color)
-theme.layout_tile = gears.color.recolor_image(assets.tile, theme.fg_color)
-theme.layout_fairh = gears.color.recolor_image(assets.flair, theme.fg_color)
-theme.layout_fairv = gears.color.recolor_image(assets.flair, theme.fg_color)
-theme.layout_spiral = gears.color.recolor_image(themes_path .. "default/layouts/spiralw.png", theme.fg_color)
-theme.layout_machi = gears.color.recolor_image(assets.machi, theme.fg_color)
+theme.layout_floating = gears.color.recolor_image(themes_path .. "default/layouts/floating.png", theme.menubar_fg)
+theme.layout_tile = gears.color.recolor_image(assets.tile, theme.menubar_fg)
+theme.layout_fairh = gears.color.recolor_image(assets.flair, theme.menubar_fg)
+theme.layout_fairv = gears.color.recolor_image(assets.flair, theme.menubar_fg)
+theme.layout_spiral = gears.color.recolor_image(themes_path .. "default/layouts/spiralw.png", theme.menubar_fg)
+theme.layout_machi = gears.color.recolor_image(assets.machi, theme.menubar_fg)
 
 -- not in use layout
 theme.layout_fullscreen = themes_path .. "default/layouts/fullscreenw.png"
@@ -234,10 +256,6 @@ theme.ic_icons = {
 	["gnome-calculator"] = apps_icon_dir .. "calculator.svg",
 }
 
--- topbar
--- ~~~~~~
-theme.topbar_background = theme.selected_wallpaper.color .. "CC"
-
 -- Awesome dock
 -- ~~~~~~~~~~~~
 theme.awesome_dock_size = 70
@@ -253,7 +271,7 @@ theme.awesome_dock_color_bg = theme.bg_2 .. "66"
 theme.awesome_dock_color_border = theme.border_focus
 theme.awesome_dock_disabled = false
 theme.awesome_dock_spacing = dpi(5)
-theme.awesome_dock_offset = theme.useless_gap + 3
+theme.awesome_dock_offset = dpi(10)
 theme.awesome_dock_icon = "WhiteSur"
 
 -- init

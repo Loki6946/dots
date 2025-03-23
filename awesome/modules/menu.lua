@@ -144,7 +144,7 @@ end
 function menu.menu(widgets, width)
 	local widget = awful.popup({
 		x = 32500,
-		type = "menu",
+		type = "popup",
 		visible = false,
 		ontop = true,
 		minimum_width = width or dpi(190),

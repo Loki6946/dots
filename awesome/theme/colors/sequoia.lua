@@ -27,7 +27,7 @@ return {
 	-- Border Colors
 	border_color = "#3A3A3C",
 	border_color_active = "#494846",
-	border_accent = "#4A4A4E",
+	border_accent = "#515151",
 
 	-- Title Bar Buttons (macOS Sequoia style)
 	close_button = "#FF5F58", -- Slightly muted red compared to previous macOS versions

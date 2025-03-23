@@ -15,8 +15,8 @@ client.connect_signal("request::default_keybindings", function()
 			end,
 		}),
 		awful.key({
-			modifiers = { mod.super, mod.shift },
-			key = "w",
+			modifiers = { mod.super },
+			key = "q",
 			description = "close",
 			group = "client",
 			on_press = function(c)

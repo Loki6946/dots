@@ -90,7 +90,7 @@ textbox-return-text {
 	str: "Launch";
 	expand: false;
 	text-color: @fg0; 
-	font: "SF Pro Display Semibold 11";
+	font: "Inter Semibold 11";
 	vertical-align: 0.5;
 	padding: 0 4px;
 	border-radius: 4px;
@@ -172,7 +172,7 @@ textbox-left-text {
 	str: "Exit";
 	expand: false;
 	text-color: @fg1; 
-	font: "SF Pro Display Semibold 11";
+	font: "Inter Semibold 11";
 	vertical-align: 0.5;
   margin: 0 8px 0 0;
 	border-radius: 4px;
@@ -239,7 +239,7 @@ textbox {
   str: "Application";
 	background-color: transparent;
 	text-color: @fg0;
-	font: "SF Pro Display 12";
+	font: "Inter 12";
 	vertical-align: 0.5;
 }
 
@@ -250,10 +250,10 @@ inputbar {
 }
 
 entry {
-	font: "SF Pro Display 14";
+	font: "Inter 14";
   placeholder: "Search for apps";
   placeholder-color: @fg2;
-  padding: 18px 14px; 
+  padding: 14px 14px; 
   text-color: @fg0;
   border-color: @border-color;
 	border: 0 0 1px 0;
@@ -300,7 +300,7 @@ element-icon {
 
 
 element-text {
-	font: "SF Pro Display 11";
+	font: "Inter 11";
 	vertical-align: 0.5;
 	text-color: @fg0;
 	background-color: transparent;
